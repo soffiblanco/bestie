@@ -1,0 +1,139 @@
+body {
+    font-family: 'Poppins', sans-serif;
+    display: flex;
+    justify-content: center;
+    background: url('/bestie/public/assets/fondoLogin.jpg') no-repeat center center;
+    background-size: cover; /* Asegurando que la imagen cubra todo */
+    margin: 0;
+}
+
+.wrapper {
+    position: relative;
+    width: 420px;
+    height: 450px;
+    background: rgba(0, 0, 0, 0.6); /* Fondo oscuro con transparencia */
+    color: #fff;
+    border-radius: 15px; /* Aumentar el borde */
+    padding: 20px 40px;
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
+}
+
+.wrapper.active {
+    height: 520px;
+}
+
+form h1 {
+    font-size: 40px; /* Aumentar tamaño */
+    text-align: center;
+    color: #ffffff; /* Cambiar color del título */
+}
+
+.wrapper .form-box {
+    flex-grow: 1;
+overflow: visible;
+}
+
+.input-box {
+    position: relative;
+    width: 100%;
+    height: 50px;
+    margin: 20px 0; /* Aumentar el margen */
+}
+
+.input-box input {
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    outline: none;
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    border-radius: 40px;
+    font-size: 16px;
+    color: #fff;
+    padding: 20px 45px 20px 20px;
+    transition: border 0.3s; /* Transición suave para el borde */
+}
+
+.input-box input:focus {
+    border-color: #ffffff; 
+    background-color: rgba(255, 255, 255, 0.1); /* Fondo claro al hacer foco */
+}
+
+.input-box input::placeholder {
+    color: #fff;
+}
+
+.input-box .icon {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 16px;
+    color: #ffffff; /* Cambiar el color de los iconos */
+    transition: color 0.3s;
+}
+
+.input-box .icon:hover {
+    color: #fff; /* Cambiar el color al hacer hover */
+}
+
+.remember-forgot {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14.5px;
+    margin: -15px 0 15px;
+    background-color: transparent;
+}
+
+.remember-forgot label input {
+    accent-color: #fff;
+    margin-right: 4px;
+}
+
+.remember-forgot a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold; /* Negrita para destacar */
+}
+
+.remember-forgot a:hover {
+    text-decoration: underline;
+    color: #00bcd4; /* Cambiar color al pasar el mouse */
+}
+
+form button {
+    width: 100%;
+    height: 45px;
+    background: linear-gradient(90deg, #ffffff, #ffffff); /* Botón con degradado */
+    border: none;
+    outline: none;
+    border-radius: 40px;
+    box-shadow: 0 4px 15px rgba(255, 255, 255, 0.3);
+    cursor: pointer;
+    font-size: 16px;
+    color: #333;
+    font-weight: 700;
+    transition: background 0.3s, transform 0.2s; /* Transición para el botón */
+}
+
+form button:hover {
+    background: linear-gradient(90deg, #ecf0ef, #ffffff);
+    transform: scale(1.05); /* Efecto de escala al pasar el mouse */
+}
+
+form .register-link {
+    font-size: 14.5px;
+    text-align: center;
+    margin: 30px 0; /* Espaciado entre enlace de registro y el botón */
+}
+
+.register-link p a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.register-link p a:hover {
+    text-decoration: underline;
+}
