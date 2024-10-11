@@ -1,3 +1,6 @@
+/* Tu CSS actual */
+
+/* Estilos para la barra de navegación */
 .NavBar {
     width: 80%;
     display: flex;
@@ -79,6 +82,7 @@
     gap: 15px; /* Espacio entre los íconos */
 }
 
+/* Estilos para dispositivos móviles */
 @media (max-width: 768px) {
     .nav-list {
         display: none;
@@ -90,8 +94,7 @@
         transform: translateX(-50%);
         width: 100%;
         border-radius: 0 0 20px 20px;
-        transitition: on;
-        max-height: 0.8s ease-out;
+        transition: max-height 0.8s ease-out;
         max-height: 0;
         overflow: hidden;
         z-index: -1;
@@ -104,4 +107,89 @@
         display: block;
     }
 }
+
+/* Estilos para el menú desplegable */
+.dropdown {
+    position: absolute;
+    background-color: #FFD423;
+    list-style: none;
+    padding: 10px 0;
+    margin: 0;
+    border-radius: 4px;
+    z-index: 10;
+}
+
+.dropdown li {
+    padding: 8px 16px;
+}
+
+.dropdown li:hover {
+    background-color: #FFD423;
+}
+
+/* Estilos para el submenú desplegable */
+.sub-dropdown {
+    position: absolute;
+    left: 100%;
+    top: 0;
+    background-color: #FFD423;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    border-radius: 4px;
+    display: none;
+    z-index: 20;
+}
+
+/* Mostrar el submenú al hacer hover */
+.dropdown li:hover .sub-dropdown {
+    display: block;
+}
+
+/* NavBar.css */
+
+
+
+
+
+/* NavBar.css */
+
+/* Estilos para el menú desplegable */
+.dropdown {
+    background-color: #FFD423;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    border-radius: 4px;
+    text-align: left; /* Alinear el texto a la izquierda */
+}
+
+.dropdown li {
+    padding: 8px 16px;
+    cursor: pointer;
+    text-align: left; /* Alinear el texto a la izquierda */
+}
+
+.dropdown li:hover {
+    background-color: #f0f0f0;
+}
+
+/* Estilos para el submenú desplegable */
+.sub-dropdown {
+    list-style: none;
+    padding-left: 20px; /* Añade un margen para mostrar que son subcategorías */
+    margin: 0;
+    text-align: left; /* Alinear el texto a la izquierda */
+}
+
+.sub-dropdown li {
+    padding: 5px 16px;
+    cursor: pointer;
+    text-align: left; /* Alinear el texto a la izquierda */
+}
+
+.sub-dropdown li:hover {
+    background-color: #e0e0e0;
+}
+
 
