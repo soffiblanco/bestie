@@ -1,0 +1,71 @@
+/* Home.css */
+
+.home {
+    position: relative;
+    min-height: 100vh;
+    padding-bottom: 100px;
+  }
+  
+  /* Estilo del título del carrusel */
+  .carousel-title {
+    text-align: center;
+    margin-top: 50px;
+    z-index: 3;
+    position: relative;
+  }
+  
+  /* Estilo inicial del círculo */
+  .circle {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 300px;
+    height: 300px;
+    background-color: blueviolet;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: width 1s, height 1s, opacity 0.5s;
+    z-index: 1;
+    opacity: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  /* Estilo del círculo cuando está expandido */
+  .circle.expanded {
+    width: 800px;
+    height: 800px;
+  }
+  
+  /* Círculo desvanecido */
+  .circle.fade-out {
+    opacity: 0;
+  }
+  
+  /* Estilo del video dentro del círculo */
+  .circle-video {
+    position: static;
+    width: 150px; /* Tamaño fijo para el GIF */
+    height: 150px;
+    border-radius: 50%; /* Hace que el video tenga forma circular */
+    object-fit: cover; /* Se asegura de que el contenido del video llene el círculo */
+  }
+  .intro-text {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 36px; /* Tamaño de la fuente grande */
+    font-family: 'Pacifico', cursive; /* Fuente de Google Fonts */
+    color: #A4D51D; /* Color bonito para el texto */
+    letter-spacing: 1.5px; /* Espaciado de las letras */
+    z-index: 4;
+  }
+  
+    
+  
+  
+  
+  
+  
+  
+  

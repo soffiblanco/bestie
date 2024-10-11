@@ -1,3 +1,4 @@
+// Navbar.jsx
 import React, { useState } from 'react';
 import './NavBar.css';
 import { IoSearchSharp, IoMenuSharp } from "react-icons/io5";
@@ -31,7 +32,7 @@ const Navbar = () => {
             </div>
 
             <ul className={`nav-list ${isMenuOpen ? 'active' : ''}`}>
-                {['Home', 'Categories', 'About Us', 'Orders', 'Sign Up'].map((item) => (
+                {['Home', 'Categories', 'About Us', 'Orders', 'Login'].map((item) => (
                     <li key={item}
                         onClick={() => handleItemClick(item)}
                         className={activeItem === item ? 'active' : ''}>
@@ -53,3 +54,4 @@ const Navbar = () => {
 };
 
 export default Navbar;
+
