@@ -2,9 +2,14 @@ body {
     font-family: 'Poppins', sans-serif;
     display: flex;
     justify-content: center;
-    background: url('/bestie/public/assets/fondoLogin.jpg') no-repeat center center;
-    background-size: cover; /* Asegurando que la imagen cubra todo */
+    background: url('/bestie/public/assets/generalBackground.jpg') no-repeat center center;
+    background-size: auto; /* Asegurando que la imagen cubra todo */
+    background-repeat: repeat;
+        
+    width: 100vw; /* Asegurar que cubra todo el ancho de la ventana */
+    height: 100vh; /* Asegurar que cubra todo el alto de la ventana */
     margin: 0;
+    padding: 0;
 }
 
 .wrapper {

@@ -5,10 +5,16 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-image: url('../public/assets/fondoLogin.jpg');
-  background-size: cover;
+  background-image: url('../public/assets/generalBackground.jpeg');
   background-position: center;
-  background-repeat: no-repeat;
+
+  background-size: auto; /* Asegurando que la imagen cubra todo */
+  background-repeat: repeat;
+      
+  width: 100vw; /* Asegurar que cubra todo el ancho de la ventana */
+  height: 100vh; /* Asegurar que cubra todo el alto de la ventana */
+  margin: 0;
+  padding: 0;
 }
 
 code {

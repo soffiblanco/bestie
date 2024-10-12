@@ -1,76 +1,63 @@
-
-
+/* Contenedor del carrusel */
 .carousel-container {
     display: flex;
     align-items: center;
     justify-content: center;
     margin-bottom: 20px;
     position: relative;
+    width: 90%; /* Ocupa el 90% del ancho de la pantalla */
+    margin: 20px auto;
 }
 
+/* Imagen del carrusel */
 .carousel-image {
-    width: 70%;
-    height: 300px;
+    width: 100%; /* Ocupa todo el espacio disponible */
+    height: 400px; /* Ajusta la altura del carrusel */
     background-size: cover;
     background-position: center;
     position: relative;
     border-radius: 10px;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.carousel-caption {
+/* Efecto al pasar el cursor sobre la imagen */
+.carousel-image:hover {
+    transform: scale(1.05); /* Aumenta ligeramente el tamaño */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); /* Añade sombra más profunda */
+    cursor: pointer; /* Cambia el cursor a puntero */
+}
+
+/* Título del carrusel centrado en la parte inferior */
+.carousel-title {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.5rem;
+    color: rgb(0, 0, 0);
+    text-align: center;
+    width: 100%;
     position: absolute;
-    bottom: 20px;
-    left: 20px;
-    background: rgba(0, 0, 0, 0.5);
-    color: white;
-    padding: 10px;
-    border-radius: 5px;
+    bottom: 0;
+    padding: 10px 0;
 }
 
+/* Botones del carrusel */
 .carousel-button {
     background: none;
     border: none;
-    font-size: 2rem;
+    font-size: 1.5rem;
     cursor: pointer;
     color: #555;
     margin: 0 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    transition: background-color 0.2s ease;
 }
 
 .carousel-button:hover {
+    background-color: rgba(0, 0, 0, 0.1);
     color: #333;
 }
-
-/* Mosaico de categorías */
-.categories-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-    gap: 10px;
-    padding: 20px;
-}
-
-.category-item {
-    position: relative;
-    overflow: hidden;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: transform 0.3s ease;
-    background-size: cover;
-    background-position: center;
-    min-height: 150px;
-}
-
-.category-image {
-    width: 100%;
-    height: 100%;
-}
-
-.category-name {
-    background: rgba(0, 0, 0, 0.6);
-    color: white;
-    width: 100%;
-    text-align: center;
-    padding: 5px 0;
-    position: absolute;
-    bottom: 0;
-}
-

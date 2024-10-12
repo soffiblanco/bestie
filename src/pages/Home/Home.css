@@ -1,116 +1,102 @@
-/* Home.css */
+/* Espaciador superior para empujar el contenido hacia abajo */
+.header-spacer {
+    height: 100px; /* Ajusta esta altura según lo que necesites */
+    width: 100%;
+}
 
+/* Contenedor principal */
 .home {
     position: relative;
     min-height: 100vh;
-    padding-bottom: 100px;
-  }
-  
-  /* Estilo del título del carrusel */
-  .carousel-title {
-    text-align: center;
-    margin-top: 0;
-    z-index: 3;
-    position:absolute;
-  }
-  
-  /* Estilo inicial del círculo */
-  .circle {
-    position: fixed;
-    top: 65%;
-    left: 50%;
-    width: 450px;
-    height: 450px;
-    background-color: blueviolet;
-    border-radius: 50%;
-    transform: translate(-50%, -50%);
-    transition: width 1s, height 1s, opacity 0.5s;
-    z-index: -2;
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: center;
-  }
-  
-  /* Estilo del círculo cuando está expandido */
-  .circle.expanded {
-    width: 850px;
-    height: 850px;
-  }
-  
-
-  
-  /* Estilo del video dentro del círculo */
-  .circle-video {
-    position: static;
-    width: 300px; /* Tamaño fijo para el GIF */
-    height: 300px;
-    border-radius: 50%; /* Hace que el video tenga forma circular */
-    object-fit: cover; /* Se asegura de que el contenido del video llene el círculo */
-  }
-  .intro-text {
-    text-align: center;
-    margin-top: 20px;
-    font-size: 36px; /* Tamaño de la fuente grande */
-    font-family: 'Pacifico', cursive; /* Fuente de Google Fonts */
-    color: #A4D51D; /* Color bonito para el texto */
-    letter-spacing: 1.5px; /* Espaciado de las letras */
-    z-index: 4;
-  }
-  /* Estilo para la card rectangular */
-.card {
-    background-color: blueviolet; /* Fondo blanco */
-    border-radius: 20px; /* Bordes redondeados */
-    width: 800px; /* El mismo ancho que el círculo expandido */
-    height: 800px; /* Altura ajustada */
-    margin: 20px auto; /* Centra horizontalmente */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    font-size: 1.2em;
-    font-family: 'Poppins', sans-serif;
-    color: #333; /* Color del texto */
-    z-index: 3; /* Asegura que esté encima de otros elementos si es necesario */
+    justify-content: flex-start;
+    gap: 30px; /* Espacio entre los elementos */
+    overflow-y: auto;
+    padding-top: 10px; /* Asegura algo de espacio adicional */
 }
 
-.card-content {
-    padding: 20px;
-}
-.arc-text {
-    display: flex;
-    justify-content: center;
-    margin-top: 50px;
+/* Texto introductorio */
+.intro-text {
+    text-align: center;
     font-size: 36px;
     font-family: 'Pacifico', cursive;
     color: #A4D51D;
     letter-spacing: 1.5px;
+    margin: 0;
+}
+
+/* Contenedor del círculo (con margen superior adicional) */
+/* Contenedor del círculo con margen superior */
+.circle-container {
+    margin-top: 100px; /* Ajusta el margen superior según sea necesario */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%; /* Asegura que ocupe todo el ancho disponible */
+    z-index: 2; /* Asegura que esté por encima de otros elementos */
+}
+
+/* Estilo del círculo */
+.circle {
+    width: 300px;
+    height: 300px;
+    background-color: blueviolet;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: width 1s, height 1s, opacity 0.5s;
+    z-index: 3; /* Asegura que el círculo esté encima de otros elementos */
+}
+
+/* Círculo expandido */
+.circle.expanded {
+    width: 800px;
+    height: 800px;
+}
+
+/* Video dentro del círculo */
+.circle-video {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+
+/* Estilo de la card */
+.card {
+    background-color: blueviolet;
+    border-radius: 20px;
+    width: 80%;
+    padding: 20px;
+    margin-top: 3000px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+}
+
+/* Título del carrusel */
+.carousel-title {
+    color: white;
+    font-size: 2rem;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+/* Contenedor del carrusel */
+.carousel-container {
     width: 100%;
 }
 
-.arc-text span {
-    transform: rotate(var(--rotate));
-    display: inline-block;
-    transform-origin: bottom center;
-}
 
-/* Rotación progresiva para cada letra */
-.arc-text span:nth-child(1)  { --rotate: -40deg; }
-.arc-text span:nth-child(2)  { --rotate: -35deg; }
-.arc-text span:nth-child(3)  { --rotate: -30deg; }
-.arc-text span:nth-child(4)  { --rotate: -25deg; }
-.arc-text span:nth-child(5)  { --rotate: -20deg; }
-.arc-text span:nth-child(6)  { --rotate: -15deg; }
-.arc-text span:nth-child(7)  { --rotate: -10deg; }
-.arc-text span:nth-child(8)  { --rotate: -5deg; }
-.arc-text span:nth-child(9)  { --rotate: 0deg; }
-.arc-text span:nth-child(10) { --rotate: 5deg; }
-.arc-text span:nth-child(11) { --rotate: 10deg; }
-.arc-text span:nth-child(12) { --rotate: 15deg; }
-.arc-text span:nth-child(13) { --rotate: 20deg; }
-.arc-text span:nth-child(14) { --rotate: 25deg; }
-.arc-text span:nth-child(15) { --rotate: 30deg; }
-.arc-text span:nth-child(16) { --rotate: 35deg; }
-.arc-text span:nth-child(17) { --rotate: 40deg; }
+
+
+
 
     
   

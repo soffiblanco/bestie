@@ -81,7 +81,6 @@ const PhotoCard = () => {
     const [categoryImages, setCategoryImages] = useState({});
 
     useEffect(() => {
-        // Inicializa las imágenes seleccionadas aleatoriamente
         const initializeImages = () => {
             const initialImages = categories.reduce((acc, category) => {
                 const randomProduct = getRandomProduct(category.products);
@@ -93,7 +92,6 @@ const PhotoCard = () => {
 
         initializeImages();
 
-        // Cambia las imágenes automáticamente cada 3 segundos
         const interval = setInterval(() => {
             setCategoryImages((prevImages) => {
                 const newImages = { ...prevImages };
@@ -105,11 +103,9 @@ const PhotoCard = () => {
             });
         }, 3000);
 
-        // Limpia el intervalo al desmontar el componente
         return () => clearInterval(interval);
     }, []);
 
-    // Función para obtener un producto aleatorio de una lista
     const getRandomProduct = (products) => {
         const randomIndex = Math.floor(Math.random() * products.length);
         return products[randomIndex];
@@ -117,23 +113,23 @@ const PhotoCard = () => {
 
     return (
         <div className="photo-card">
-            <div className="photo-card-category-list">
-                {categories.map((category, index) => (
-                    <div key={index} className="photo-card-category-item">
-                        <h3 className="photo-card-category-title">{category.name}</h3>
-                        <img
-                            src={categoryImages[category.name]}
-                            alt={category.name}
-                            className="photo-card-category-image"
-                        />
-                    </div>
-                ))}
-            </div>
+            {categories.map((category, index) => (
+                <div key={index} className="photo-card-item">
+                    <h3 className="photo-card-category-title">{category.name}</h3>
+                    <img
+                        src={categoryImages[category.name]}
+                        alt={category.name}
+                        className="photo-card-category-image"
+                    />
+                </div>
+            ))}
         </div>
     );
+    
 };
 
 export default PhotoCard;
+
 
 
 
