@@ -5,58 +5,41 @@ import { FaSquareXTwitter } from "react-icons/fa6";
 import { FaInstagramSquare } from "react-icons/fa";
 import { FaWhatsappSquare } from "react-icons/fa";
 
-const Footer=()=>{
+const Footer = () => {
     return (
         <div className='footer'>
             <div className='sb__footer section__padding'>
                 <div className='sb__footer-links'>
+                    {/* Enlaces Rápidos */}
                     <div className='sb__footer-links_div'>
-                        <h4>For Business</h4>
-                        <a href="/employer">
-                        <p>Employer</p>
-                        </a>
-                        <a href="/healthplan">
-                        <p>health pln</p>
-                        </a>
-                        <a href="/individual">
-                        <p>individual</p>
-                        </a>
+                        <h4>Quick Links</h4>
+                        <a href="/categories"><p>Categories</p></a>
+                        <a href="/orders"><p>My Orders</p></a>
+                        <a href="/login"><p>Login / Register</p></a>
+                        <a href="/faq"><p>FAQs</p></a>
                     </div>
+
+                    {/* Información Legal */}
                     <div className='sb__footer-links_div'>
-                        <h4>Resources</h4>
-                        <a href="/resource">
-                        <p>resource center</p>
-                        </a>
-                        <a href="/resource">
-                        <p>Testimonials</p>
-                        </a>
-                        <a href="/resource">
-                        <p>STV</p>
-                        </a>
+                        <h4>Legal</h4>
+                        <a href="/terms"><p>Terms and Conditions</p></a>
+                        <a href="/privacy"><p>Privacy Policy</p></a>
+                        <a href="/returns"><p>Return Policy</p></a>
+                        <a href="/shipping"><p>Shipping Policy</p></a>
                     </div>
+
+                    {/* Servicio al Cliente */}
                     <div className='sb__footer-links_div'>
-                    <h4>Partners</h4>
-                        <a href="/employer">
-                        <p>Swing Tech</p>
-                        </a>
+                        <h4>Customer Service</h4>
+                        <a href="/contact"><p>Contact Us</p></a>
+                        <a href="/support"><p>Support Center</p></a>
+                        <p>Phone: +502 5555 5555</p>
+                        <p>Email: support@bestiepaws.com</p>
                     </div>
+
+                    {/* Redes Sociales */}
                     <div className='sb__footer-links_div'>
-                        <h4>Company</h4>
-                        <a href='/about'>
-                        <p>about</p>
-                        </a>
-                        <a href='/press'>
-                        <p>press</p>
-                        </a>
-                        <a href='/career'>
-                        <p>career</p>
-                        </a>
-                        <a href='/contact'>
-                        <p>contact</p>
-                        </a>
-                    </div>
-                    <div className='sb__footer-links_div'>
-                        <h4>Coming soon on</h4>
+                        <h4>Coming Soon on</h4>
                         <div className='socialmedia'>
                             <p><FaFacebook /></p>
                             <p><FaSquareXTwitter /></p>
@@ -65,23 +48,18 @@ const Footer=()=>{
                         </div>
                     </div>
                 </div>
-                <hr></hr>
+
+                <hr />
+
+                {/* Copyright */}
                 <div className='sb__footer-below'>
                     <div className='sb__footer-copyright'>
-                        <p>
-                            @{new Date().getFullYear()} Bestie Paws. All right reserved.
-                        </p>
-                    </div>
-                    <div className='sb__footer-below-links'>
-                        <a href="/terms"> <div><p> terms & conditions</p></div></a>
-                        <a href="/privacy"> <div><p> privacy</p></div></a>
-                        <a href="/security"> <div><p> security</p></div></a>
-                        <a href="/cokie"> <div><p> cookie declaration</p></div></a>
+                        <p>© 2024 Bestie Paws. All rights reserved.</p>
                     </div>
                 </div>
             </div>
         </div>
-    )
-}
+    );
+};
 
 export default Footer;

@@ -79,7 +79,30 @@ const Home = () => {
 
   return (
     <div className="home">
-      <p className="intro-text">Where every pawprint leaves a heartprint</p>
+     <div className="arc-text">
+    <span>W</span>
+    <span>h</span>
+    <span>e</span>
+    <span>r</span>
+    <span>e</span>
+    <span> </span>
+    <span>e</span>
+    <span>v</span>
+    <span>e</span>
+    <span>r</span>
+    <span>y</span>
+    <span> </span>
+    <span>p</span>
+    <span>a</span>
+    <span>w</span>
+    <span>p</span>
+    <span>r</span>
+    <span>i</span>
+    <span>n</span>
+    <span>t</span>
+</div>
+
+
       {/* Círculo animado con el video en el centro */}
       {isVisible && (
         <div className={`circle ${isExpanded ? 'expanded' : ''} `}>

@@ -1,77 +1,140 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import './PhotoCard.css';
+import accesorioGato from '../../assets/accesorioGato.jpeg';
+import accesorioPerro from '../../assets/accesorioPerro.jpeg';
+import comidaAves from '../../assets/comidaAves.jpeg';
+import comidaGato from '../../assets/comidaGato.jpeg';
+import comidaPeces from '../../assets/comidaPeces.jpeg';
+import comidaPerro from '../../assets/comidaPerro.jpeg';
+import comidaTortugas from '../../assets/comidaTortugas.jpeg';
+import hogarAves from '../../assets/hogarAves.jpeg';
+import hogarGato from '../../assets/hogarGato.jpeg';
+import hogarPeces from '../../assets/hogarPeces.jpeg';
+import hogarPerro from '../../assets/hogarPerro.jpeg';
+import hogarTortugas from '../../assets/hogarTortugas.jpeg';
+import jugueteGato from '../../assets/jugueteGato.jpeg';
+import juguetePerro from '../../assets/juguetePerro.jpeg';
+import medicinaAves from '../../assets/medicinaAves.jpeg';
+import medicinaGato from '../../assets/medicinaGato.jpeg';
+import medicinaPeces from '../../assets/medicinaPeces.jpeg';
+import medicinaPerro from '../../assets/medicinaPerro.jpeg';
+import medicinaTortugas from '../../assets/medicinaTortugas.jpeg';
+import ropaGato from '../../assets/ropaGato.jpeg';
+import ropaPerro from '../../assets/ropaPerro.jpeg';
 
-// Ejemplo de categorías con imágenes
+// Datos de categorías con productos e imágenes
 const categories = [
     {
         name: 'Alimento',
         products: [
-            { name: 'Perro', description: 'Alimento para perro', image: '/path/to/perro-alimento.jpg' },
-            { name: 'Gato', description: 'Alimento para gato', image: '/path/to/gato-alimento.jpg' },
-            { name: 'Peces', description: 'Alimento para peces', image: '/path/to/peces-alimento.jpg' },
-            { name: 'Tortugas', description: 'Alimento para tortugas', image: '/path/to/tortugas-alimento.jpg' },
-            { name: 'Aves', description: 'Alimento para aves', image: '/path/to/aves-alimento.jpg' }
+            { name: 'Perro', image: comidaPerro },
+            { name: 'Gato', image: comidaGato },
+            { name: 'Peces', image: comidaPeces },
+            { name: 'Tortugas', image: comidaTortugas },
+            { name: 'Aves', image: comidaAves }
         ]
     },
     {
         name: 'Juguetes',
         products: [
-            { name: 'Perro', description: 'Juguetes para perro', image: '/path/to/perro-juguetes.jpg' },
-            { name: 'Gato', description: 'Juguetes para gato', image: '/path/to/gato-juguetes.jpg' }
+            { name: 'Perro', image: juguetePerro },
+            { name: 'Gato', image: jugueteGato }
         ]
     },
     {
         name: 'Hogar',
         products: [
-            { name: 'Perro', description: 'Accesorios para el hogar para perro', image: '/path/to/perro-hogar.jpg' },
-            { name: 'Gato', description: 'Accesorios para el hogar para gato', image: '/path/to/gato-hogar.jpg' },
-            { name: 'Peces', description: 'Accesorios para el hogar para peces', image: '/path/to/peces-hogar.jpg' },
-            { name: 'Tortugas', description: 'Accesorios para el hogar para tortugas', image: '/path/to/tortugas-hogar.jpg' },
-            { name: 'Aves', description: 'Accesorios para el hogar para aves', image: '/path/to/aves-hogar.jpg' }
+            { name: 'Perro', image: hogarPerro },
+            { name: 'Gato', image: hogarGato },
+            { name: 'Peces', image: hogarPeces },
+            { name: 'Tortugas', image: hogarTortugas },
+            { name: 'Aves', image: hogarAves }
         ]
     },
     {
         name: 'Accesorios',
         products: [
-            { name: 'Perro', description: 'Accesorios para perro', image: '/path/to/perro-accesorios.jpg' },
-            { name: 'Gato', description: 'Accesorios para gato', image: '/path/to/gato-accesorios.jpg' }
+            { name: 'Perro', image: accesorioPerro },
+            { name: 'Gato', image: accesorioGato }
         ]
     },
     {
         name: 'Medicina',
         products: [
-            { name: 'Perro', description: 'Medicina para perro', image: '/path/to/perro-medicina.jpg' },
-            { name: 'Gato', description: 'Medicina para gato', image: '/path/to/gato-medicina.jpg' },
-            { name: 'Peces', description: 'Medicina para peces', image: '/path/to/peces-medicina.jpg' },
-            { name: 'Tortugas', description: 'Medicina para tortugas', image: '/path/to/tortugas-medicina.jpg' },
-            { name: 'Aves', description: 'Medicina para aves', image: '/path/to/aves-medicina.jpg' }
+            { name: 'Perro', image: medicinaPerro },
+            { name: 'Gato', image: medicinaGato },
+            { name: 'Peces', image: medicinaPeces },
+            { name: 'Tortugas', image: medicinaTortugas },
+            { name: 'Aves', image: medicinaAves }
         ]
     },
     {
         name: 'Ropa',
         products: [
-            { name: 'Perro', description: 'Ropa para perro', image: '/path/to/perro-ropa.jpg' },
-            { name: 'Gato', description: 'Ropa para gato', image: '/path/to/gato-ropa.jpg' }
+            { name: 'Perro', image: ropaPerro },
+            { name: 'Gato', image: ropaGato }
         ]
     }
 ];
 
-
 const PhotoCard = () => {
-  return (
-    <div className="photo-card">
-      <div className="photo-card-category-list">
-        {categories.map((category, index) => (
-          <div key={index} className="photo-card-category-item">
-            <h3 className="photo-card-category-title">{category.name}</h3>
-            <img src={category.image} alt={category.name} className="photo-card-category-image" />
-          </div>
-        ))}
-      </div>
-    </div>
-  );
+    const [categoryImages, setCategoryImages] = useState({});
+
+    useEffect(() => {
+        // Inicializa las imágenes seleccionadas aleatoriamente
+        const initializeImages = () => {
+            const initialImages = categories.reduce((acc, category) => {
+                const randomProduct = getRandomProduct(category.products);
+                acc[category.name] = randomProduct.image;
+                return acc;
+            }, {});
+            setCategoryImages(initialImages);
+        };
+
+        initializeImages();
+
+        // Cambia las imágenes automáticamente cada 3 segundos
+        const interval = setInterval(() => {
+            setCategoryImages((prevImages) => {
+                const newImages = { ...prevImages };
+                categories.forEach((category) => {
+                    const randomProduct = getRandomProduct(category.products);
+                    newImages[category.name] = randomProduct.image;
+                });
+                return newImages;
+            });
+        }, 3000);
+
+        // Limpia el intervalo al desmontar el componente
+        return () => clearInterval(interval);
+    }, []);
+
+    // Función para obtener un producto aleatorio de una lista
+    const getRandomProduct = (products) => {
+        const randomIndex = Math.floor(Math.random() * products.length);
+        return products[randomIndex];
+    };
+
+    return (
+        <div className="photo-card">
+            <div className="photo-card-category-list">
+                {categories.map((category, index) => (
+                    <div key={index} className="photo-card-category-item">
+                        <h3 className="photo-card-category-title">{category.name}</h3>
+                        <img
+                            src={categoryImages[category.name]}
+                            alt={category.name}
+                            className="photo-card-category-image"
+                        />
+                    </div>
+                ))}
+            </div>
+        </div>
+    );
 };
 
 export default PhotoCard;
+
+
 
 
