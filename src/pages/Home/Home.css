@@ -9,24 +9,23 @@
   /* Estilo del título del carrusel */
   .carousel-title {
     text-align: center;
-    margin-top: 50px;
+    margin-top: 0;
     z-index: 3;
-    position: relative;
+    position:absolute;
   }
   
   /* Estilo inicial del círculo */
   .circle {
     position: fixed;
-    top: 50%;
+    top: 65%;
     left: 50%;
-    width: 300px;
-    height: 300px;
+    width: 450px;
+    height: 450px;
     background-color: blueviolet;
     border-radius: 50%;
     transform: translate(-50%, -50%);
     transition: width 1s, height 1s, opacity 0.5s;
-    z-index: 1;
-    opacity: 1;
+    z-index: -2;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -34,20 +33,17 @@
   
   /* Estilo del círculo cuando está expandido */
   .circle.expanded {
-    width: 800px;
-    height: 800px;
+    width: 850px;
+    height: 850px;
   }
   
-  /* Círculo desvanecido */
-  .circle.fade-out {
-    opacity: 0;
-  }
+
   
   /* Estilo del video dentro del círculo */
   .circle-video {
     position: static;
-    width: 150px; /* Tamaño fijo para el GIF */
-    height: 150px;
+    width: 300px; /* Tamaño fijo para el GIF */
+    height: 300px;
     border-radius: 50%; /* Hace que el video tenga forma circular */
     object-fit: cover; /* Se asegura de que el contenido del video llene el círculo */
   }
@@ -60,7 +56,27 @@
     letter-spacing: 1.5px; /* Espaciado de las letras */
     z-index: 4;
   }
-  
+  /* Estilo para la card rectangular */
+.card {
+    background-color: blueviolet; /* Fondo blanco */
+    border-radius: 20px; /* Bordes redondeados */
+    width: 800px; /* El mismo ancho que el círculo expandido */
+    height: 800px; /* Altura ajustada */
+    margin: 20px auto; /* Centra horizontalmente */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-size: 1.2em;
+    font-family: 'Poppins', sans-serif;
+    color: #333; /* Color del texto */
+    z-index: 3; /* Asegura que esté encima de otros elementos si es necesario */
+}
+
+.card-content {
+    padding: 20px;
+}
+
     
   
   

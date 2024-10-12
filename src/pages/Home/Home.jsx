@@ -9,6 +9,7 @@ import hamster from '../../assets/hamster.jpeg';
 import perroGrande from '../../assets/perroGrande.jpeg';
 import perroPequeño from '../../assets/perroPequeño.jpeg';
 import runningVideo from '../../assets/alpacaGif.mp4';
+import Carousel from '../../components/Carousel/Carousel';
 
 
 const Home = () => {
@@ -81,7 +82,7 @@ const Home = () => {
       <p className="intro-text">Where every pawprint leaves a heartprint</p>
       {/* Círculo animado con el video en el centro */}
       {isVisible && (
-        <div className={`circle ${isExpanded ? 'expanded' : ''} ${fadeOut ? 'fade-out' : ''}`}>
+        <div className={`circle ${isExpanded ? 'expanded' : ''} `}>
           
           <video
             src={runningVideo}
@@ -93,10 +94,12 @@ const Home = () => {
         </div>
       )}
       {/* Título fuera del contenedor del carrusel para que siempre esté arriba */}
-      <h1 className="carousel-title">Productos Aleatorios</h1>
-      {/* Mostrar el carrusel al frente y más abajo */}
+      <div className="card">
+      <h1 className="carousel-title">Productos Destacados</h1>
       <div className="carousel-container">
-        <ProductCarousel categories={categories} numProducts={3} interval={3000} />
+        <Carousel categories={categories} numProducts={3} interval={3000} />
+      </div>
+
       </div>
     </div>
   );

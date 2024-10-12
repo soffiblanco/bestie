@@ -69,7 +69,7 @@ const Footer=()=>{
                 <div className='sb__footer-below'>
                     <div className='sb__footer-copyright'>
                         <p>
-                            @{new Date().getFullYear()} codeInn. All right reserved.
+                            @{new Date().getFullYear()} Bestie Paws. All right reserved.
                         </p>
                     </div>
                     <div className='sb__footer-below-links'>
