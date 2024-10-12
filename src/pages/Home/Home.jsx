@@ -48,7 +48,8 @@ const Home = () => {
           </div>
         )}
       </div>
-      {/* Contenedor de la card */}
+
+      {/* Contenedor del carrusel */}
       <div className="card">
         <div className="carousel-container">
           <Carousel categories={[]} numProducts={3} interval={3000} />
@@ -62,7 +63,6 @@ const Home = () => {
 };
 
 export default Home;
-
 
 
 

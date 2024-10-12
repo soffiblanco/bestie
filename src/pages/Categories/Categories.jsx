@@ -71,7 +71,7 @@ const CategoriesPage = () => {
 
     return (
         <div>
-         <PhotoCard/>
+        <div className='photoCard-test'><PhotoCard/></div>
          <Carousel/>
         <div className="categories-grid">
             {categories.map((category, index) => (
