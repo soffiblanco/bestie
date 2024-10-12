@@ -190,14 +190,16 @@ const Navbar = () => {
                         {isUserMenuOpen && (
                             <ul className="dropdown user-dropdown">
                                 <li><Link to="/users" onClick={() => handleItemClick('Users')}>Users</Link></li>
-                                <li><Link to="/categories" onClick={() => handleItemClick('Categories')}>Categories</Link></li>
+                                <li><Link to="/categoriesp" onClick={() => handleItemClick('Categories')}>Categories</Link></li>
                                 <li><Link to="/subcategories" onClick={() => handleItemClick('Subcategories')}>Subcategories</Link></li>
                                 <li><Link to="/products" onClick={() => handleItemClick('Products')}>Products</Link></li>
                             </ul>
                         )}
                     </div>
-                    <div className='search-icon' onClick={() => handleItemClick('User')}>
+                    <div className='search-icon'>
+                    <Link to="/profile" onClick={() => handleItemClick('Profile')}>
                         <FaUser size={20} />
+                    </Link>
                     </div>
                 </div>
             </ul>

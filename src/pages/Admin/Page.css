@@ -1,0 +1,123 @@
+.user-page-container {
+    padding: 20px;
+    max-width: 1000px;
+    margin: 0 auto;
+    font-family: 'Arial', sans-serif;
+    overflow-x: auto; /* Permite desplazamiento horizontal si es necesario */
+}
+
+.table-title {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.styled-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 1rem;
+    background-color: #fff; /* Fondo blanco para la tabla */
+    border-radius: 10px; /* Esquinas redondeadas */
+    overflow: hidden; /* Oculta bordes redondeados */
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1); /* Sombra suave */
+}
+
+.styled-table thead tr {
+    background-color: #924ae4; /* Color de fondo del encabezado */
+    color: #ffffff;
+    text-align: left;
+    font-weight: bold;
+}
+
+.styled-table th, .styled-table td {
+    padding: 12px 15px;
+    border: 1px solid #ddd; /* Borde claro para las celdas */
+    word-wrap: break-word; /* Permite que el texto largo se ajuste */
+    max-width: 150px; /* Ancho máximo para las celdas para evitar desbordamiento */
+    white-space: normal; /* Permite que el texto se divida en múltiples líneas */
+    overflow: hidden; /* Oculta el contenido desbordado */
+}
+
+.styled-table tbody tr {
+    border-bottom: 1px solid #ddd; /* Borde inferior para las filas */
+}
+
+.styled-table tbody tr:nth-of-type(even) {
+    background-color: #f3f3f3; /* Fondo gris claro para filas pares */
+}
+
+.styled-table tbody tr:last-of-type {
+    border-bottom: 2px solid #4f0098; /* Borde para la última fila */
+}
+
+.styled-table tbody tr:hover {
+    background-color: #f1f1f1; /* Color de fondo al pasar el mouse */
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.styled-table td {
+    text-align: center;
+    vertical-align: top; /* Alineación vertical en la parte superior */
+}
+
+.email-cell, .password-cell {
+    white-space: normal; /* Permite que el texto se divida en múltiples líneas */
+}
+
+/* Estilos para los botones */
+.edit-button, .delete-button, .add-user-button {
+    padding: 8px 12px;
+    margin: 5px;
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.edit-button {
+    background-color: #4caf50; /* Verde para editar */
+}
+
+.edit-button:hover {
+    background-color: #45a049; /* Verde más oscuro al pasar el mouse */
+}
+
+.delete-button {
+    background-color: #f44336; /* Rojo para eliminar */
+}
+
+.delete-button:hover {
+    background-color: #e53935; /* Rojo más oscuro al pasar el mouse */
+}
+
+.add-user-button {
+    background-color: #007bff; /* Azul para agregar */
+    color: white;
+    font-size: 1rem;
+    border-radius: 5px;
+    margin-top: 20px;
+}
+
+.add-user-button:hover {
+    background-color: #0056b3; /* Azul más oscuro al pasar el mouse */
+}
+
+@media (max-width: 768px) {
+    .styled-table th, .styled-table td {
+        padding: 10px;
+        font-size: 0.9rem;
+        white-space: normal; /* Permite que el texto se divida en múltiples líneas en móviles */
+    }
+
+    .table-title {
+        font-size: 1.5rem;
+    }
+
+    .profile-image {
+        width: 50px; /* Tamaño de imagen en móviles */
+        height: auto; /* Mantiene la relación de aspecto */
+    }
+}

@@ -1,0 +1,120 @@
+/* General Styles */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #e0e0e0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.profile-container {
+    width: 100%;
+    max-width: 950px; /* Adjust maximum width */
+    margin: 20px;
+    padding: 20px;
+    background-color: #f4f4f9;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.profile-image {
+    width: 100%;
+    max-width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 15px;
+}
+
+/* Profile Structure */
+.profile-info {
+    display: flex; /* Activate flexbox */
+    justify-content: space-between; /* Space between columns */
+    margin-bottom: 20px; /* Spacing between sections */
+    flex-wrap: wrap; /* Allow columns to wrap */
+}
+
+/* Style for each section container */
+.profile-section {
+    flex: 1 1 300px; /* Make each section occupy the same space flexibly */
+    margin-right: 20px; /* Space between sections */
+    box-sizing: border-box; /* Ensure padding and borders are included in the width */
+}
+
+/* Remove right margin from the last element */
+.profile-section:last-child {
+    margin-right: 0; /* Remove margin from the last element */
+}
+
+/* Style for info items */
+.profile-info-item {
+    background-color: #fff; /* Background color of the box */
+    border-radius: 10px; /* Rounded corners */
+    padding: 15px;
+    margin: 10px 0; /* Spacing between boxes */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Shadow */
+}
+
+/* Style for section titles */
+.section-title {
+    font-size: 18px;
+    color: #333;
+    margin: 20px 0 10px;
+}
+
+/* Style for the other data section */
+.other-data {
+    width: 100%; /* Ensure it occupies 100% width */
+    margin-top: 20px; /* Spacing before the other data section */
+}
+
+/* Style for headings */
+h1 {
+    font-size: 24px;
+    margin: 0;
+}
+
+p {
+    margin: 5px 0;
+}
+
+/* Make the layout responsive */
+@media (max-width: 768px) {
+    .profile-container {
+        max-width: 90%;
+        padding: 15px;
+    }
+
+    h1 {
+        font-size: 22px;
+    }
+
+    p {
+        font-size: 13px;
+    }
+
+    /* Adjustments for smaller screens */
+    .profile-section {
+        margin-right: 0; /* Remove margin on small screens */
+        margin-bottom: 20px; /* Vertical spacing between sections */
+        flex: 1 1 100%; /* Ensure it occupies 100% */
+    }
+}
+
+@media (max-width: 480px) {
+    .profile-container {
+        max-width: 100%;
+        padding: 10px; /* Smaller padding on very small screens */
+    }
+
+    h1 {
+        font-size: 20px;
+    }
+
+    .profile-info-item {
+        font-size: 12px; /* Smaller font size */
+    }
+}
