@@ -112,14 +112,14 @@ const UserPage = () => {
               <td>{user.User_State || 'State not available'}</td>
               <td>{user.Last_Login || 'Last login not available'}</td>
               <td>
-                <button className="edit-button" onClick={() => handleEdit(user.ID_User)}>Editar</button>
-                <button className="delete-button" onClick={() => handleDelete(user.ID_User)}>Eliminar</button>
+                <button className="edit-button" onClick={() => handleEdit(user.ID_User)}>Edit</button>
+                <button className="delete-button" onClick={() => handleDelete(user.ID_User)}>Delete</button>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
-      <button className="add-user-button" onClick={handleAddUser}>Agregar Usuario</button>
+      <button className="add-user-button" onClick={handleAddUser}>Add</button>
     </div>
   );
 };

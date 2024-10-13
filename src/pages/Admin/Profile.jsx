@@ -25,7 +25,7 @@ const Profile = () => {
 
   // API call to fetch profile data
   useEffect(() => {
-    const id_user = 95; // Specific user ID
+    const id_user = 106; // Specific user ID
 
     fetch(`http://localhost/apis/users.php?id_user=${id_user}`)
       .then((response) => {

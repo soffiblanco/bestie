@@ -98,7 +98,7 @@ const SubcategoryPage = () => {
           ))}
         </tbody>
       </table>
-      <button className="add-user-button" onClick={handleAddUser}>Add User</button>
+      <button className="add-user-button" onClick={handleAddUser}>Add</button>
     </div>
   );
 };
