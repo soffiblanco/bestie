@@ -47,7 +47,7 @@ function App() {
           <Route path="/EditProduct" element={<EditProduct/>} />
         </Routes>
       </main>
-      <Footer /> {/* El footer fuera del header y al final del main */}
+      <Footer /> 
     </div>
   );
 }
