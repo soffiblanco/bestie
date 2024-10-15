@@ -1,53 +1,132 @@
-// src/components/ProductCarousel.jsx
+// ProductCarousel.jsx
 import React, { useState, useEffect } from 'react';
-import './ProductCarousel.css'; // Asegúrate de que la ruta sea correcta
+import OneProduct from './OneProduct'; 
+import './ProductCarousel.css'; 
+import accesorioGato from '../../assets/accesorioGato.jpeg';
+import accesorioPerro from '../../assets/accesorioPerro.jpeg';
+import comidaAves from '../../assets/comidaAves.jpeg';
+import comidaGato from '../../assets/comidaGato.jpeg';
+import comidaPeces from '../../assets/comidaPeces.jpeg';
+import comidaPerro from '../../assets/comidaPerro.jpeg';
+import comidaTortugas from '../../assets/comidaTortugas.jpeg';
+import hogarAves from '../../assets/hogarAves.jpeg';
+import hogarGato from '../../assets/hogarGato.jpeg';
+import hogarPeces from '../../assets/hogarPeces.jpeg';
+import hogarPerro from '../../assets/hogarPerro.jpeg';
+import hogarTortugas from '../../assets/hogarTortugas.jpeg';
+import jugueteGato from '../../assets/jugueteGato.jpeg';
+import juguetePerro from '../../assets/juguetePerro.jpeg';
+import medicinaAves from '../../assets/medicinaAves.jpeg';
+import medicinaGato from '../../assets/medicinaGato.jpeg';
+import medicinaPeces from '../../assets/medicinaPeces.jpeg';
+import medicinaPerro from '../../assets/medicinaPerro.jpeg';
+import medicinaTortugas from '../../assets/medicinaTortugas.jpeg';
+import ropaGato from '../../assets/ropaGato.jpeg';
+import ropaPerro from '../../assets/ropaPerro.jpeg';
 
-const ProductCarousel = ({ categories, numProducts = 5, interval = 3000 }) => {
-  const [randomProducts, setRandomProducts] = useState([]);
+// Categorías locales
+const localCategories = [
+  {
+      name: 'Alimento',
+      products: [
+          { name: 'Perro', title: 'Alimento para Perro', price: 50, image: comidaPerro },
+          { name: 'Gato', title: 'Alimento para Gato', price: 45, image: comidaGato },
+          { name: 'Peces', title: 'Alimento para Peces', price: 20, image: comidaPeces },
+          { name: 'Tortugas', title: 'Alimento para Tortugas', price: 30, image: comidaTortugas },
+          { name: 'Aves', title: 'Alimento para Aves', price: 25, image: comidaAves }
+      ]
+  },
+  {
+      name: 'Juguetes',
+      products: [
+          { name: 'Perro', title: 'Juguete para Perro', price: 35, image: juguetePerro },
+          { name: 'Gato', title: 'Juguete para Gato', price: 30, image: jugueteGato }
+      ]
+  },
+  {
+      name: 'Hogar',
+      products: [
+          { name: 'Perro', title: 'Cama para Perro', price: 60, image: hogarPerro },
+          { name: 'Gato', title: 'Cama para Gato', price: 55, image: hogarGato },
+          { name: 'Peces', title: 'Decoración para Pecera', price: 40, image: hogarPeces },
+          { name: 'Tortugas', title: 'Hábitat para Tortugas', price: 70, image: hogarTortugas },
+          { name: 'Aves', title: 'Jaula para Aves', price: 100, image: hogarAves }
+      ]
+  },
+  {
+      name: 'Accesorios',
+      products: [
+          { name: 'Perro', title: 'Accesorios para Perro', price: 15, image: accesorioPerro },
+          { name: 'Gato', title: 'Accesorios para Gato', price: 20, image: accesorioGato }
+      ]
+  },
+  {
+      name: 'Medicina',
+      products: [
+          { name: 'Perro', title: 'Medicina para Perro', price: 25, image: medicinaPerro },
+          { name: 'Gato', title: 'Medicina para Gato', price: 20, image: medicinaGato },
+          { name: 'Peces', title: 'Medicina para Peces', price: 15, image: medicinaPeces },
+          { name: 'Tortugas', title: 'Medicina para Tortugas', price: 30, image: medicinaTortugas },
+          { name: 'Aves', title: 'Medicina para Aves', price: 35, image: medicinaAves }
+      ]
+  },
+  {
+      name: 'Ropa',
+      products: [
+          { name: 'Perro', title: 'Ropa para Perro', price: 40, image: ropaPerro },
+          { name: 'Gato', title: 'Ropa para Gato', price: 35, image: ropaGato }
+      ]
+  }
+];
 
-  useEffect(() => {
-    // Al cargar el componente, selecciona productos aleatorios de las categorías
-    const selectedProducts = getRandomProducts(categories, numProducts);
-    setRandomProducts(selectedProducts);
 
-    // Inicia el intervalo de scroll automático
-    const intervalId = setInterval(() => {
-      setRandomProducts(getRandomProducts(categories, numProducts)); // Refresca los productos aleatorios en cada intervalo
-    }, interval);
+const ProductCarousel = ({ numVisibleProducts = 4 }) => {
+    const [currentIndex, setCurrentIndex] = useState(0);
+    const [products, setProducts] = useState([]);
 
-    // Limpia el intervalo cuando el componente se desmonta
-    return () => clearInterval(intervalId);
-  }, [categories, numProducts, interval]);
+    // Utilizamos las categorías locales
+    useEffect(() => {
+        const allProducts = localCategories.flatMap(category => category.products);
+        setProducts(allProducts);
+    }, []);
 
-  return (
-    <div className="carousel-container">
-      <div
-        className="carousel-images"
-        style={{
-          display: 'flex',
-          transform: `translateX(-${randomProducts.length > 0 ? 100 : 0}%)`,
-          transition: 'transform 0.5s ease-in-out',
-        }}
-      >
-        {randomProducts.map((product, index) => (
-          <div key={index} className="product-card" style={{ width: '100%', flexShrink: 0 }}>
-            <img src={product.image} alt={product.name} style={{ width: '100%' }} />
-            <div className="product-info">
-              <h2>{product.name}</h2>
-              <p>{product.description}</p>
+    const handleNext = () => {
+        const maxIndex = products.length - numVisibleProducts;
+        setCurrentIndex((prevIndex) => (prevIndex < maxIndex ? prevIndex + 1 : 0));
+    };
+
+    const handlePrev = () => {
+        const maxIndex = products.length - numVisibleProducts;
+        setCurrentIndex((prevIndex) => (prevIndex > 0 ? prevIndex - 1 : maxIndex));
+    };
+
+    const visibleProducts = products.slice(currentIndex, currentIndex + numVisibleProducts);
+
+    return (
+        <div className="carousel-container">
+            <button className="carousel-button prev-button" onClick={handlePrev}>
+                ◀
+            </button>
+
+            <div className="carousel-content">
+                {visibleProducts.map((product, index) => (
+                    <OneProduct 
+                        key={index}
+                        title={product.name}
+                        description={product.description || 'Descripción no disponible'}
+                        price={product.price || 'N/A'}
+                        image={product.image}
+                    />
+                ))}
             </div>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
+
+            <button className="carousel-button next-button" onClick={handleNext}>
+                ▶
+            </button>
+        </div>
+    );
 };
 
-// Función para seleccionar productos aleatorios
-function getRandomProducts(categories, numProducts) {
-  let allProducts = categories.flatMap(category => category.products); // Junta todos los productos
-  let shuffled = allProducts.sort(() => 0.5 - Math.random()); // Mezcla productos
-  return shuffled.slice(0, numProducts); // Selecciona los primeros 'numProducts'
-}
-
 export default ProductCarousel;
+
+

@@ -1,0 +1,35 @@
+.product-carousel .carousel-item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 400px;
+    background-color: #f8f9fa;
+}
+
+.product-carousel .container-product {
+    max-width: 300px;
+    margin: 0 auto;
+}
+
+.product-carousel .image-product {
+    max-height: 200px;
+    object-fit: cover;
+}
+
+.product-carousel .info-product {
+    text-align: center;
+    margin-top: 10px;
+}
+
+.product-carousel .see-more {
+    background-color: #ffd423;
+    color: black;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.product-carousel .see-more:hover {
+    background-color: #e6b91f;
+}

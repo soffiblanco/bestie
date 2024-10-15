@@ -1,0 +1,41 @@
+.container-product{
+    border: 1px solid #fff;
+    border-radius: 10px;
+}
+
+.image-product{
+    max-width: 300px;
+}
+
+.info-product{
+    padding: 20px;
+}
+
+.title{
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 7px;
+}
+
+.description{
+    color: rgb(0, 0, 0);
+    font-size: 16px;
+    margin-bottom: 7px;
+}
+
+.price{
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+.see-more{
+    background-color: #FFD423;
+    color: #ffffff;
+    width: 100%;
+    display:block;
+    padding: 3px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+    border:none;
+}

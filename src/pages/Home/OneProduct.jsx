@@ -1,6 +1,6 @@
 // Product.jsx
 import React, { useContext } from 'react';
-import './Product.css';
+import './OneProduct.css';
 import { OrderContext } from '../../pages/Orders/OrderContexts'; // Importa el contexto
 import comidaAves from '../../assets/comidaAves.jpeg';
 import comidaGato from '../../assets/comidaGato.jpeg';
@@ -42,9 +42,6 @@ function Product(props) {
                 <p className='title'>{props.title}</p>
                 <p className='description'>{props.description}</p>
                 <p className='price'>Q{props.price}</p>
-                <button className='see-details' onClick={handleAddToOrder}>
-                    Ver más detalles
-                </button>
                 <button className='see-more' onClick={handleAddToOrder}>
                     Agregar a la Orden
                 </button>
@@ -54,4 +51,3 @@ function Product(props) {
 }
 
 export default Product;
-
