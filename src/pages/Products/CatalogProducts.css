@@ -1,0 +1,22 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+html,body{
+    font-size: 18px;
+}
+.CatalogProducts{
+    max-width: 1000px;
+    margin: auto;
+}
+.CatalogProducts .fila{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+.CatalogProducts h2{
+    text-align: center;
+    margin: 20px;
+}

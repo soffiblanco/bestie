@@ -2,6 +2,7 @@
 import React from 'react';
 import './App.css';
 import { Route, Routes } from 'react-router-dom';
+import { OrderProvider } from '../src/pages/Orders/OrderContexts'; // Importa el contexto correctamente
 import Navbar from './layouts/header/NavBar';
 import LoginForm from './components/loginComponent/LoginForm';
 import Footer from './layouts/footer/footer';
@@ -20,36 +21,45 @@ import EditUser from './pages/Admin/EditUser';
 import EditCategory from './pages/Admin/EditCategory';
 import EditSubcategory from './pages/Admin/EditSubcategory';
 import EditProduct from './pages/Admin/EditProduct';
+import CatalogProducts from './pages/Products/CatalogProducts';
+import Order from './pages/Orders/Order';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <Navbar />
-      </header>
-      <main>
-        <Routes>
-          <Route path="/home" element={<Home />} />
-          <Route path="/login" element={<LoginForm />} />
-          <Route path="/categories" element={<Categories/>} />
-          <Route path="/profile" element={<Profile/>} /> 
-          <Route path="/users" element={<UserPage/>} />
-          <Route path="/categoriesp" element={<CategoryPage/>} />
-          <Route path="/subcategories" element={<SubcategoryPage/>} />
-          <Route path="/products" element={<ProductPage/>} />
-          <Route path="/AddUser" element={<AddUser/>} />
-          <Route path="/AddCategory" element={<AddCategory/>} />
-          <Route path="/AddSubcategory" element={<AddSubcategory/>} />
-          <Route path="/AddProduct" element={<AddProduct/>} />
-          <Route path="/EditUser" element={<EditUser/>} />
-          <Route path="/EditCategory" element={<EditCategory/>} />
-          <Route path="/EditSubcategory" element={<EditSubcategory/>} />
-          <Route path="/EditProduct" element={<EditProduct/>} />
-        </Routes>
-      </main>
-      <Footer /> {/* El footer fuera del header y al final del main */}
-    </div>
+    // Envolvemos toda la aplicación con OrderProvider
+    <OrderProvider>
+      <div className="App">
+        <header className="App-header">
+          <Navbar />
+        </header>
+        <main>
+          <Routes>
+            <Route path="/home" element={<Home />} />
+            <Route path="/login" element={<LoginForm />} />
+            <Route path="/categories" element={<Categories />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/users" element={<UserPage />} />
+            <Route path="/categoriesp" element={<CategoryPage />} />
+            <Route path="/subcategories" element={<SubcategoryPage />} />
+            <Route path="/products" element={<ProductPage />} />
+            <Route path="/AddUser" element={<AddUser />} />
+            <Route path="/AddCategory" element={<AddCategory />} />
+            <Route path="/AddSubcategory" element={<AddSubcategory />} />
+            <Route path="/AddProduct" element={<AddProduct />} />
+            <Route path="/EditUser" element={<EditUser />} />
+            <Route path="/EditCategory" element={<EditCategory />} />
+            <Route path="/EditSubcategory" element={<EditSubcategory />} />
+            <Route path="/EditProduct" element={<EditProduct />} />
+            <Route path="/order" element={<Order />} />
+            <Route path="/CatalogProducts/:category" element={<CatalogProducts />} />
+            <Route path="/CatalogProducts/:category/:subcategory" element={<CatalogProducts />} />
+          </Routes>
+        </main>
+        <Footer />
+      </div>
+    </OrderProvider>
   );
 }
 
 export default App;
+
