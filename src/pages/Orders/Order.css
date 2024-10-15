@@ -1,0 +1,107 @@
+/* Order.css */
+.order-container {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    color: blueviolet;
+}
+
+.order-title {
+    text-align: center;
+    font-size: 24px;
+    margin-bottom: 10px;
+    color: blueviolet;
+}
+
+.empty-order {
+    text-align: center;
+    font-size: 18px;
+    color: #999;
+}
+
+.order-list {
+    list-style: none;
+    padding: 0;
+}
+
+.order-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    padding: 10px;
+    background-color: #FFD423;
+    border-radius: 8px;
+}
+
+.order-item-image {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-right: 15px;
+}
+
+.order-item-info {
+    flex-grow: 1;
+}
+
+.order-item-title {
+    font-size: 18px;
+    margin: 0 0 5px;
+}
+
+.order-item-price {
+    font-size: 16px;
+    margin: 0;
+    font-weight: bold;
+}
+
+.order-total {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+    font-size: 18px;
+    font-weight: bold;
+    color: blueviolet;
+}
+
+.add-product-button {
+    width: 100%;
+    padding: 10px;
+    margin-top: 15px;
+    background-color: blueviolet;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+.add-product-button:hover {
+    background-color: #9966cc;
+}
+
+/* Media Query para Responsiveness */
+@media (max-width: 600px) {
+    .order-item {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .order-item-image {
+        margin-bottom: 10px;
+    }
+
+    .order-total {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .order-total h3 {
+        margin-bottom: 5px;
+    }
+}

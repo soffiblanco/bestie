@@ -1,0 +1,42 @@
+/* Contenedor del carrusel */
+.carousel-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+    position: relative;
+    width: 90%; /* Ocupa el 90% del ancho de la pantalla */
+    margin: 20px auto;
+}
+
+/* Imagen del carrusel */
+.carousel-image {
+    width: 100%; /* Ocupa todo el espacio disponible */
+    height: 400px; /* Ajusta la altura del carrusel */
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    border-radius: 10px;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Efecto al pasar el cursor sobre la imagen */
+.carousel-image:hover {
+    transform: scale(1.05); /* Aumenta ligeramente el tamaño */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); /* Añade sombra más profunda */
+    cursor: pointer;
+}
+
+/* Título del carrusel centrado en la parte inferior */
+.carousel-title {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.5rem;
+    color: rgb(0, 0, 0);
+    text-align: center;
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    padding: 10px 0;
+}
+

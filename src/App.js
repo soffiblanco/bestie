@@ -2,6 +2,7 @@
 import React from 'react';
 import './App.css';
 import { Route, Routes } from 'react-router-dom';
+import { OrderProvider } from '../src/pages/Orders/OrderContexts'; // Importa el contexto correctamente
 import Navbar from './layouts/header/NavBar';
 import LoginForm from './components/loginComponent/LoginForm';
 import Footer from './layouts/footer/footer';
@@ -20,6 +21,8 @@ import EditUser from './pages/Admin/EditUser';
 import EditCategory from './pages/Admin/EditCategory';
 import EditSubcategory from './pages/Admin/EditSubcategory';
 import EditProduct from './pages/Admin/EditProduct';
+import CatalogProducts from './pages/Products/CatalogProducts';
+import Order from './pages/Orders/Order';
 
 function App() {
   return (
@@ -47,9 +50,10 @@ function App() {
           <Route path="/EditProduct" element={<EditProduct/>} />
         </Routes>
       </main>
-      <Footer /> 
+      <Footer /> {/* El footer fuera del header y al final del main */}
     </div>
   );
 }
 
 export default App;
+
