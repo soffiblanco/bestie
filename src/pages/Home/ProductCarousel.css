@@ -1,58 +1,92 @@
-/* src/components/ProductCarousel.css */
-
-/* Contenedor principal del carrusel */
 .carousel-container {
-  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 90%;
+  margin: 0 auto;
   overflow: hidden;
   position: relative;
 }
 
-/* Contenedor de las imágenes del carrusel */
-.carousel-images {
+.carousel-content {
   display: flex;
-  width: 100%;
+  gap: 15px;
   transition: transform 0.5s ease-in-out;
-}
-
-/* Tarjeta del producto */
-.product-card {
-  position: relative;
-  text-align: center;
-  flex-shrink: 0;
-}
-
-/* Estilo de la imagen del producto */
-.product-card img {
   width: 100%;
-  max-width: 300px; /* Ancho máximo para todas las imágenes */
-  height: 200px; /* Altura fija para todas las imágenes */
-  object-fit: cover; /* Mantiene la proporción de la imagen y recorta si es necesario */
-  display: block;
-  margin: 0 auto; /* Centra la imagen horizontalmente */
 }
 
-/* Información del producto */
-.product-info {
-  position: absolute;
-  bottom: 10%;
-  left: 50%;
-  transform: translateX(-50%);
-  background: rgba(0, 0, 0, 0.6);
-  color: white;
-  padding: 10px;
-  border-radius: 8px;
-  width: 80%;
+.product-card {
+  background-color: blueviolet;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   text-align: center;
+  padding: 0;
+  width: 22%; /* 4 productos por fila */
+  min-width: 22%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  color: white;
 }
 
-/* Título del producto */
-.product-info h2 {
-  margin: 0;
+.image-container {
+  background-color: white;
+  width: 100%;
+  height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+.product-image {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.product-info {
+  padding: 10px;
+}
+
+.product-title {
+  font-size: 1.2rem;
+  margin-bottom: 5px;
+}
+
+.product-description {
+  font-size: 0.9rem;
+  margin-bottom: 10px;
+}
+
+.product-icon {
   font-size: 1.5rem;
+  margin-top: 10px;
 }
 
-/* Descripción del producto */
-.product-info p {
-  margin: 0;
-  font-size: 1rem;
+.carousel-button {
+  background-color: #ffd423;
+  border: none;
+  padding: 10px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.carousel-button:hover {
+  background-color: #e6b91f;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .product-card {
+      width: 45%; /* 2 productos por fila */
+  }
+}
+
+@media (max-width: 480px) {
+  .product-card {
+      width: 100%; /* 1 producto por fila */
+  }
 }

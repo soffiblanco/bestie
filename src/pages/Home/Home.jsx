@@ -4,6 +4,7 @@ import Carousel from '../../components/Carousel/Carousel';
 import PhotoCard from '../../components/PhotoCard/PhotoCard';
 import Mosaic from '../../components/Mosaic/Mosaic';
 import CarouselAuto from '../../components/CarouselAuto/CarouselAuto';
+import ProductCarousel from '../../pages/Home/ProductCarousel';
 
 const Home = () => {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -42,7 +43,11 @@ const Home = () => {
           <Carousel categories={[]} numProducts={3} interval={3000} />
         </div>
       </div>
-
+      <div className="card">
+        <div className="carousel-container">
+          <ProductCarousel />
+        </div>
+      </div>
       <Mosaic/>
     </div>
   );
