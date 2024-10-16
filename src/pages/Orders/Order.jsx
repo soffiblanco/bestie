@@ -2,11 +2,18 @@
 import React, { useContext } from 'react';
 import { OrderContext } from '../../pages/Orders/OrderContexts';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import {useNavigate} from 'react-router-dom';
 
 function Order() {
     const { orderItems, addProductToOrder, removeProductFromOrder, decreaseProductQuantity } = useContext(OrderContext);
 
     const total = orderItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
+    const navigate = useNavigate(); // Para redirigir al usuario
+
+    const handleProceedToPayment = () => {
+        navigate('/payment'); // Redirige a la página de pago
+    };
+
 
     return (
         <div className="container mt-5">
@@ -57,7 +64,7 @@ function Order() {
             <h3 className="text-center">Total: Q{total.toFixed(2)}</h3>
 
             {orderItems.length > 0 && (
-                <button className="btn btn-success btn-block mt-4">
+                <button className="btn btn-success btn-block mt-4" onClick={handleProceedToPayment}>
                     Finalizar Compra
                 </button>
             )}

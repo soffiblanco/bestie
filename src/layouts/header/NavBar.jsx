@@ -226,6 +226,8 @@ const Navbar = () => {
                     )}
                 </li>
             </ul>
+
+            
             <div className='icon-container' ref={userMenuRef}>
                 <div className='search-icon' onClick={goToOrder}>
                     <TiShoppingCart size={30} />

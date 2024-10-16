@@ -125,22 +125,40 @@
     }
 }
 
-/* Estilos para los enlaces dentro de la lista de navegación */
-.nav-list a {
-    color: white; /* Cambia el color a blanco */
-    text-decoration: none; /* Elimina el subrayado */
-}
-
-.nav-list a:hover {
-    color: blueviolet; /* Color al hacer hover, ajusta según tu preferencia */
-    text-decoration: none; /* Asegura que no haya subrayado al hacer hover */
-}
-
-/* Elementos de la lista de navegación */
-.nav-list li {
-    cursor: pointer;
+/* Contenedor del menú desplegable (Dropdown) */
+.dropdown {
+    position: absolute;
+    top: 100%; /* Posiciona el menú justo debajo del botón "Categories" */
+    left: 0; /* Asegura que el menú comience alineado con el botón */
+    background-color: #FFD423; /* Color de fondo */
+    list-style: none;
     padding: 10px;
+    margin: 0;
+    border-radius: 8px;
+    z-index: 1000; /* Asegura que esté sobre otros elementos */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Sombra para darle profundidad */
+    width: 200px; /* Ajusta el ancho del menú desplegable */
+    max-height: 300px; /* Limita la altura máxima */
+    overflow-y: auto; /* Permite el scroll si el menú es demasiado largo */
 }
 
+/* Submenú dentro del Dropdown */
+.sub-dropdown {
+    position: relative;
+    top: 0;
+    left: 0;
+    background-color: #FFD423;
+    list-style: none;
+    padding: 10px;
+    margin: 0;
+    border-radius: 8px;
+    max-height: 200px;
+    overflow-y: auto;
+}
 
-
+/* Asegurar que el menú no se corte */
+.dropdown, .sub-dropdown {
+    max-height: 300px; /* Limita la altura del menú desplegable */
+    overflow-y: auto; /* Permite el desplazamiento si es necesario */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
