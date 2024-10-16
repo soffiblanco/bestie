@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './Home.css';
 import Carousel from '../../components/Carousel/Carousel';
-import PhotoCard from '../../components/PhotoCard/PhotoCard';
 import Mosaic from '../../components/Mosaic/Mosaic';
 import CarouselAuto from '../../components/CarouselAuto/CarouselAuto';
 import ProductCarousel from '../../pages/Home/ProductCarousel';

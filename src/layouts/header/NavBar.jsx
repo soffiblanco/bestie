@@ -161,16 +161,22 @@ const Navbar = () => {
                 <IoSearchSharp className='search-icon' />
             </div>
 
+            <img 
+            src={Paws} 
+            alt='paws' 
+            className='Paws' 
+            onClick={() => navigate('/home')} // Aquí redirige al hacer clic
+            style={{ cursor: 'pointer' }} // Cambia el cursor a mano para indicar que es clicable
+            />
+
             <ul className={`nav-list ${isMenuOpen ? 'active' : ''}`}>
-                {['Home', 'About Us', 'Orders', 'Login'].map((item) => (
+                {['About Us', 'Orders', 'Login'].map((item) => (
                     <li key={item} onClick={() => handleItemClick(item)} className={activeItem === item ? 'active' : ''}>
                         <Link to={`/${item.toLowerCase().replace(' ', '-')}`}>{item}</Link>
                     </li>
                 ))}
                 <li>
-                    <button onClick={goToOrder} className="category-button">
-                        Order
-                    </button>
+
                 </li>
                 <li className={activeItem === 'Categories' ? 'active' : ''}>
                     <div className="categories-container">
@@ -231,7 +237,6 @@ const Navbar = () => {
                     <FaUser size={20} />
                 </div>
             </div>
-            <img src={Paws} alt='paws' className='Paws' />
         </div>
     );
 };

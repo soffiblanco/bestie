@@ -1,46 +1,56 @@
 body {
     margin: 0;
     padding: 0;
+    box-sizing: border-box; /* Asegura que el padding y borde se calculen dentro del ancho */
 }
 
 .section__padding {
-    padding: 1rem 0.5rem; /* Mantiene el padding reducido */
+    padding: 1rem 0.5rem;
 }
 
 .footer {
     background-color: #FFD423;
-    width: 100vw; /* Asegura que ocupe todo el ancho de la ventana */
-    position: relative; /* Evita problemas de posicionamiento */
-    left: 0; /* Alinea el footer a la izquierda */
+    width: 100%; /* Usa el 100% del ancho de la pantalla */
+    position: relative;
+    left: 0;
+    display: flex;
+    justify-content: center; /* Centra el contenido del footer */
+    align-items: center;
 }
 
 .sb__footer {
     display: flex;
     flex-direction: column;
-    align-items: center; /* Centra el contenido horizontalmente */
-    width: 100%; /* Asegura que el footer interno ocupe el 100% */
+    align-items: center;
+    width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
 }
 
+/* Ajuste de la distribución de los enlaces del footer */
 .sb__footer-links {
     display: flex;
-    justify-content: center; /* Centra el contenido dentro de este contenedor */
+    justify-content: center;
     align-items: flex-start;
     flex-direction: row;
     flex-wrap: wrap;
     width: 100%;
     text-align: left;
-    margin-bottom: 0.5rem; /* Reduce el margen inferior */
+    margin-bottom: 1rem;
+    gap: 1rem; /* Espaciado entre los bloques */
 }
 
 .sb__footer-links_div {
-    width: 120px; /* Mantiene el ancho de las divisiones */
-    margin: 0.3rem; /* Reduce el margen para hacer el footer más compacto */
+    flex: 1 1 200px; /* Ajusta el tamaño flexible según el espacio disponible */
+    min-width: 150px;
+    margin: 0.5rem;
     display: flex;
-    justify-content: flex-start;
     flex-direction: column;
     color: white;
+    text-align: center; /* Asegurar que el texto esté centrado */
 }
 
+/* Enlaces del footer */
 a {
     color: white;
     text-decoration: none;
@@ -48,105 +58,118 @@ a {
 
 .socialmedia {
     display: flex;
-    flex-direction: row;
-    justify-content: center; /* Centra los íconos de redes sociales */
-}
-
-.socialmedia img {
-    width: 60%; /* Ajusta el tamaño de los íconos si es necesario */
+    justify-content: center;
+    gap: 15px;
 }
 
 .sb__footer-links_div h4 {
-    font-size: 15px; /* Tamaño intermedio para el encabezado */
-    line-height: 18px; /* Interlineado ajustado */
-    margin-bottom: 0.3rem; /* Reduce el margen inferior */
+    font-size: 16px;
+    line-height: 22px;
+    margin-bottom: 0.5rem;
 }
 
 .sb__footer-links_div p {
-    font-size: 12px; /* Tamaño intermedio para los párrafos */
-    line-height: 15px; /* Interlineado ajustado */
-    margin: 0.2rem 0; /* Reduce el margen */
+    font-size: 13px;
+    line-height: 18px;
+    margin: 0.3rem 0;
     cursor: pointer;
 }
 
+/* Estilo de la parte inferior del footer */
 .sb__footer-below {
     display: flex;
-    flex-direction: column; /* Cambiado a columna para centrar mejor */
-    align-items: center; /* Centra el contenido horizontalmente */
-    width: 100%; /* Asegura que ocupe todo el ancho */
-    margin-top: 0.5rem; /* Reduce el margen superior */
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    margin-top: 1rem;
 }
 
 .sb__footer-below-links {
     display: flex;
     flex-direction: row;
-    justify-content: center; /* Centra los enlaces */
-    width: 100%; /* Asegura que ocupe todo el ancho */
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
 }
 
 .sb__footer-below-links p {
-    font-size: 12px; /* Tamaño intermedio para los enlaces */
-    line-height: 15px; /* Interlineado ajustado */
-    margin: 0 0.5rem; /* Reduce el margen para mayor compacidad */
+    font-size: 12px;
+    line-height: 15px;
+    margin: 0.3rem;
     color: white;
     font-weight: 600;
 }
 
 hr {
-    color: white;
+    border: none;
+    border-top: 1px solid white;
     width: 100%;
+    margin: 1rem 0;
 }
 
 .sb__footer-copyright {
-    text-align: center; /* Asegura que el copyright esté centrado */
-    margin-top: 0.5rem; /* Reduce el margen entre copyright y los enlaces */
+    text-align: center;
+    margin-top: 0.5rem;
 }
 
 .sb__footer-copyright p {
-    font-size: 11px; /* Tamaño intermedio para el copyright */
-    line-height: 14px; /* Interlineado ajustado */
+    font-size: 11px;
+    line-height: 14px;
     color: rgb(255, 255, 255);
     font-weight: 600;
 }
 
-@media screen and (max-width: 850px) {
-    .sb__footer-heading h1 {
-        font-size: 44px;
-        line-height: 50px;
+/* Media Queries para Responsividad */
+@media screen and (max-width: 768px) {
+    /* Ajuste de los bloques del footer en pantallas medianas */
+    .sb__footer-links {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .sb__footer-links_div {
+        width: 100%; /* Asegurar que las secciones ocupen todo el ancho */
+        text-align: center;
+    }
+
+    .socialmedia {
+        justify-content: center;
     }
 }
 
-@media screen and (max-width: 550px) {
-    .sb__footer-heading h1 {
-        font-size: 34px;
-        line-height: 42px;
+@media screen and (max-width: 480px) {
+    /* Ajustes para pantallas pequeñas */
+    .sb__footer-links_div h4 {
+        font-size: 14px;
     }
-    .sb__footer-links_div {
-        margin: 0.3rem 0; /* Ajusta el margen */
+
+    .sb__footer-links_div p {
+        font-size: 12px;
     }
-    .sb__footer-btn p {
-        font-size: 12px; /* Mantiene un tamaño legible */
-        line-height: 16px; /* Aumenta el interlineado */
-    }
-    .sb__footer-below {
-        flex-direction: column;
-        justify-content: left;
-    }
+
     .sb__footer-below-links {
         flex-direction: column;
+        align-items: center;
     }
+
     .sb__footer-below-links p {
-        margin-left: 0rem;
-        margin-top: 0.5rem; /* Reduce el margen superior */
+        margin: 0.5rem 0;
+    }
+
+    .footer {
+        width: 100vw; /* Asegura que ocupe el ancho completo de la pantalla */
+        padding: 10px;
     }
 }
 
-@media screen and (max-width: 400px) {
-    .sb__footer-heading h1 {
-        font-size: 27px;
-        line-height: 38px;
+@media screen and (max-width: 320px) {
+    .sb__footer-links_div h4 {
+        font-size: 12px;
+    }
+
+    .sb__footer-links_div p {
+        font-size: 11px;
     }
 }
-
 
 
