@@ -70,9 +70,9 @@ const CategoriesPage = () => {
     }, []);
 
     return (
-        <div>
+        <div className='categories-design'>
         <div className='photoCard-test'><PhotoCard/></div>
-         <Carousel/>
+         <div className='carousel-container-categories'><Carousel/></div>
         <div className="categories-grid">
             {categories.map((category, index) => (
                 <Link to={`/categories/${category.name.toLowerCase()}`} key={index} className="category-item">
@@ -87,7 +87,6 @@ const CategoriesPage = () => {
                 </Link>
             ))}
         </div>
-        
         </div>
     );
 };

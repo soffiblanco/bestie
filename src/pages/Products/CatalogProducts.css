@@ -2,6 +2,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    margin-top: 120%; 
 }
 html,body{
     font-size: 18px;

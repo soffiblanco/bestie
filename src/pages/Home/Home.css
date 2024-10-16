@@ -1,4 +1,4 @@
-/* Contenedor principal */
+
 .home {
     position: relative;
     min-height: 100vh;
@@ -6,14 +6,12 @@
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
-    padding-top: 80px;
-    gap: 30px;
-    overflow-y: auto; /* Permitir el scroll */
-    overflow-x: hidden;
     padding-top: 80px; /* Espacio para el navbar */
+    gap: 30px;
+    overflow-x: hidden;
     box-sizing: border-box;
+    margin-top: 120%; /* Añade este margen para evitar superposición con el navbar */
 }
-
 
 /* Texto introductorio */
 .intro-text {
@@ -30,8 +28,8 @@
 .card, .cardtwo {
     background-color: blueviolet;
     border-radius: 20px;
-    width: 80%;
-    max-width: 800px; /* Limitar ancho en pantallas grandes */
+    width: 80%; /* Ajustado para que ocupe un buen ancho */
+    max-width: 1200px; /* Limitamos el ancho máximo */
     padding: 20px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     display: flex;
@@ -45,15 +43,72 @@
 
 /* Contenedor del carrusel */
 .carousel-container {
+    width: 100%; /* Asegura que ocupe todo el ancho */
+    max-width: 100%; /* Elimina la limitación de ancho */
+    margin: 20px auto;
+    padding-top: 10px; /* Espacio adicional entre carruseles */
+    box-sizing: border-box;
+}
+
+/* Imagen del carrusel */
+.carousel-image {
     width: 100%;
+    max-height: 400px;
+    aspect-ratio: 16 / 9; /* Mantener proporción responsiva */
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    border-radius: 10px;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Efecto al pasar el cursor sobre la imagen */
+.carousel-image:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
 }
 
 /* Título del carrusel */
 .carousel-title {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.5rem;
     color: white;
-    font-size: 2rem;
     text-align: center;
-    margin-bottom: 10px;
+    width: 100%;
+    position: absolute;
+    bottom: 10px;
+    padding: 10px 0;
+    background: rgba(0, 0, 0, 0.5); /* Fondo semitransparente */
+}
+
+/* Botones del carrusel */
+.carousel-button {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: white;
+    margin: 0 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    transition: background-color 0.2s ease;
+}
+
+.carousel-button:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+    color: #333;
+}
+
+/* Efecto en los carruseles */
+.card:hover, .cardtwo:hover {
+    transform: scale(1.02);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
 }
 
 /* Media Queries para Responsividad */
@@ -69,8 +124,12 @@
         padding: 15px;
     }
 
+    .home{
+        margin-top: 300%;
+    }
+
     .carousel-title {
-        font-size: 1.5rem;
+        font-size: 1.2rem;
     }
 }
 
@@ -78,6 +137,10 @@
 @media (max-width: 900px) {
     .intro-text {
         font-size: 2rem;
+    }
+
+    .home{
+        margin-top: 140%;
     }
 
     .card, .cardtwo {
@@ -104,101 +167,7 @@
     }
 }
 
-/* Navbar fijo */
-.NavBar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 80px; /* Ajusta según la altura del navbar */
-    background-color: #FFD423;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 10px 20px;
-    z-index: 1000;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
 
-/* Contenedor del carrusel */
-.carousel-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 30px;
-    position: relative;
-    width: 90%; /* Mantener responsividad */
-    max-width: 1200px; /* Limitar el ancho máximo */
-    margin: 20px auto;
-    padding-top: 10px; /* Espacio adicional entre carruseles */
-}
-
-/* Imagen del carrusel */
-.carousel-image {
-    width: 100%;
-    max-height: 400px;
-    aspect-ratio: 16 / 9; /* Mantener proporción responsiva */
-    background-size: cover;
-    background-position: center;
-    position: relative;
-    border-radius: 10px;
-    overflow: hidden;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-/* Efecto al pasar el cursor sobre la imagen */
-.carousel-image:hover {
-    transform: scale(1.05);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
-    cursor: pointer;
-}
-
-/* Título del carrusel centrado en la parte inferior */
-.carousel-title {
-    font-family: 'Poppins', sans-serif;
-    font-size: 1.5rem;
-    color: #000;
-    text-align: center;
-    width: 100%;
-    position: absolute;
-    bottom: 10px; /* Espacio desde la parte inferior */
-    padding: 10px 0;
-    background: rgba(255, 255, 255, 0.5); /* Fondo semitransparente */
-}
-
-/* Botones del carrusel */
-.carousel-button {
-    background: none;
-    border: none;
-    font-size: 1.5rem;
-    cursor: pointer;
-    color: #555;
-    margin: 0 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    transition: background-color 0.2s ease;
-}
-
-.carousel-button:hover {
-    background-color: rgba(0, 0, 0, 0.1);
-    color: #333;
-}
-
-/* Media Queries para Responsividad */
-@media (max-width: 768px) {
-    .carousel-image {
-        height: auto;
-        aspect-ratio: 4 / 3; /* Ajuste para pantallas pequeñas */
-    }
-
-    .carousel-title {
-        font-size: 1.2rem;
-    }
-}
 
 
 

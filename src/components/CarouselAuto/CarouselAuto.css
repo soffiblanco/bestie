@@ -5,15 +5,16 @@
     justify-content: center;
     margin-bottom: 30px;
     position: relative;
-    width: 90%;
-    max-width: 1200px;
+    width: 100%; /* Cambiado a 100% para ocupar todo el ancho disponible */
+    max-width: 100%; /* También ajustado para permitir ocupar todo el ancho */
     margin: 20px auto;
-    padding-top: 10px; /* Evitar que los carruseles queden juntos */
+    padding-top: 10px;
+    box-sizing: border-box; /* Asegura que padding esté incluido en el ancho total */
 }
 
 /* Imagen del carrusel */
 .carousel-image {
-    width: 100%;
+    width: 100%; /* Asegura que la imagen ocupe todo el ancho */
     max-height: 400px;
     aspect-ratio: 16 / 9;
     background-size: cover;
@@ -53,5 +54,20 @@
 
     .carousel-title {
         font-size: 1.2rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .carousel-container {
+        padding: 10px;
+    }
+
+    .carousel-image {
+        aspect-ratio: 1 / 1;
+        max-height: 250px;
+    }
+
+    .carousel-title {
+        font-size: 1rem;
     }
 }

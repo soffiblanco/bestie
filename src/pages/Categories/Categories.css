@@ -15,6 +15,11 @@
     width: 85vw; /* Asegura que ocupe todo el ancho de la ventana */
     margin: 0 auto; /* Centra la cuadrícula horizontalmente */
     box-sizing: border-box; /* Incluir el padding en el ancho total */
+    
+}
+
+.categories-design{
+    margin-top: 220%;
 }
 
 /* Definir áreas específicas para cada categoría */
@@ -91,4 +96,13 @@ photoCard-test{
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+
+.carousel-container-categories {
+    width: 100%; /* Asegura que ocupe todo el ancho */
+    max-width: 100%; /* Elimina la limitación de ancho */
+    margin: 20px auto;
+    padding-top: 10px; /* Espacio adicional entre carruseles */
+    box-sizing: border-box;
 }

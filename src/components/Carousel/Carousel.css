@@ -5,8 +5,8 @@
     justify-content: center;
     margin-bottom: 30px;
     position: relative;
-    width: 90%; /* Mantener responsividad */
-    max-width: 1200px; /* Limitar el ancho máximo */
+    width: 100%; /* Asegura que ocupe todo el ancho */
+    max-width: 100%; /* Elimina la limitación de ancho */
     margin: 20px auto;
     padding-top: 10px; /* Espacio adicional entre carruseles */
 }
@@ -14,7 +14,7 @@
 /* Imagen del carrusel */
 .carousel-image {
     width: 100%;
-    max-height: 400px;
+    height: auto;
     aspect-ratio: 16 / 9; /* Mantener proporción responsiva */
     background-size: cover;
     background-position: center;
@@ -44,37 +44,14 @@
     background: rgba(255, 255, 255, 0.5); /* Fondo semitransparente */
 }
 
-/* Botones del carrusel */
-.carousel-button {
-    background: none;
-    border: none;
-    font-size: 1.5rem;
-    cursor: pointer;
-    color: #555;
-    margin: 0 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    transition: background-color 0.2s ease;
-}
-
-.carousel-button:hover {
-    background-color: rgba(0, 0, 0, 0.1);
-    color: #333;
-}
-
 /* Media Queries para Responsividad */
 @media (max-width: 768px) {
     .carousel-image {
+        aspect-ratio: 4 / 3; /* Ajuste para pantallas más pequeñas */
         height: auto;
-        aspect-ratio: 4 / 3; /* Ajuste para pantallas pequeñas */
     }
 
     .carousel-title {
         font-size: 1.2rem;
     }
 }
-
