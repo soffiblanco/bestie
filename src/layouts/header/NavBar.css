@@ -124,12 +124,11 @@
         max-width: 100px;
     }
 }
-
 /* Contenedor del menú desplegable (Dropdown) */
 .dropdown {
-    position: absolute;
-    top: 100%; /* Posiciona el menú justo debajo del botón "Categories" */
-    left: 0; /* Asegura que el menú comience alineado con el botón */
+    position: relative;
+    top: 20%; /* Posiciona el menú justo debajo del botón "Categories" */
+    left: 0;
     background-color: #FFD423; /* Color de fondo */
     list-style: none;
     padding: 10px;
@@ -138,8 +137,9 @@
     z-index: 1000; /* Asegura que esté sobre otros elementos */
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Sombra para darle profundidad */
     width: 200px; /* Ajusta el ancho del menú desplegable */
-    max-height: 300px; /* Limita la altura máxima */
-    overflow-y: auto; /* Permite el scroll si el menú es demasiado largo */
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
 }
 
 /* Submenú dentro del Dropdown */
@@ -153,12 +153,43 @@
     margin: 0;
     border-radius: 8px;
     max-height: 200px;
-    overflow-y: auto;
 }
 
 /* Asegurar que el menú no se corte */
 .dropdown, .sub-dropdown {
-    max-height: 300px; /* Limita la altura del menú desplegable */
-    overflow-y: auto; /* Permite el desplazamiento si es necesario */
+    max-height: 900px; /* Limita la altura del menú desplegable */
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+
+/* Estilo de los elementos dentro del menú */
+.dropdown li {
+    padding: 10px 0;
+    text-align: center;
+    font-size: 1.2rem;
+    font-family: 'Poppins', sans-serif;
+    color: white; /* Cambia el color del texto */
+    background-color: transparent; /* Cambia el color de fondo de los botones */
+    cursor: pointer;
+    border-radius: 8px; /* Añade bordes redondeados */
+    margin-bottom: 10px; /* Espacio entre los botones */
+    transition: background-color 0.3s ease; /* Transición suave para el hover */
+}
+
+.dropdown li:hover {
+    background-color: yellow; /* Cambia el color de fondo al hacer hover */
+    color: transparent; /* Cambia el color del texto al hacer hover */
+}
+
+
+/* Ajustes para pantallas más pequeñas */
+@media (max-width: 768px) {
+    .dropdown {
+        width: 100%; /* Asegura que el menú ocupe el ancho completo en pantallas pequeñas */
+        left: 0;
+    }
+
+    .dropdown li {
+        font-size: 1rem; /* Reducir el tamaño de la fuente en pantallas más pequeñas */
+    }
 }
