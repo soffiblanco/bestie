@@ -229,16 +229,43 @@ const Navbar = () => {
 
             
             <div className='icon-container' ref={userMenuRef}>
-                <div className='search-icon' onClick={goToOrder}>
-                    <TiShoppingCart size={30} />
-                </div>
-                <div className='search-icon' onClick={goToAddUser}>
-                    <FaUserPlus size={25} />
-                </div>
-                <div className='search-icon' onClick={goToProfile}>
-                    <FaUser size={20} />
-                </div>
-            </div>
+    <div className='search-icon' onClick={goToOrder}>
+        <TiShoppingCart size={30} />
+    </div>
+    
+    <div className='search-icon' onClick={toggleUserMenu}>
+        <FaUserPlus size={25} />
+        {isUserMenuOpen && (
+            <ul className="dropdown user-dropdown">
+                <li>
+                    <Link to="/users" onClick={() => handleItemClick('Users')}>
+                        Users
+                    </Link>
+                </li>
+                <li>
+                    <Link to="/categories" onClick={() => handleItemClick('Categories')}>
+                        Categories
+                    </Link>
+                </li>
+                <li>
+                    <Link to="/subcategories" onClick={() => handleItemClick('Subcategories')}>
+                        Subcategories
+                    </Link>
+                </li>
+                <li>
+                    <Link to="/products" onClick={() => handleItemClick('Products')}>
+                        Products
+                    </Link>
+                </li>
+            </ul>
+        )}
+    </div>
+    
+    <div className='search-icon' onClick={goToProfile}>
+        <FaUser size={20} />
+    </div>
+</div>
+
         </div>
     );
 };
