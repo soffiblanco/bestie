@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './Page.css';
+import { baseUrl } from '../../config.js'
+import ecommerce_fetch from '../../services/ecommerce_fetch'; 
 
 const SubcategoryPage = () => {
   const [subcategories, setSubcategories] = useState([]); // Cambiado a plural
@@ -9,7 +10,9 @@ const SubcategoryPage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch('http://localhost/apis/subcategory.php')
+    ecommerce_fetch(`${baseUrl}/subcategory.php`,{
+        method:'GET',
+    })
       .then(response => {
         if (!response.ok) {
           throw new Error('Error fetching categories');
@@ -33,7 +36,7 @@ const SubcategoryPage = () => {
   
   const handleDelete = (subcategoryId) => {
     console.log(`Delete subcategory with ID: ${subcategoryId}`);
-    fetch(`http://localhost/apis/subcategory.php?id_subcategory=${subcategoryId}`, {
+    ecommerce_fetch(`${baseUrl}/subcategory.php?id_subcategory=${subcategoryId}`, {
       method: 'DELETE',
     })
       .then(response => {

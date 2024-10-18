@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './Page.css';
+import { baseUrl } from '../../config.js'
+import ecommerce_fetch from '../../services/ecommerce_fetch';
 
 const CategoryPage = () => {
   const [categories, setCategories] = useState([]); // Cambiado a plural
@@ -12,7 +13,9 @@ const CategoryPage = () => {
   const defaultImageBase64 = ''; // Asegúrate de añadir el código base64 aquí
 
   useEffect(() => {
-    fetch('http://localhost/apis/category.php')
+    ecommerce_fetch(`${baseUrl}/category.php`, {
+      method: 'GET',
+    })
       .then(response => {
         if (!response.ok) {
           throw new Error('Error fetching categories');
@@ -36,7 +39,7 @@ const CategoryPage = () => {
   
   const handleDelete = (categoryId) => {
     console.log(`Delete category with ID: ${categoryId}`);
-    fetch(`http://localhost/apis/category.php?id_category=${categoryId}`, {
+    ecommerce_fetch(`${baseUrl}/category.php?id_category=${categoryId}`, {
       method: 'DELETE',
     })
       .then(response => {

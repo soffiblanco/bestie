@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { baseUrl } from '../../config.js'
+import ecommerce_fetch from '../../services/ecommerce_fetch';
 
 const EditProduct = () => {
     const { productId } = useParams();
@@ -33,7 +35,9 @@ const EditProduct = () => {
     useEffect(() => {
         setLoading(true);
         // Fetch existing product details
-        fetch(`http://localhost/apis/products.php?ID_Product=${productId}`)
+        ecommerce_fetch(`${baseUrl}/products.php?ID_Product=${productId}`,{
+            method:'GET',
+        })
             .then((response) => response.json())
             .then((data) => {
                 if (data && data.data && data.data.length > 0) {
@@ -52,7 +56,9 @@ const EditProduct = () => {
             .finally(() => setLoading(false));
 
         // Fetch categories
-        fetch('http://localhost/apis/category.php')
+        ecommerce_fetch(`${baseUrl}/category.php`,{
+            method:'GET',
+        })
             .then((response) => response.json())
             .then((data) => {
                 if (data && data.data) {
@@ -62,7 +68,9 @@ const EditProduct = () => {
             .catch((error) => console.error('Error fetching categories:', error));
 
         // Fetch subcategories
-        fetch('http://localhost/apis/subcategory.php')
+        ecommerce_fetch(`${baseUrl}/subcategory.php`,{
+            method:'GET',
+        })
             .then((response) => response.json())
             .then((data) => {
                 if (data && data.data) {
@@ -111,11 +119,8 @@ const EditProduct = () => {
     };
 
     const sendUpdateRequest = (updateData) => {
-        fetch('http://localhost/apis/products.php', {
+        ecommerce_fetch(`${baseUrl}/products.php`, {
             method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-            },
             body: JSON.stringify(updateData),
         })
             .then((response) => response.json())

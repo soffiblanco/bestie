@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './Profile.css';
+import { baseUrl } from '../../config.js'
+import ecommerce_fetch from '../../services/ecommerce_fetch';
 
 const Profile = () => {
   // State to store profile data
@@ -25,9 +27,11 @@ const Profile = () => {
 
   // API call to fetch profile data
   useEffect(() => {
-    const id_user = 106; // Specific user ID
+    const id_user = 140; // Specific user ID
 
-    fetch(`http://localhost/apis/users.php?id_user=${id_user}`)
+    ecommerce_fetch(`${baseUrl}/users.php?id_user=${id_user}`,{
+      method:'GET',
+     })
       .then((response) => {
         if (!response.ok) {
           throw new Error('Error fetching profile data');

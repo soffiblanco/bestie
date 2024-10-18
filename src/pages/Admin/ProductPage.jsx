@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './Page.css';
+import { baseUrl } from '../../config.js'
+import ecommerce_fetch from '../../services/ecommerce_fetch';
 
 const ProductPage = () => {
   const [products, setProducts] = useState([]);
@@ -9,7 +10,9 @@ const ProductPage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch('http://localhost/apis/products.php')
+    ecommerce_fetch(`${baseUrl}/products.php`,{
+     method:'GET',
+    })
       .then(response => {
         if (!response.ok) {
           throw new Error('Error fetching products');
@@ -60,7 +63,7 @@ const ProductPage = () => {
   
   const handleDelete = (productId) => {
     console.log(`Delete product with ID: ${productId}`);
-    fetch(`http://localhost/apis/products.php?id_product=${productId}`, {
+    ecommerce_fetch(`${baseUrl}/products.php?id_product=${productId}`, {
       method: 'DELETE',
     })
       .then(response => {

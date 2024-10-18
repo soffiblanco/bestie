@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-
+import { baseUrl } from '../../config.js'
+import ecommerce_fetch from '../../services/ecommerce_fetch'; 
+import EditCategory from './EditCategory.jsx';
 
 const EditSubcategory = () => {
   const { subcategoryId } = useParams();
@@ -14,7 +16,9 @@ const EditSubcategory = () => {
   const [imageBase64, setImageBase64] = useState('');
 
   useEffect(() => {
-    fetch(`http://localhost/apis/subcategory.php?id_subcategory=${subcategoryId}`)
+    ecommerce_fetch(`${baseUrl}/subcategory.php?id_subcategory=${subcategoryId}`,{
+       method:'GET',
+    })
       .then((response) => {
         if (!response.ok) {
           throw new Error('Error fetching subcategory');
@@ -95,11 +99,8 @@ const EditSubcategory = () => {
       return;
     }
 
-    fetch(`http://localhost/apis/subcategory.php`, {
+    ecommerce_fetch(`${baseUrl}/subcategory.php`, {
       method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
       body: JSON.stringify(dataToSend),
     })
       .then((response) => {

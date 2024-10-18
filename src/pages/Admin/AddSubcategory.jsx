@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import './Add.css';
+import { baseUrl } from '../../config.js'
+import ecommerce_fetch from '../../services/ecommerce_fetch';
 
 const AddSubcategory= () => {
   const [idcategory, setIdcategory] = useState('');
@@ -12,7 +13,9 @@ const AddSubcategory= () => {
 
   useEffect(() => {
     const fetchCategories = () => {
-      fetch('http://localhost/apis/category.php') // Adjust the URL to the correct endpoint
+      ecommerce_fetch(`${baseUrl}/category.php`,{
+        method: 'POST',
+      }) // Adjust the URL to the correct endpoint
         .then((response) => {
           if (!response.ok) {
             throw new Error('Network response was not ok');
@@ -44,7 +47,7 @@ const AddSubcategory= () => {
     formData.append('subcategory_description', subcategoryDescription);
     formData.append('subcategory_image', subcategoryImage);
 
-    fetch('http://localhost/apis/subcategory.php', {
+    fetch(`${baseUrl}/subcategory.php`, {
       method: 'POST',
       body: formData,
     })

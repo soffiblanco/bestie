@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './Page.css';
+import { baseUrl } from '../../config.js'
+import ecommerce_fetch from '../../services/ecommerce_fetch';  // Importa ecommerceFetch
 
 const UserPage = () => {
   const [users, setUsers] = useState([]);
@@ -8,14 +9,13 @@ const UserPage = () => {
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
-  // Imagen predeterminada en formato Base64
-  const defaultImageBase64 = ''; // Aquí va el código base64 completo
-
   useEffect(() => {
-    fetch('http://localhost/apis/users.php')
+    ecommerce_fetch(`${baseUrl}/users.php`, {
+      method: 'GET',
+    })
       .then(response => {
         if (!response.ok) {
-          throw new Error('Error fetching users');
+          throw new Error(`HTTP error! Status: ${response.status}`);
         }
         return response.json();
       })
@@ -36,7 +36,7 @@ const UserPage = () => {
 
   const handleDelete = (userId) => {
     console.log(`Delete user with ID: ${userId}`);
-    fetch(`http://localhost/apis/users.php?id_user=${userId}`, {
+    ecommerce_fetch(`${baseUrl}/users.php?id_user=${userId}`, {
       method: 'DELETE',
     })
       .then(response => {
@@ -93,7 +93,7 @@ const UserPage = () => {
               <td>
                 <img
                   className="profile-image"
-                  src={user.User_Image || defaultImageBase64}
+                  src={user.User_Image}
                   alt={user.Name || 'User Image'}
                   style={{ width: '50px', height: '50px' }}
                 />

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-;
+import { baseUrl } from '../../config.js'
+import ecommerce_fetch from '../../services/ecommerce_fetch';
 
 const EditUser = () => {
   const { userId } = useParams();
@@ -14,7 +15,9 @@ const EditUser = () => {
   const [imageBase64, setImageBase64] = useState('');
 
   useEffect(() => {
-    fetch(`http://localhost/apis/users.php?id_user=${userId}`)
+    ecommerce_fetch(`${baseUrl}/users.php?id_user=${userId}`,{
+      method:'GET',
+    })
       .then((response) => {
         if (!response.ok) {
           throw new Error('Error fetching user');
@@ -99,11 +102,8 @@ const EditUser = () => {
     }
 
     // Enviar el JSON al backend
-    fetch(`http://localhost/apis/users.php`, {
+    ecommerce_fetch(`${baseUrl}/apis/users.php`, {
       method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
       body: JSON.stringify(dataToSend), // Convertir los datos a JSON
     })
       .then((response) => {

@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import './Add.css';
+import { baseUrl } from '../../config.js'
+import ecommerce_fetch from '../../services/ecommerce_fetch';
+
 
 const AddCategory = () => {
   const [category, setCategory] = useState('');
@@ -21,7 +23,7 @@ const AddCategory = () => {
     formData.append('category_description', categoryDescription);
     formData.append('category_image', categoryImage);
 
-    fetch('http://localhost/apis/category.php', {
+    ecommerce_fetch(`${baseUrl}/category.php`, {
       method: 'POST',
       body: formData,
     })

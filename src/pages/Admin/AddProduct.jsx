@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import './Add.css';
+import { baseUrl } from '../../config.js'
+import ecommerce_fetch from '../../services/ecommerce_fetch';
 
 const AddProduct = () => {
   const [product, setProduct] = useState('');
@@ -33,7 +34,7 @@ const AddProduct = () => {
     formData.append('subcategory', subcategory);
     formData.append('enabled', enabled ? 1 : 0);
 
-    fetch('http://localhost/apis/product.php', {
+    ecommerce_fetch(`${baseUrl}/product.php`, {
       method: 'POST',
       body: formData,
     })

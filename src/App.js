@@ -53,8 +53,8 @@ function App() {
             <Route path="/EditSubcategory" element={<EditSubcategory />} />
             <Route path="/EditProduct" element={<EditProduct />} />
             <Route path="/order" element={<Order />} />
-                <Route path="/payment" element={<PaymentPage/>} />
-                <Route path="/payment-success" element={<PaymentSuccess/>} />
+            <Route path="/payment" element={<PaymentPage/>} />
+            <Route path="/payment-success" element={<PaymentSuccess/>} />
             <Route path="/CatalogProducts/:category" element={<CatalogProducts />} />
             <Route path="/CatalogProducts/:category/:subcategory" element={<CatalogProducts />} />
             

@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import { baseUrl } from '../../config.js';
+import ecommerce_fetch from '../../services/ecommerce_fetch';
 
 const EditCategory = () => {
-    const { categoryId } = useParams(); // Obtén el ID de la categoría desde la URL
+    const { categoryId } = useParams(); // Get the category ID from the URL
     const [formData, setFormData] = useState({
         category: "",
         category_description: "",
@@ -11,8 +13,10 @@ const EditCategory = () => {
     });
 
     useEffect(() => {
-        // Aquí puedes cargar los datos de la categoría actual si es necesario
-        fetch(`http://localhost/apis/category.php?id_category=${categoryId}`)
+        // Load current category data if necessary
+        ecommerce_fetch(`${baseUrl}/category.php?id_category=${categoryId}`, {
+            method: 'GET',
+        })
             .then(response => response.json())
             .then(data => {
                 if (data.data && data.data.length > 0) {
@@ -24,7 +28,7 @@ const EditCategory = () => {
                     });
                 }
             })
-            .catch(error => console.error("Error cargando la categoría:", error));
+            .catch(error => console.error("Error loading category:", error));
     }, [categoryId]);
 
     const handleInputChange = (e) => {
@@ -52,26 +56,26 @@ const EditCategory = () => {
         });
     };
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = (e) => {
         e.preventDefault();
 
         if (formData.fieldsToUpdate.length === 0) {
-            alert("Por favor, selecciona al menos un campo para actualizar.");
+            alert("Please select at least one field to update.");
             return;
         }
 
-        // Crear el objeto con los campos a actualizar
+        // Create the object with the fields to update
         const dataToUpdate = {
             id_category: categoryId
         };
 
         formData.fieldsToUpdate.forEach((field) => {
             if (field === "category_image" && formData.category_image) {
-                // Leer la imagen como base64
+                // Read the image as base64
                 const reader = new FileReader();
                 reader.onloadend = () => {
                     dataToUpdate[field] = reader.result;
-                    enviarDatos(dataToUpdate);
+                    sendData(dataToUpdate);
                 };
                 reader.readAsDataURL(formData.category_image);
             } else {
@@ -79,31 +83,29 @@ const EditCategory = () => {
             }
         });
 
-        // Si no hay imagen para actualizar, se envían los datos directamente
+        // If there is no image to update, send the data directly
         if (!formData.fieldsToUpdate.includes("category_image")) {
-            enviarDatos(dataToUpdate);
+            sendData(dataToUpdate);
         }
     };
 
-    const enviarDatos = async (dataToUpdate) => {
-        try {
-            const response = await fetch("http://localhost/apis/category.php", {
-                method: "PUT",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(dataToUpdate)
+    const sendData = (dataToUpdate) => {
+        ecommerce_fetch(`${baseUrl}/category.php`, {
+            method: "PUT",
+            body: JSON.stringify(dataToUpdate)
+        })
+            .then(response => response.json())
+            .then(data => {
+                alert(data.message);
+            })
+            .catch(error => {
+                console.error("Error:", error);
             });
-            const data = await response.json();
-            alert(data.message);
-        } catch (error) {
-            console.error("Error:", error);
-        }
     };
 
     return (
         <form onSubmit={handleSubmit}>
-            <h2>Editar Categoría</h2>
+            <h2>Edit Category</h2>
 
             <div>
                 <input
@@ -112,7 +114,7 @@ const EditCategory = () => {
                     value="category"
                     onChange={handleCheckboxChange}
                 />
-                <label htmlFor="updateCategory">Actualizar Nombre de Categoría</label>
+                <label htmlFor="updateCategory">Update Category Name</label>
                 <input
                     type="text"
                     name="category"
@@ -128,7 +130,7 @@ const EditCategory = () => {
                     value="category_description"
                     onChange={handleCheckboxChange}
                 />
-                <label htmlFor="updateDescription">Actualizar Descripción</label>
+                <label htmlFor="updateDescription">Update Description</label>
                 <textarea
                     name="category_description"
                     value={formData.category_description}
@@ -143,7 +145,7 @@ const EditCategory = () => {
                     value="category_image"
                     onChange={handleCheckboxChange}
                 />
-                <label htmlFor="updateImage">Actualizar Imagen</label>
+                <label htmlFor="updateImage">Update Image</label>
                 <input
                     type="file"
                     name="category_image"
@@ -151,7 +153,7 @@ const EditCategory = () => {
                 />
             </div>
 
-            <button type="submit">Guardar Cambios</button>
+            <button type="submit">Save Changes</button>
         </form>
     );
 };

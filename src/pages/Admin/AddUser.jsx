@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import './Add.css'; // Archivo CSS para los estilos
 import { FaUser, FaEnvelope, FaLock, FaPhone, FaMapMarkerAlt, FaCcVisa, FaImage } from 'react-icons/fa';
+import axiosInstance from '../../services/axiosConfig';
 
 const AddUser = () => {
   const [formData, setFormData] = useState({
@@ -11,7 +11,7 @@ const AddUser = () => {
     direction: '',
     telephone_number: '',
     user_image: null,
-    role: '',
+    card_holder: '',
     card_number: '',
     expiration_date: '',
     cvv: '',
@@ -32,7 +32,7 @@ const AddUser = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const endpoint = 'http://localhost/apis/users.php';
+    const endpoint = `/users.php`;
 
     const data = new FormData();
     data.append('action', 'register');
@@ -41,7 +41,7 @@ const AddUser = () => {
     data.append('password', formData.password);
     data.append('direction', formData.direction);
     data.append('telephone_number', formData.telephone_number);
-    data.append('role', formData.role);
+    data.append('card_holder', formData.card_holder);
     data.append('card_number', formData.card_number);
     data.append('expiration_date', formData.expiration_date);
     data.append('cvv', formData.cvv);
@@ -50,11 +50,7 @@ const AddUser = () => {
     }
 
     setLoading(true);
-    axios.post(endpoint, data, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    })
+    axiosInstance.post(endpoint, data)
       .then((response) => {
         if (response.status === 200) {
           setMessage(response.data.message);
@@ -138,15 +134,15 @@ const AddUser = () => {
           <FaImage className='icon' />
         </div>
         <div className="input-box">
-          <input
+        <input
             type="text"
-            name="role"
-            placeholder='Role'
-            value={formData.role}
+            name="card_holder"
+            placeholder='Card Holder'
+            value={formData.card_holder}
             onChange={handleChange}
             required
-          />
-          <FaUser className='icon' />
+        />
+        <FaCcVisa className='icon' />
         </div>
         <div className="input-box">
           <input
