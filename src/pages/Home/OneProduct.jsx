@@ -1,22 +1,7 @@
-// Product.jsx
 import React, { useContext } from 'react';
 import './OneProduct.css';
 import { OrderContext } from '../../pages/Orders/OrderContexts'; // Importa el contexto
-import comidaAves from '../../assets/comidaAves.jpeg';
-import comidaGato from '../../assets/comidaGato.jpeg';
-import comidaPerro from '../../assets/comidaPerro.jpeg';
-import comidaPeces from '../../assets/comidaPeces.jpeg';
-import comidaTortugas from '../../assets/comidaTortugas.jpeg';
-import accesorioGato from '../../assets/accesorioGato.jpeg';
-
-const images = {
-    comidaAves,
-    comidaGato,
-    comidaPerro,
-    comidaPeces,
-    comidaTortugas,
-    accesorioGato
-};
+import { FaShoppingBag } from "react-icons/fa";
 
 function Product(props) {
     const { addProductToOrder } = useContext(OrderContext); // Usa el contexto
@@ -34,8 +19,8 @@ function Product(props) {
         <div className='container-product'>
             <img 
                 className='image-product'
-                src={images[props.image]}
-                alt='foto'
+                src={props.image}  // La imagen viene directamente en base64 desde la API
+                alt={props.title}
             />
 
             <div className='info-product'>
@@ -43,7 +28,7 @@ function Product(props) {
                 <p className='description'>{props.description}</p>
                 <p className='price'>Q{props.price}</p>
                 <button className='see-more' onClick={handleAddToOrder}>
-                    Agregar a la Orden
+                <FaShoppingBag />
                 </button>
             </div>
         </div>
