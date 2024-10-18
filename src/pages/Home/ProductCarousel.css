@@ -21,8 +21,7 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   text-align: center;
   padding: 0;
-  width: 22%; /* 4 productos por fila */
-  min-width: 22%;
+  width: calc(25% - 15px); /* Calculamos el 25% menos el gap entre productos */
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -32,7 +31,7 @@
 .image-container {
   background-color: white;
   width: 100%;
-  height: 200px;
+  height: 150px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -78,15 +77,40 @@
   background-color: #e6b91f;
 }
 
-/* Responsive Styles */
+/* Mantén el diseño de 4 productos por fila incluso en pantallas pequeñas */
 @media (max-width: 768px) {
   .product-card {
-      width: 45%; /* 2 productos por fila */
+    width: calc(25% - 10px); /* 4 productos por fila, ajustando el espacio */
+  }
+
+  .image-container {
+    height: 120px; /* Ajustamos la altura de la imagen en pantallas más pequeñas */
+  }
+
+  .product-title {
+    font-size: 1rem;
+  }
+
+  .product-description {
+    font-size: 0.8rem;
   }
 }
 
 @media (max-width: 480px) {
   .product-card {
-      width: 100%; /* 1 producto por fila */
+    width: calc(25% - 5px); /* Aseguramos que sigan siendo 4 productos */
+  }
+
+  .image-container {
+    height: 100px; /* Ajustamos más la altura de la imagen */
+  }
+
+  .product-title {
+    font-size: 0.9rem;
+  }
+
+  .product-description {
+    font-size: 0.7rem;
   }
 }
+
