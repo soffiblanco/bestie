@@ -234,32 +234,44 @@ const Navbar = () => {
     </div>
     
     <div className='search-icon' onClick={toggleUserMenu}>
-        <FaUserPlus size={25} />
-        {isUserMenuOpen && (
-            <ul className="dropdown user-dropdown">
-                <li>
-                    <Link to="/users" onClick={() => handleItemClick('Users')}>
-                        Users
+    <FaUserPlus size={25} />
+    {isUserMenuOpen && (
+        <ul className="dropdown user-dropdown">
+            <li>
+                <Link to="/users" onClick={() => handleItemClick('Users')}>
+                    Users
+                </Link>
+            </li>
+            <li>
+                <Link to="/categories" onClick={() => handleItemClick('Categories')}>
+                    Categories
+                </Link>
+            </li>
+            {categories.map((category) => (
+                <li key={category.name}>
+                    <Link to={`/categories/${category.name}`} onClick={() => handleItemClick('Categories')}>
+                        {category.name}
                     </Link>
                 </li>
-                <li>
-                    <Link to="/categories" onClick={() => handleItemClick('Categories')}>
-                        Categories
-                    </Link>
-                </li>
-                <li>
-                    <Link to="/subcategories" onClick={() => handleItemClick('Subcategories')}>
-                        Subcategories
-                    </Link>
-                </li>
-                <li>
-                    <Link to="/products" onClick={() => handleItemClick('Products')}>
-                        Products
-                    </Link>
-                </li>
-            </ul>
-        )}
-    </div>
+            ))}
+            {categories.map((category) => 
+                category.subcategories.map((sub) => (
+                    <li key={sub.name}>
+                        <Link to={`/categories/${category.name}/${sub.name}`} onClick={() => handleItemClick('Subcategories')}>
+                            {sub.name}
+                        </Link>
+                    </li>
+                ))
+            )}
+            <li>
+                <Link to="/products" onClick={() => handleItemClick('Products')}>
+                    Products
+                </Link>
+            </li>
+        </ul>
+    )}
+</div>
+
     
     <div className='search-icon' onClick={goToProfile}>
         <FaUser size={20} />

@@ -181,6 +181,9 @@
     color: transparent; /* Cambia el color del texto al hacer hover */
 }
 
+.dropdown user-dropdown{
+    margin-top: 150px;
+}
 
 /* Ajustes para pantallas más pequeñas */
 @media (max-width: 768px) {

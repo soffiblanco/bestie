@@ -21,14 +21,15 @@ import EditUser from './pages/Admin/EditUser';
 import EditCategory from './pages/Admin/EditCategory';
 import EditSubcategory from './pages/Admin/EditSubcategory';
 import EditProduct from './pages/Admin/EditProduct';
-import CatalogProducts from './pages/Products/CatalogProducts';
 import Order from './pages/Orders/Order';
 import PaymentPage from './pages/Orders/PaymentPage';
 import PaymentSuccess from './pages/Orders/PaymentSuccess';
+import ProductDetails from './pages/Products/ProductDetails';
+import CatalogProducts from './pages/Products/CatalogProducts';
+import aboutUs from './pages/aboutUs/aboutUs';
 
 function App() {
   return (
-    // Envolvemos toda la aplicación con OrderProvider
     <OrderProvider>
       <div className="App">
         <header className="App-header">
@@ -39,6 +40,9 @@ function App() {
             <Route path="/home" element={<Home />} />
             <Route path="/login" element={<LoginForm />} />
             <Route path="/categories" element={<Categories />} />
+            <Route path="/CatalogProducts/:category" element={<CatalogProducts />} />
+            <Route path="/CatalogProducts/:category/:subcategory" element={<CatalogProducts />} />
+            <Route path="/product/:id" element={<ProductDetails />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/users" element={<UserPage />} />
             <Route path="/categoriesp" element={<CategoryPage />} />
@@ -55,9 +59,7 @@ function App() {
             <Route path="/order" element={<Order />} />
             <Route path="/payment" element={<PaymentPage/>} />
             <Route path="/payment-success" element={<PaymentSuccess/>} />
-            <Route path="/CatalogProducts/:category" element={<CatalogProducts />} />
-            <Route path="/CatalogProducts/:category/:subcategory" element={<CatalogProducts />} />
-            
+            <Route path="/about-us" element={<aboutUS/>}/>
           </Routes>
         </main>
         <Footer />
@@ -67,4 +69,7 @@ function App() {
 }
 
 export default App;
+
+
+
 

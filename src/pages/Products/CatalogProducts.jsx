@@ -1,10 +1,43 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import Product from './Product';
-import 'bootstrap/dist/css/bootstrap.min.css'; // Importa Bootstrap para estilos
+import 'bootstrap/dist/css/bootstrap.min.css'; 
 
 function CatalogProducts() {
-    const { category, subcategory } = useParams(); // Obtiene los parámetros de la URL
+    const { category, subcategory } = useParams(); 
+    const [products, setProducts] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
+    useEffect(() => {
+        const apiUrl = subcategory 
+            ? `http://localhost/apis/products.php?category=${category}&subcategory=${subcategory}` 
+            : `http://localhost/apis/products.php?category=${category}`;
+        
+        fetch(apiUrl)
+            .then(response => response.json())
+            .then(data => {
+                if (data.data && Array.isArray(data.data)) {
+                    setProducts(data.data); // Usamos data.data como mencionaste
+                } else {
+                    setProducts([]);
+                }
+                setLoading(false);
+            })
+            .catch(error => {
+                console.error('Error fetching products:', error);
+                setError('Error al cargar los productos');
+                setLoading(false);
+            });
+    }, [category, subcategory]);
+
+    if (loading) {
+        return <div>Cargando productos...</div>;
+    }
+
+    if (error) {
+        return <div>{error}</div>;
+    }
 
     return (
         <div className="container mt-5">
@@ -15,84 +48,21 @@ function CatalogProducts() {
             </h2>
 
             <div className="row mb-4">
-                <div className="col-md-4">
-                    <Product 
-                        image="comidaAves"
-                        title="Comida Aves"
-                        description="Comida para aves"
-                        price="Q100"
-                    />
-                </div>
-                <div className="col-md-4">
-                    <Product 
-                        image="comidaGato"
-                        title="Comida Gato"
-                        description="Comida para gatos"
-                        price="Q100"
-                    />
-                </div>
-                <div className="col-md-4">
-                    <Product 
-                        image="comidaPerro"
-                        title="Comida Perro"
-                        description="Comida para perros"
-                        price="Q100"
-                    />
-                </div>
-            </div>
-
-            <div className="row mb-4">
-                <div className="col-md-4">
-                    <Product 
-                        image="jugueteAves"
-                        title="Juguete Aves"
-                        description="Juguete para aves"
-                        price="Q80"
-                    />
-                </div>
-                <div className="col-md-4">
-                    <Product 
-                        image="jugueteGato"
-                        title="Juguete Gato"
-                        description="Juguete para gatos"
-                        price="Q120"
-                    />
-                </div>
-                <div className="col-md-4">
-                    <Product 
-                        image="juguetePerro"
-                        title="Juguete Perro"
-                        description="Juguete para perros"
-                        price="Q150"
-                    />
-                </div>
-            </div>
-
-            <div className="row mb-4">
-                <div className="col-md-4">
-                    <Product 
-                        image="accesorioAves"
-                        title="Accesorio para Aves"
-                        description="Accesorio elegante para aves"
-                        price="Q60"
-                    />
-                </div>
-                <div className="col-md-4">
-                    <Product 
-                        image="accesorioGato"
-                        title="Accesorio para Gato"
-                        description="Accesorio para gatos"
-                        price="Q75"
-                    />
-                </div>
-                <div className="col-md-4">
-                    <Product 
-                        image="accesorioPerro"
-                        title="Accesorio para Perro"
-                        description="Accesorio útil para perros"
-                        price="Q90"
-                    />
-                </div>
+                {products.length > 0 ? (
+                    products.map((product) => (
+                        <div className="col-md-4" key={product.ID_Product}>
+                            <Product 
+                                productId={product.ID_Product} 
+                                title={product.Product}
+                                description={product.Product_Description}
+                                price={product.Price}
+                                image={product.Product_Image}
+                            />
+                        </div>
+                    ))
+                ) : (
+                    <div>No se encontraron productos.</div>
+                )}
             </div>
         </div>
     );

@@ -1,48 +1,39 @@
-// Product.jsx
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import './Product.css';
 import { OrderContext } from '../../pages/Orders/OrderContexts'; // Importa el contexto
-import comidaAves from '../../assets/comidaAves.jpeg';
-import comidaGato from '../../assets/comidaGato.jpeg';
-import comidaPerro from '../../assets/comidaPerro.jpeg';
-import comidaPeces from '../../assets/comidaPeces.jpeg';
-import comidaTortugas from '../../assets/comidaTortugas.jpeg';
-import accesorioGato from '../../assets/accesorioGato.jpeg';
+import { useNavigate } from 'react-router-dom';
 
-const images = {
-    comidaAves,
-    comidaGato,
-    comidaPerro,
-    comidaPeces,
-    comidaTortugas,
-    accesorioGato
-};
-
-function Product(props) {
-    const { addProductToOrder } = useContext(OrderContext); // Usa el contexto
+function Product({ productId, title, description, price, image }) {
+    const { addProductToOrder } = useContext(OrderContext);
+    const navigate = useNavigate();
 
     const handleAddToOrder = () => {
         const product = {
-            title: props.title,
-            price: props.price,
-            image: props.image,
+            id: productId,
+            title,
+            price,
+            image,
         };
         addProductToOrder(product); // Agrega el producto a la orden
+    };
+
+    const handleViewDetails = () => {
+        navigate(`/product/${productId}`); // Redirige a la página individual del producto
     };
 
     return (
         <div className='container-product'>
             <img 
                 className='image-product'
-                src={images[props.image]}
-                alt='foto'
+                src={image}  // Usamos la imagen directamente de la API
+                alt={title}
             />
 
             <div className='info-product'>
-                <p className='title'>{props.title}</p>
-                <p className='description'>{props.description}</p>
-                <p className='price'>Q{props.price}</p>
-                <button className='see-details' onClick={handleAddToOrder}>
+                <p className='title'>{title}</p>
+                <p className='description'>{description}</p>
+                <p className='price'>Q{price}</p>
+                <button className='see-details' onClick={handleViewDetails}>
                     Ver más detalles
                 </button>
                 <button className='see-more' onClick={handleAddToOrder}>
@@ -54,4 +45,3 @@ function Product(props) {
 }
 
 export default Product;
-
