@@ -33,15 +33,19 @@ const Home = () => {
         <p className="intro-text">Where every pawprint leaves a heartprint</p>
       {/* Contenedor del carrusel */}
       <div className="cardtwo">
+        
+      <p className="intro-text">Nuestros productos destacados</p>
         <div className="carousel-container">
           <CarouselAuto categories={[]} numProducts={4} interval={3000} />
         </div>
       </div>
       <div className="card">
+      <p className="intro-text">Nuestros productos más vendidos</p>
         <div className="carousel-container">
           <Carousel categories={[]} numProducts={3} interval={3000} />
         </div>
       </div>
+      <p className="intro-text">¡Última oportunidad!</p>
       <div className="card">
         <div className="carousel-container">
           <ProductCarousel />

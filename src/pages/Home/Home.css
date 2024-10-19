@@ -10,7 +10,7 @@
     gap: 30px;
     overflow-x: hidden;
     box-sizing: border-box;
-    margin-top: 120%; /* Añade este margen para evitar superposición con el navbar */
+    margin-top: 135%; /* Añade este margen para evitar superposición con el navbar */
 }
 
 /* Texto introductorio */

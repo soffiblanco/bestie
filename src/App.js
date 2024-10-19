@@ -27,6 +27,8 @@ import PaymentSuccess from './pages/Orders/PaymentSuccess';
 import ProductDetails from './pages/Products/ProductDetails';
 import CatalogProducts from './pages/Products/CatalogProducts';
 import AboutUS from './pages/aboutUs/AboutUs'; 
+import OrderPage from './pages/OrderStatus/OrderPage';
+import ProductCarousel from './pages/Home/ProductCarousel';
 
 function App() {
   return (
@@ -57,9 +59,13 @@ function App() {
             <Route path="/EditSubcategory" element={<EditSubcategory />} />
             <Route path="/EditProduct" element={<EditProduct />} />
             <Route path="/order" element={<Order />} />
+            <Route path="/orders" element={<OrderPage/>}/>
             <Route path="/payment" element={<PaymentPage/>} />
             <Route path="/payment-success" element={<PaymentSuccess/>} />
             <Route path="/about-us" element={<AboutUS/>}/>
+            <Route path="/" element={<ProductCarousel />} />
+            <Route path="/product/:id" element={<ProductDetails />} /> {/* Ruta dinámica */}
+          
           </Routes>
         </main>
         <Footer />

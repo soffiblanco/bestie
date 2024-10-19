@@ -6,15 +6,15 @@ import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import { Link, useNavigate } from 'react-router-dom';
 import Paws from '../../assets/Paws.png';
 import { TiShoppingCart } from "react-icons/ti";
-import { FaUserPlus, FaUser } from "react-icons/fa";
+import { FaUser, FaUserPlus } from "react-icons/fa"; // Eliminamos FaUserPlus
 
 const Navbar = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [activeItem, setActiveItem] = useState('Home');
     const [isCategoriesOpen, setIsCategoriesOpen] = useState(false);
     const [openCategory, setOpenCategory] = useState(null);
-    const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
-    const userMenuRef = useRef(null);
+    const [isUserMenuOpen, setIsUserMenuOpen] = useState(false); // Menú de usuario
+    const userMenuRef = useRef(null); // Referencia para cerrar el menú cuando se haga clic fuera
     const categoriesRef = useRef(null);
     const navigate = useNavigate();
 
@@ -31,7 +31,7 @@ const Navbar = () => {
     };
 
     const toggleUserMenu = () => {
-        setIsUserMenuOpen(!isUserMenuOpen);
+        setIsUserMenuOpen(!isUserMenuOpen); // Abrir/cerrar el menú de usuario
     };
 
     const toggleCategories = () => {
@@ -58,11 +58,6 @@ const Navbar = () => {
 
     const goToOrder = () => {
         navigate('/Order');
-        setIsMenuOpen(false);
-    };
-
-    const goToAddUser = () => {
-        navigate('/AddUser');
         setIsMenuOpen(false);
     };
 
@@ -155,29 +150,26 @@ const Navbar = () => {
             <div className="menu-toggle" onClick={toggleMenu}>
                 <IoMenuSharp />
             </div>
-
+    
             <div className='search-box'>
                 <input type="text" placeholder='Search' />
                 <IoSearchSharp className='search-icon' />
             </div>
-
+    
             <img 
             src={Paws} 
             alt='paws' 
             className='Paws' 
-            onClick={() => navigate('/home')} // Aquí redirige al hacer clic
-            style={{ cursor: 'pointer' }} // Cambia el cursor a mano para indicar que es clicable
+            onClick={() => navigate('/home')} 
+            style={{ cursor: 'pointer' }}
             />
-
+    
             <ul className={`nav-list ${isMenuOpen ? 'active' : ''}`}>
                 {['About Us', 'Orders', 'Login'].map((item) => (
                     <li key={item} onClick={() => handleItemClick(item)} className={activeItem === item ? 'active' : ''}>
                         <Link to={`/${item.toLowerCase().replace(' ', '-')}`}>{item}</Link>
                     </li>
                 ))}
-                <li>
-
-                </li>
                 <li className={activeItem === 'Categories' ? 'active' : ''}>
                     <div className="categories-container">
                         <Link to="/categories" onClick={() => handleItemClick('Categories')}>
@@ -226,61 +218,38 @@ const Navbar = () => {
                     )}
                 </li>
             </ul>
-
-            
+    
             <div className='icon-container' ref={userMenuRef}>
-    <div className='search-icon' onClick={goToOrder}>
-        <TiShoppingCart size={30} />
-    </div>
+                <div className='search-icon' onClick={goToOrder}>
+                    <TiShoppingCart size={30} />
+                </div>
     
-    <div className='search-icon' onClick={toggleUserMenu}>
-    <FaUserPlus size={25} />
-    {isUserMenuOpen && (
-        <ul className="dropdown user-dropdown">
-            <li>
-                <Link to="/users" onClick={() => handleItemClick('Users')}>
-                    Users
-                </Link>
-            </li>
-            <li>
-                <Link to="/categories" onClick={() => handleItemClick('Categories')}>
-                    Categories
-                </Link>
-            </li>
-            {categories.map((category) => (
-                <li key={category.name}>
-                    <Link to={`/categories/${category.name}`} onClick={() => handleItemClick('Categories')}>
-                        {category.name}
-                    </Link>
-                </li>
-            ))}
-            {categories.map((category) => 
-                category.subcategories.map((sub) => (
-                    <li key={sub.name}>
-                        <Link to={`/categories/${category.name}/${sub.name}`} onClick={() => handleItemClick('Subcategories')}>
-                            {sub.name}
-                        </Link>
-                    </li>
-                ))
-            )}
-            <li>
-                <Link to="/products" onClick={() => handleItemClick('Products')}>
-                    Products
-                </Link>
-            </li>
-        </ul>
-    )}
-</div>
-
+                <div className='search-icon' onClick={toggleUserMenu}> {/* Menú del usuario */}
+                    <FaUserPlus size={25} />
+                    {isUserMenuOpen && (
+                        <ul className="dropdown user-dropdown">
+                            <li>
+                                <Link to="/users" onClick={() => handleItemClick('Users')}>Users</Link>
+                            </li>
+                            <li>
+                                <Link to="/categories" onClick={() => handleItemClick('Categories')}>Categories</Link>
+                            </li>
+                            <li>
+                                <Link to="/subcategories" onClick={() => handleItemClick('Subcategories')}>Subcategories</Link>
+                            </li>
+                            <li>
+                                <Link to="/products" onClick={() => handleItemClick('Products')}>Products</Link>
+                            </li>
+                        </ul>
+                    )}
+                </div>
     
-    <div className='search-icon' onClick={goToProfile}>
-        <FaUser size={20} />
-    </div>
-</div>
-
+                <div className='search-icon' onClick={goToProfile}>
+                    <FaUser size={20} />
+                </div>
+            </div>
         </div>
     );
-};
+}
 
 export default Navbar;
-

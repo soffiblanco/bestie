@@ -1,44 +1,68 @@
-body {
+html, body {
     margin: 0;
     padding: 0;
-    box-sizing: border-box; /* Asegura que el padding y borde se calculen dentro del ancho */
+    margin-top: 30%;
+    height: 80%; /* Ocupa el 100% del alto de la ventana */
+    box-sizing: border-box; /* Box-sizing para asegurar que padding no aumente el tamaño */
 }
+
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Altura mínima de toda la pantalla */
+}
+
+.main-content {
+    flex: 1; /* Crece para ocupar el espacio disponible */
+}
+
+.footer {
+    background-color: #FFD423;
+    width: 120%;
+    margin-top: 55%;
+    position: relative; /* Hace que se mantenga en la parte inferior */
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    box-sizing: border-box; /* Asegura que padding no afecte el ancho */
+    z-index: 10;
+}
+
+
+
 
 .section__padding {
     padding: 1rem 0.5rem;
 }
 
-.footer {
-    background-color: #FFD423;
-    width: 100%; /* Usa el 100% del ancho de la pantalla */
-    position: relative;
-    left: 0;
-    display: flex;
-    justify-content: center; /* Centra el contenido del footer */
-    align-items: center;
-}
 
-.sb__footer {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-    padding: 20px;
-    box-sizing: border-box;
-}
 
 /* Ajuste de la distribución de los enlaces del footer */
 .sb__footer-links {
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: flex-start;
-    flex-direction: row;
     flex-wrap: wrap;
     width: 100%;
+    max-width: 100%; /* Establecer un ancho máximo para mejorar la visualización */
     text-align: left;
     margin-bottom: 1rem;
-    gap: 1rem; /* Espaciado entre los bloques */
+    gap: 2rem; /* Espaciado entre los bloques */
+    padding: 0 1rem;
 }
+
+.sb__footer-links_div {
+    flex: 1 1 200px; /* Ajusta el tamaño flexible según el espacio disponible */
+    min-width: 150px;
+    margin: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    color: white;
+    text-align: center; /* Centrar texto */
+}
+
 
 .sb__footer-links_div {
     flex: 1 1 200px; /* Ajusta el tamaño flexible según el espacio disponible */
