@@ -65,7 +65,7 @@ function App() {
             <Route path="/about-us" element={<AboutUS/>}/>
             <Route path="/" element={<ProductCarousel />} />
             <Route path="/product/:id" element={<ProductDetails />} /> {/* Ruta dinámica */}
-          
+
           </Routes>
         </main>
         <Footer />
