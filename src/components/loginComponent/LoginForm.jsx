@@ -4,9 +4,11 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './LoginForm.css';
 import axiosInstance from '../../services/axiosConfig.js';
+import useAuth from '../../Auth/useAuth.js';
 
 const LoginForm = () => {
-   
+
+    const {login}= useAuth();
     const [isLoginActive, setIsLoginActive] = useState(true);
     const [formData, setFormData] = useState({
         username: '',
@@ -80,7 +82,7 @@ const LoginForm = () => {
                 toast.success(response.data.message);
              
             if (isLoginActive && response.data.token) {
-                localStorage.setItem('token', response.data.token);
+                login( response.data.token);
             }
 
                 if (!isLoginActive) {

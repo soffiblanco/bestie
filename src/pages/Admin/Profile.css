@@ -3,52 +3,52 @@ body {
     margin: 0;
     font-family: Arial, sans-serif;
     background-color: #e0e0e0;
-    height: 100vh;
+    min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
 .profile-container {
-    width: 100%;
+    width: 95%;
     max-width: 950px; /* Adjust maximum width */
-    margin: 20px;
+    margin: 20px auto; /* Center container horizontally */
     padding: 20px;
-    background-color: #f4f4f9;
+    background-color: #FFD423; /* Fondo amarillo principal */
     border-radius: 10px;
     text-align: center;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: auto; /* Allow scrolling if content exceeds height */
 }
 
 .profile-image {
     width: 100%;
-    max-width: 150px;
-    height: 150px;
+    max-width: 120px;
+    height: 120px;
     border-radius: 50%;
     object-fit: cover;
     margin-bottom: 15px;
+    border: 3px solid #8F77FF; /* Main purple border */
 }
 
 /* Profile Structure */
 .profile-info {
     display: flex; /* Activate flexbox */
-    justify-content: space-between; /* Space between columns */
+    justify-content: center; /* Center content */
     margin-bottom: 20px; /* Spacing between sections */
     flex-wrap: wrap; /* Allow columns to wrap */
+    gap: 20px; /* Consistent spacing between items */
 }
 
 /* Style for each section container */
 .profile-section {
-    flex: 1 1 300px; /* Make each section occupy the same space flexibly */
-    margin-right: 20px; /* Space between sections */
+    flex: 1 1 calc(100% - 20px); /* Ensure each section occupies full width with gap */
     box-sizing: border-box; /* Ensure padding and borders are included in the width */
+    background-color: #9CE0FF; /* Secondary light blue background */
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 20px; /* Spacing between rows */
 }
-
-/* Remove right margin from the last element */
-.profile-section:last-child {
-    margin-right: 0; /* Remove margin from the last element */
-}
-
 /* Style for info items */
 .profile-info-item {
     background-color: #fff; /* Background color of the box */
@@ -61,7 +61,7 @@ body {
 /* Style for section titles */
 .section-title {
     font-size: 18px;
-    color: #333;
+    color: #006ACE; /* Título en azul secundario */
     margin: 20px 0 10px;
 }
 
@@ -69,22 +69,27 @@ body {
 .other-data {
     width: 100%; /* Ensure it occupies 100% width */
     margin-top: 20px; /* Spacing before the other data section */
+    background-color: #A4D51D; /* Fondo verde secundario */
+    padding: 15px;
+    border-radius: 10px;
 }
 
 /* Style for headings */
 h1 {
     font-size: 24px;
     margin: 0;
+    color: #8F77FF; /* Color morado principal */
 }
 
 p {
     margin: 5px 0;
+    color: #333;
 }
 
 /* Make the layout responsive */
 @media (max-width: 768px) {
     .profile-container {
-        max-width: 90%;
+        max-width: 100%;
         padding: 15px;
     }
 
@@ -93,28 +98,17 @@ p {
     }
 
     p {
-        font-size: 13px;
+        font-size: 14px;
     }
 
-    /* Adjustments for smaller screens */
     .profile-section {
+        flex: 1 1 100%; /* Ensure each section occupies full width */
         margin-right: 0; /* Remove margin on small screens */
-        margin-bottom: 20px; /* Vertical spacing between sections */
-        flex: 1 1 100%; /* Ensure it occupies 100% */
+    }
+
+    .profile-info {
+        justify-content: center; /* Center content on smaller screens */
+        gap: 15px; /* Reduce spacing for smaller screens */
     }
 }
 
-@media (max-width: 480px) {
-    .profile-container {
-        max-width: 100%;
-        padding: 10px; /* Smaller padding on very small screens */
-    }
-
-    h1 {
-        font-size: 20px;
-    }
-
-    .profile-info-item {
-        font-size: 12px; /* Smaller font size */
-    }
-}
