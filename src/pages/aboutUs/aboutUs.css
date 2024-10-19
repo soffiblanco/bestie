@@ -1,0 +1,79 @@
+.about-us-container {
+    font-family: 'Poppins', sans-serif;
+    padding: 5% 10%; /* Márgenes laterales en porcentaje */
+    background-color: blueviolet;
+    text-align: center; /* Centrar el contenido */
+    margin-top: 60%; /* Agregar margen superior */
+}
+
+.hero-logo {
+    max-width: 15%; /* Tamaño en porcentaje */
+    margin-bottom: 2%; /* Espaciado entre logo y título */
+}
+
+.hero-title {
+    font-size: 2.5rem;
+    color: #FFD423;
+    margin-bottom: 2%; /* Espaciado entre el título y subtítulo */
+}
+
+.hero-subtitle {
+    font-size: 1.5rem;
+    color: white;
+    margin-bottom: 5%; /* Espaciado entre subtítulo y el resto del contenido */
+}
+
+.section-title {
+    font-size: 2rem;
+    color: white;
+    margin-bottom: 2%; /* Espaciado antes de cada sección */
+}
+
+.about-description {
+    font-size: 1.2rem; /* Ajuste de tamaño de texto */
+    color: white;
+    margin-bottom: 3%; /* Espaciado entre descripciones y listas */
+}
+
+.about-list {
+    list-style-type: disc;
+    margin: 0 auto 3% auto; /* Centramos la lista con márgenes automáticos */
+    color: white;
+    width: 60%; /* Ancho de la lista en porcentaje */
+    text-align: left; /* Alineamos los items de la lista a la izquierda */
+}
+
+.contact-section {
+    background-color: #FFD423;
+    padding: 5% 2%; /* Ajuste de relleno en porcentaje */
+    border-radius: 8px;
+    margin-top: 5%; /* Espaciado superior */
+    margin-bottom: 5%; /* Espaciado inferior */
+}
+
+.contact-title {
+    font-size: 1.5rem;
+    color: white;
+}
+
+.contact-info {
+    font-size: 1.2rem; /* Ajustamos el tamaño del texto */
+    color: white;
+    margin-bottom: 1%; /* Espaciado entre cada línea de contacto */
+}
+
+.contact-button {
+    background-color: blueviolet;
+    color: white;
+    padding: 1% 3%; /* Ajuste del tamaño del botón */
+    border: none;
+    border-radius: 8px;
+    margin-top: 2%; /* Espaciado superior */
+    cursor: pointer;
+}
+
+.contact-button:hover {
+    background-color: white;
+    color: blueviolet;
+    transition: background-color 0.3s ease;
+}

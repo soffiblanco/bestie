@@ -26,7 +26,7 @@ import PaymentPage from './pages/Orders/PaymentPage';
 import PaymentSuccess from './pages/Orders/PaymentSuccess';
 import ProductDetails from './pages/Products/ProductDetails';
 import CatalogProducts from './pages/Products/CatalogProducts';
-import aboutUs from './pages/aboutUs/aboutUs';
+import AboutUS from './pages/aboutUs/AboutUs'; 
 
 function App() {
   return (
@@ -59,7 +59,7 @@ function App() {
             <Route path="/order" element={<Order />} />
             <Route path="/payment" element={<PaymentPage/>} />
             <Route path="/payment-success" element={<PaymentSuccess/>} />
-            <Route path="/about-us" element={<aboutUS/>}/>
+            <Route path="/about-us" element={<AboutUS/>}/>
           </Routes>
         </main>
         <Footer />
