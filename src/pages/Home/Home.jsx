@@ -29,9 +29,8 @@ const Home = () => {
 
   return (
     <div className="home">
-      {/* Espaciador superior */}
         <p className="intro-text">Where every pawprint leaves a heartprint</p>
-      {/* Contenedor del carrusel */}
+
       <div className="cardtwo">
         
       <p className="intro-text">Nuestros productos destacados</p>

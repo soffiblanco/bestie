@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css'; 
 import './CatalogProducts.css';
-import { useNavigate } from 'react-router-dom'; // Importa useNavigate para la navegación
+import { useNavigate } from 'react-router-dom'; 
 
 const CatalogProducts = () => {
     const [categories, setCategories] = useState([]);
@@ -9,7 +9,7 @@ const CatalogProducts = () => {
     const [selectedCategoryId, setSelectedCategoryId] = useState(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
-    const navigate = useNavigate(); // Inicializa el hook de navegación
+    const navigate = useNavigate(); 
 
     useEffect(() => {
         setLoading(true);
@@ -41,9 +41,9 @@ const CatalogProducts = () => {
             });
     };
 
-    // Función para manejar el clic en una subcategoría
+    
     const handleSubcategoryClick = (subcategoryId) => {
-        navigate(`/product/${subcategoryId}`); // Navega a la vista de detalles del producto con el id de la subcategoría
+        navigate(`/product/${subcategoryId}`);
     };
 
     if (loading) {
@@ -76,7 +76,7 @@ const CatalogProducts = () => {
                             <div 
                                 key={subcategory.id_subcategory} 
                                 className="subcategory-card" 
-                                onClick={() => handleSubcategoryClick(subcategory.id_subcategory)} // Navegar al detalle del producto
+                                onClick={() => handleSubcategoryClick(subcategory.id_subcategory)} 
                             >
                                 <img src={subcategory.subcategory_image} alt={subcategory.subcategory} className="subcategory-image"/>
                                 <h3>{subcategory.subcategory}</h3>

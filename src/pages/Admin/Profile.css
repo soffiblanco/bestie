@@ -44,14 +44,14 @@ body {
 .profile-section {
     flex: 1 1 calc(100% - 20px); /* Ensure each section occupies full width with gap */
     box-sizing: border-box; /* Ensure padding and borders are included in the width */
-    background-color: #9CE0FF; /* Secondary light blue background */
+    background-color: #71D2FF; /* Secondary light blue background */
     padding: 15px;
     border-radius: 10px;
     margin-bottom: 20px; /* Spacing between rows */
 }
 /* Style for info items */
 .profile-info-item {
-    background-color: #fff; /* Background color of the box */
+    background-color: blueviolet; /* Background color of the box */
     border-radius: 10px; /* Rounded corners */
     padding: 15px;
     margin: 10px 0; /* Spacing between boxes */

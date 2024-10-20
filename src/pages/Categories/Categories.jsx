@@ -11,12 +11,12 @@ const CategoriesPage = () => {
     const [error, setError] = useState(null);          // Estado para manejar errores
 
     useEffect(() => {
-        // Llamada a la API para obtener los productos más recientes
-        fetch('http://localhost/apis/recentProducts.php')  // Ajusta la URL a la de tu servidor PHP
+        
+        fetch('http://localhost/apis/recentProducts.php')  
             .then(response => response.json())
             .then(data => {
                 if (data.data) {
-                    // Estructurar los productos recibidos en un formato que se adapte a tu UI actual
+                  
                     const categoriesData = data.data.reduce((acc, product) => {
                         const categoryIndex = acc.findIndex(cat => cat.name === product.Category);
                         if (categoryIndex >= 0) {
@@ -51,7 +51,6 @@ const CategoriesPage = () => {
             setImageIndex(prevIndex => (prevIndex + 1) % 2);  // Asegura que haya al menos 2 imágenes
         }, 3000); // Cambiar la imagen cada 3 segundos
 
-        // Limpiar el intervalo cuando el componente se desmonte
         return () => clearInterval(intervalId);
     }, []);
 

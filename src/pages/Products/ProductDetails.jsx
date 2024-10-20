@@ -2,12 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
 const ProductDetails = () => {
-    const { id } = useParams(); // Obtenemos el ID del producto desde la URL
+    const { id } = useParams(); 
     const [product, setProduct] = useState(null);
 
     useEffect(() => {
-        // Llamada a la API para obtener los detalles del producto
-        fetch(`http://localhost/apis/products.php?id=${id}`) // Cambia la URL si es necesario
+        
+        fetch(`http://localhost/apis/products.php?id=${id}`) 
             .then(response => response.json())
             .then(data => setProduct(data))
             .catch(error => console.error('Error fetching product details:', error));

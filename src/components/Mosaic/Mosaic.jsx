@@ -8,7 +8,7 @@ const Mosaic = () => {
 
     useEffect(() => {
         // Llamada a la API para obtener productos aleatorios de cada categoría
-        fetch('http://localhost/apis/Mosaic.php')  // Asegúrate de que la URL sea la correcta
+        fetch('http://localhost/apis/Mosaic.php')  
             .then(response => response.json())
             .then(data => setCategories(data.data))
             .catch(error => console.error('Error fetching categories:', error));
@@ -16,7 +16,7 @@ const Mosaic = () => {
         // Cambiar automáticamente la imagen de todas las categorías al mismo tiempo
         const intervalId = setInterval(() => {
             setImageIndex(prevIndex => (prevIndex + 1) % categories.length);
-        }, 3000); // Cambiar la imagen cada 3 segundos
+        }, 3000); // Cambiar la imagen cada 3 segundoss
 
         // Limpiar el intervalo cuando el componente se desmonte
         return () => clearInterval(intervalId);
