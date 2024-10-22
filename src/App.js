@@ -25,7 +25,7 @@ import PaymentPage from './pages/Orders/PaymentPage';
 import PaymentSuccess from './pages/Orders/PaymentSuccess';
 import ProductDetails from './pages/Products/ProductDetails';
 import CatalogProducts from './pages/Products/CatalogProducts';
-import AboutUS from './pages/aboutUs/AboutUs'; 
+import AboutUS from './pages/aboutUs/aboutUs'; 
 import OrderPage from './pages/OrderStatus/OrderPage';
 import ProductCarousel from './pages/Home/ProductCarousel';
 
