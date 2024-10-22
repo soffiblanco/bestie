@@ -1,7 +1,7 @@
 // PaymentPage.jsx
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './PaymentPage.css'
+
 
 function PaymentPage() {
     const [cardNumber, setCardNumber] = useState('');

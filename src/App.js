@@ -1,7 +1,6 @@
-// App.js
 import React from 'react';
 import './App.css';
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, Navigate } from 'react-router-dom'; // Importa Navigate para la redirección
 import { OrderProvider } from '../src/pages/Orders/OrderContexts'; // Importa el contexto correctamente
 import Navbar from './layouts/header/NavBar';
 import LoginForm from './components/loginComponent/LoginForm';
@@ -35,11 +34,12 @@ function App() {
     <OrderProvider>
       <div className="App">
         <header className="App-header">
-          <Navbar />
+          <Navbar /> {/* El Navbar siempre estará visible */}
         </header>
         <main>
           <Routes>
-            <Route path="/home" element={<Home />} />
+            <Route path="/" element={<Navigate to="/home" />} /> {/* Redirecciona a /home */}
+            <Route path="/home" element={<Home />} /> {/* Página de inicio */}
             <Route path="/login" element={<LoginForm />} />
             <Route path="/categories" element={<Categories />} />
             <Route path="/CatalogProducts/:category" element={<CatalogProducts />} />
@@ -58,17 +58,14 @@ function App() {
             <Route path="/EditCategory" element={<EditCategory />} />
             <Route path="/EditSubcategory" element={<EditSubcategory />} />
             <Route path="/EditProduct" element={<EditProduct />} />
-            <Route path="/order" element={<Order />} />
-            <Route path="/orders" element={<OrderPage/>}/>
-            <Route path="/payment" element={<PaymentPage/>} />
-            <Route path="/payment-success" element={<PaymentSuccess/>} />
-            <Route path="/about-us" element={<AboutUS/>}/>
-            <Route path="/" element={<ProductCarousel />} />
-            <Route path="/product/:id" element={<ProductDetails />} /> {/* Ruta dinámica */}
-
+            <Route path="/order" element={<Order />} /> {/* Carrito*/}
+            <Route path="/orders" element={<OrderPage />} /> {/* Ordenes*/}
+            <Route path="/payment" element={<PaymentPage />} />
+            <Route path="/payment-success" element={<PaymentSuccess />} />
+            <Route path="/about-us" element={<AboutUS />} />
           </Routes>
         </main>
-        <Footer />
+        <Footer /> {/* Footer siempre estará visible en todas las páginas */}
       </div>
     </OrderProvider>
   );

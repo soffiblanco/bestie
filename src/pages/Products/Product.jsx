@@ -1,11 +1,36 @@
 import React, { useContext, useEffect, useState } from 'react';
-import './Product.css';
 import { OrderContext } from '../../pages/Orders/OrderContexts'; // Importa el contexto
 import { useNavigate } from 'react-router-dom';
+import './Product.css';
 
-function Product({ productId, title, description, price, image }) {
+function Product({ productId, title: initialTitle, description: initialDescription, price: initialPrice, image: initialImage }) {
     const { addProductToOrder } = useContext(OrderContext);
     const navigate = useNavigate();
+
+    const [title, setTitle] = useState(initialTitle || '');
+    const [description, setDescription] = useState(initialDescription || '');
+    const [price, setPrice] = useState(initialPrice || '');
+    const [image, setImage] = useState(initialImage || '');
+    const [loading, setLoading] = useState(!initialTitle); // Para mostrar el cargando si no hay datos iniciales
+
+    useEffect(() => {
+        if (!initialTitle) { // Solo hacemos la llamada a la API si no hay props iniciales
+            fetch(`http://localhost/apis/products.php?id=${productId}`)
+                .then(response => response.json())
+                .then(data => {
+                    const productData = data.data[0]; // Asegúrate de ajustar según la estructura de tu respuesta
+                    setTitle(productData.Product);
+                    setDescription(productData.Product_Description);
+                    setPrice(productData.Price);
+                    setImage(productData.Product_Image);
+                    setLoading(false); // Quitamos el estado de cargando
+                })
+                .catch(error => {
+                    console.error('Error fetching product details:', error);
+                    setLoading(false);
+                });
+        }
+    }, [productId, initialTitle]);
 
     const handleAddToOrder = () => {
         const product = {
@@ -20,6 +45,10 @@ function Product({ productId, title, description, price, image }) {
     const handleViewDetails = () => {
         navigate(`/product/${productId}`); // Redirige a la página individual del producto
     };
+
+    if (loading) {
+        return <div>Cargando detalles del producto...</div>;
+    }
 
     return (
         <div className='container-product'>
@@ -45,3 +74,4 @@ function Product({ productId, title, description, price, image }) {
 }
 
 export default Product;
+

@@ -4,17 +4,14 @@
     align-items: center;
     justify-content: center;
     margin-bottom: 30px;
-    position: relative;
-    width: 100%; /* Cambiado a 100% para ocupar todo el ancho disponible */
-    max-width: 100%; /* También ajustado para permitir ocupar todo el ancho */
-    margin: 20px auto;
+    width: 100%;
     padding-top: 10px;
     box-sizing: border-box; /* Asegura que padding esté incluido en el ancho total */
 }
 
 /* Imagen del carrusel */
 .carousel-image {
-    width: 100%; /* Asegura que la imagen ocupe todo el ancho */
+    width: 100%;
     max-height: 400px;
     aspect-ratio: 16 / 9;
     background-size: cover;

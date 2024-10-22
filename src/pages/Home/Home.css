@@ -1,77 +1,30 @@
-
-.home {
-    position: relative;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    padding-top: 80px; /* Espacio para el navbar */
-    gap: 30px;
-    overflow-x: hidden;
-    box-sizing: border-box;
-    margin-top: 135%; /* Añade este margen para evitar superposición con el navbar */
-}
-
-/* Texto introductorio */
-.intro-text {
-    text-align: center;
-    font-size: 2.5rem;
-    font-family: 'Pacifico', cursive;
-    color: #A4D51D;
-    letter-spacing: 1.5px;
-    margin: 0 0 20px;
-    line-height: 1.2;
-}
-
-/* Estilo de las tarjetas */
-.card, .cardtwo {
-    background-color: blueviolet;
-    border-radius: 20px;
-    width: 80%; /* Ajustado para que ocupe un buen ancho */
-    max-width: 1200px; /* Limitamos el ancho máximo */
-    padding: 20px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-around;
-    transition: all 0.3s ease-in-out;
-    overflow-y: auto;
-    margin-top: 40px;
-}
-
-/* Contenedor del carrusel */
 .carousel-container {
-    width: 100%; /* Asegura que ocupe todo el ancho */
-    max-width: 100%; /* Elimina la limitación de ancho */
-    margin: 20px auto;
-    padding-top: 10px; /* Espacio adicional entre carruseles */
+    width: 100%;
+    margin: 0 auto;
+    padding-top: 20px;
     box-sizing: border-box;
-}
-
-/* Imagen del carrusel */
-.carousel-image {
+  }
+  
+  .carousel-image {
     width: 100%;
     max-height: 400px;
-    aspect-ratio: 16 / 9; /* Mantener proporción responsiva */
+    aspect-ratio: 16 / 9;
     background-size: cover;
     background-position: center;
     position: relative;
     border-radius: 10px;
     overflow: hidden;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-/* Efecto al pasar el cursor sobre la imagen */
-.carousel-image:hover {
+  }
+  
+  .carousel-image:hover {
     transform: scale(1.05);
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
     cursor: pointer;
-}
-
-/* Título del carrusel */
-.carousel-title {
+  }
+  
+  /* Estilo del título dentro de las imágenes del carrusel */
+  .carousel-title {
     font-family: 'Poppins', sans-serif;
     font-size: 1.5rem;
     color: white;
@@ -80,94 +33,15 @@
     position: absolute;
     bottom: 10px;
     padding: 10px 0;
-    background: rgba(0, 0, 0, 0.5); /* Fondo semitransparente */
-}
+    background: rgba(0, 0, 0, 0.5);
+  }
+  
+  .custom-green {
+    color: #A4D51D; /* Verde personalizado */
+  }
+  
 
-/* Botones del carrusel */
-.carousel-button {
-    background: none;
-    border: none;
-    font-size: 1.5rem;
-    cursor: pointer;
-    color: white;
-    margin: 0 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    transition: background-color 0.2s ease;
-}
-
-.carousel-button:hover {
-    background-color: rgba(0, 0, 0, 0.1);
-    color: #333;
-}
-
-/* Efecto en los carruseles */
-.card:hover, .cardtwo:hover {
-    transform: scale(1.02);
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
-}
-
-/* Media Queries para Responsividad */
-
-/* Teléfonos y dispositivos pequeños */
-@media (max-width: 600px) {
-    .intro-text {
-        font-size: 1.8rem;
-    }
-
-    .card, .cardtwo {
-        width: 90%; /* Reducir el ancho en pantallas pequeñas */
-        padding: 15px;
-    }
-
-    .home{
-        margin-top: 300%;
-    }
-
-    .carousel-title {
-        font-size: 1.2rem;
-    }
-}
-
-/* Tablets */
-@media (max-width: 900px) {
-    .intro-text {
-        font-size: 2rem;
-    }
-
-    .home{
-        margin-top: 140%;
-    }
-
-    .card, .cardtwo {
-        width: 85%; /* Ajustar el ancho en tablets */
-    }
-
-    .carousel-title {
-        font-size: 1.8rem;
-    }
-}
-
-/* Pantallas grandes */
-@media (min-width: 1200px) {
-    .home {
-        padding: 40px; /* Mayor espacio en pantallas grandes */
-    }
-
-    .intro-text {
-        font-size: 3rem;
-    }
-
-    .card, .cardtwo {
-        width: 75%; /* Reducir ligeramente el ancho */
-    }
-}
-
-
+  
 
 
 

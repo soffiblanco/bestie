@@ -1,5 +1,4 @@
 import React, { useContext } from 'react';
-import './OneProduct.css';
 import { OrderContext } from '../../pages/Orders/OrderContexts'; // Importa el contexto
 import { FaShoppingBag } from "react-icons/fa";
 import { useNavigate } from 'react-router-dom'; // Para navegar al detalle del producto

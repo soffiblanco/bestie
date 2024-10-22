@@ -1,9 +1,9 @@
 // CategoriesPage.jsx
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import './Categories.css';
 import Carousel from '../../components/Carousel/Carousel';
 import PhotoCard from '../../components/PhotoCard/PhotoCard';
+import './Categories.css';
 
 const CategoriesPage = () => {
     const [categories, setCategories] = useState([]);  // Estado para las categorías

@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { GoChevronLeft, GoChevronRight } from "react-icons/go";
+import 'bootstrap/dist/css/bootstrap.min.css'; 
 import './Carousel.css';
 
 const Carousel = () => {
@@ -38,7 +40,7 @@ const Carousel = () => {
 
     return (
         <div className="carousel-container">
-            <button onClick={prevProduct} className="carousel-button">‹</button>
+            <button onClick={prevProduct} className="carousel-button"><GoChevronLeft /></button>
             {products.length > 0 ? (
                 <div
                     className="carousel-image"
@@ -54,7 +56,7 @@ const Carousel = () => {
             ) : (
                 <div className="carousel-message">Cargando productos...</div>  // Mensaje mientras se cargan los productos
             )}
-            <button onClick={nextProduct} className="carousel-button">›</button>
+            <button onClick={nextProduct} className="carousel-button"><GoChevronRight /></button>
         </div>
     );
 };

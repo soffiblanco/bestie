@@ -2,7 +2,6 @@ import React, { useState, useEffect} from 'react';
 import { FaUser, FaLock, FaEnvelope, FaPhone, FaMapMarkerAlt, FaCcVisa, FaImage } from "react-icons/fa";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import './LoginForm.css';
 import axiosInstance from '../../services/axiosConfig.js';
 import useAuth from '../../Auth/useAuth.js';
 

@@ -1,64 +1,66 @@
 import React from 'react';
 import '../footer/footer.css';
-import { FaFacebook } from "react-icons/fa";
+import { FaFacebook, FaInstagramSquare, FaWhatsappSquare } from "react-icons/fa";
 import { FaSquareXTwitter } from "react-icons/fa6";
-import { FaInstagramSquare } from "react-icons/fa";
-import { FaWhatsappSquare } from "react-icons/fa";
 
 const Footer = () => {
     return (
-        <div className='footer'>
-            <div className='sb__footer section__padding'>
-                <div className='sb__footer-links'>
+        <footer className='footer bg-warning text-white py-4'> {/* bg-warning y text-white son clases Bootstrap */}
+            <div className='container'>
+                <div className='row'>
                     {/* Enlaces Rápidos */}
-                    <div className='sb__footer-links_div'>
-                        <h4>Quick Links</h4>
-                        <a href="/categories"><p>Categories</p></a>
-                        <a href="/orders"><p>My Orders</p></a>
-                        <a href="/login"><p>Login / Register</p></a>
-                        <a href="/faq"><p>FAQs</p></a>
+                    <div className='col-md-3 mb-3'>
+                        <h5>Quick Links</h5>
+                        <ul className="list-unstyled">
+                            <li><a href="/categories" className="text-white">Categories</a></li>
+                            <li><a href="/orders" className="text-white">My Orders</a></li>
+                            <li><a href="/login" className="text-white">Login / Register</a></li>
+                            <li><a href="/faq" className="text-white">FAQs</a></li>
+                        </ul>
                     </div>
 
                     {/* Información Legal */}
-                    <div className='sb__footer-links_div'>
-                        <h4>Legal</h4>
-                        <a href="/terms"><p>Terms and Conditions</p></a>
-                        <a href="/privacy"><p>Privacy Policy</p></a>
-                        <a href="/returns"><p>Return Policy</p></a>
-                        <a href="/shipping"><p>Shipping Policy</p></a>
+                    <div className='col-md-3 mb-3'>
+                        <h5>Legal</h5>
+                        <ul className="list-unstyled">
+                            <li><a href="/terms" className="text-white">Terms and Conditions</a></li>
+                            <li><a href="/privacy" className="text-white">Privacy Policy</a></li>
+                            <li><a href="/returns" className="text-white">Return Policy</a></li>
+                            <li><a href="/shipping" className="text-white">Shipping Policy</a></li>
+                        </ul>
                     </div>
 
                     {/* Servicio al Cliente */}
-                    <div className='sb__footer-links_div'>
-                        <h4>Customer Service</h4>
-                        <a href="/contact"><p>Contact Us</p></a>
-                        <a href="/support"><p>Support Center</p></a>
-                        <p>Phone: +502 5555 5555</p>
-                        <p>Email: support@bestiepaws.com</p>
+                    <div className='col-md-3 mb-3'>
+                        <h5>Customer Service</h5>
+                        <ul className="list-unstyled">
+                            <li><a href="/contact" className="text-white">Contact Us</a></li>
+                            <li><a href="/support" className="text-white">Support Center</a></li>
+                            <li>Phone: +502 5555 5555</li>
+                            <li>Email: support@bestiepaws.com</li>
+                        </ul>
                     </div>
 
                     {/* Redes Sociales */}
-                    <div className='sb__footer-links_div'>
-                        <h4>Coming Soon on</h4>
-                        <div className='socialmedia'>
-                            <p><FaFacebook /></p>
-                            <p><FaSquareXTwitter /></p>
-                            <p><FaInstagramSquare /></p>
-                            <p><FaWhatsappSquare /></p>
+                    <div className='col-md-3 mb-3'>
+                        <h5>Coming Soon on</h5>
+                        <div className='d-flex justify-content-start'>
+                            <a href="#" className="text-white me-3"><FaFacebook size={24} /></a>
+                            <a href="#" className="text-white me-3"><FaSquareXTwitter size={24} /></a>
+                            <a href="#" className="text-white me-3"><FaInstagramSquare size={24} /></a>
+                            <a href="#" className="text-white me-3"><FaWhatsappSquare size={24} /></a>
                         </div>
                     </div>
                 </div>
 
-                <hr />
+                <hr className="bg-white" />
 
                 {/* Copyright */}
-                <div className='sb__footer-below'>
-                    <div className='sb__footer-copyright'>
-                        <p>© 2024 Bestie Paws. All rights reserved.</p>
-                    </div>
+                <div className='text-center'>
+                    <p>© 2024 Bestie Paws. All rights reserved.</p>
                 </div>
             </div>
-        </div>
+        </footer>
     );
 };
 

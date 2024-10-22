@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import './Home.css';
 import Carousel from '../../components/Carousel/Carousel';
 import Mosaic from '../../components/Mosaic/Mosaic';
 import CarouselAuto from '../../components/CarouselAuto/CarouselAuto';
 import ProductCarousel from '../../pages/Home/ProductCarousel';
+import 'bootstrap/dist/css/bootstrap.min.css'; // Importar Bootstrap
 
 const Home = () => {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -28,34 +28,48 @@ const Home = () => {
   }, [isExpanded]);
 
   return (
-    <div className="home">
-        <p className="intro-text">Where every pawprint leaves a heartprint</p>
+    <div className="container-fluid py-5"> {/* Clase container-fluid para ajustar el contenedor */}
+      <div className="text-center mb-5">
+        <h2 className="display-4 custom-green">Where every pawprint leaves a heartprint</h2> {/* Texto verde */}
+      </div>
 
-      <div className="cardtwo">
+      <div className="row">
+        <div className="col-12 mb-5">
+          <div className="card text-white p-4 shadow" style={{ backgroundColor: 'blueviolet' }}> {/* Fondo blueviolet */}
+            <h3 className="text-center mb-4 custom-green">Nuestros productos destacados</h3> {/* Texto verde */}
+            <div className="carousel-container">
+              <CarouselAuto categories={[]} numProducts={4} interval={3000} />
+            </div>
+          </div>
+        </div>
         
-      <p className="intro-text">Nuestros productos destacados</p>
-        <div className="carousel-container">
-          <CarouselAuto categories={[]} numProducts={4} interval={3000} />
+        <div className="col-12 mb-5">
+          <div className="card text-white p-4 shadow" style={{ backgroundColor: 'blueviolet' }}> {/* Fondo blueviolet */}
+            <h3 className="text-center mb-4 custom-green">Nuestros productos más vendidos</h3> {/* Texto verde */}
+            <div className="carousel-container">
+              <Carousel categories={[]} numProducts={3} interval={3000} />
+            </div>
+          </div>
+        </div>
+
+        <div className="col-12 mb-5">
+          <div className="card text-white p-4 shadow" style={{ backgroundColor: 'blueviolet' }}> {/* Fondo blueviolet */}
+            <h3 className="text-center mb-4 custom-green">¡Última oportunidad!</h3> {/* Texto verde */}
+            <div className="carousel-container">
+              <ProductCarousel />
+            </div>
+          </div>
         </div>
       </div>
-      <div className="card">
-      <p className="intro-text">Nuestros productos más vendidos</p>
-        <div className="carousel-container">
-          <Carousel categories={[]} numProducts={3} interval={3000} />
-        </div>
-      </div>
-      <p className="intro-text">¡Última oportunidad!</p>
-      <div className="card">
-        <div className="carousel-container">
-          <ProductCarousel />
-        </div>
-      </div>
-      <Mosaic/>
+
+      <Mosaic />
     </div>
   );
 };
 
 export default Home;
+
+
 
 
 

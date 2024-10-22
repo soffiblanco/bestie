@@ -1,198 +1,40 @@
-.NavBar {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 80px; /* Ajusta según la altura del navbar */
-    background-color: #FFD423;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 10px 20px;
-    z-index: 1000;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+/* Estilos para el Navbar */
+.navbar {
+  background-color: #FFD423; /* Fondo amarillo */
 }
 
-
-/* Lista de navegación */
-.nav-list {
-    display: flex;
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    flex: 1;
-    justify-content: center;
-    gap: 45px;
+.navbar .nav-link,
+.navbar .navbar-brand,
+.navbar .dropdown-toggle {
+  color: white; /* Texto blanco para todos los enlaces y la marca */
 }
 
-/* Elementos de la lista */
-.nav-list li {
-    cursor: pointer;
-    color: rgb(255, 255, 255);
-    padding: 10px;
+.navbar .dropdown-menu {
+  background-color: white; /* Fondo del menú desplegable */
 }
 
-.nav-list li.active {
-    font-weight: bold;
-    color: blueviolet;
+.navbar .dropdown-item {
+  color: black; /* Color del texto de las opciones del menú */
 }
 
-.nav-list li:hover {
-    color: blueviolet;
+.navbar .dropdown-item:hover {
+  background-color: #FFD423; /* Color de fondo al pasar el mouse sobre las opciones del menú */
+  color: white; /* Texto blanco cuando se pasa el mouse */
 }
 
-/* Botón de menú para móviles */
-.menu-toggle {
-    display: none;
-    font-size: 30px;
-    color: white;
-    cursor: pointer;
+/* Color blanco para los iconos del Navbar */
+.navbar .nav-link svg {
+  color: white; /* Aplica color blanco a los íconos */
 }
 
-/* Caja de búsqueda */
-.search-box {
-    display: flex;
-    align-items: center;
-    background: blueviolet;
-    border-radius: 50px;
-    padding: 5px 15px;
-    gap: 70px;
+/* Botón de búsqueda con borde y texto blanco */
+.navbar .btn-outline-light {
+  color: white; /* Texto blanco */
+  border-color: white; /* Borde blanco */
 }
 
-.search-box input {
-    background: transparent;
-    border: none;
-    outline: none;
-    color: white;
-    font-size: 16px;
-    max-width: 150px;
+.navbar .btn-outline-light:hover {
+  background-color: white; /* Fondo blanco al pasar el mouse */
+  color: #FFD423; /* Texto amarillo al pasar el mouse */
 }
 
-.search-box input::placeholder {
-    color: rgba(255, 255, 255, 0.7);
-}
-
-/* Contenedor de íconos */
-.icon-container {
-    display: flex;
-    align-items: center;
-    gap: 45px;
-}
-
-.Paws {
-    height: 40px;
-    margin-left: 40px;
-}
-
-/* Media Queries para dispositivos móviles */
-@media (max-width: 768px) {
-    .NavBar {
-        flex-direction: column;
-        padding: 10px;
-        border-radius: 10px;
-    }
-
-    .nav-list {
-        flex-direction: column;
-        display: none;
-        width: 100%;
-        background-color: #FFD423;
-        border-radius: 0 0 20px 20px;
-        padding: 10px 0;
-        text-align: center;
-    }
-
-    .nav-list.active {
-        display: flex;
-    }
-
-    .menu-toggle {
-        display: block;
-        align-self: flex-end;
-    }
-
-    .icon-container {
-        justify-content: center;
-        margin-top: 10px;
-        margin-right: 40px;
-    }
-}
-
-/* Estilos para tablets */
-@media (max-width: 1024px) {
-    .search-box input {
-        max-width: 100px;
-    }
-}
-/* Contenedor del menú desplegable (Dropdown) */
-.dropdown {
-    position: relative;
-    top: 20%; /* Posiciona el menú justo debajo del botón "Categories" */
-    left: 0;
-    background-color: #FFD423; /* Color de fondo */
-    list-style: none;
-    padding: 10px;
-    margin: 0;
-    border-radius: 8px;
-    z-index: 1000; /* Asegura que esté sobre otros elementos */
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Sombra para darle profundidad */
-    width: 200px; /* Ajusta el ancho del menú desplegable */
-    display: flex;
-    flex-direction: column;
-    justify-content: start;
-}
-
-/* Submenú dentro del Dropdown */
-.sub-dropdown {
-    position: relative;
-    top: 0;
-    left: 0;
-    background-color: #FFD423;
-    list-style: none;
-    padding: 10px;
-    margin: 0;
-    border-radius: 8px;
-    max-height: 200px;
-}
-
-/* Asegurar que el menú no se corte */
-.dropdown, .sub-dropdown {
-    max-height: 900px; /* Limita la altura del menú desplegable */
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-}
-
-
-/* Estilo de los elementos dentro del menú */
-.dropdown li {
-    padding: 10px 0;
-    text-align: center;
-    font-size: 1.2rem;
-    font-family: 'Poppins', sans-serif;
-    color: white; /* Cambia el color del texto */
-    background-color: transparent; /* Cambia el color de fondo de los botones */
-    cursor: pointer;
-    border-radius: 8px; /* Añade bordes redondeados */
-    margin-bottom: 10px; /* Espacio entre los botones */
-    transition: background-color 0.3s ease; /* Transición suave para el hover */
-}
-
-.dropdown li:hover {
-    background-color: yellow; /* Cambia el color de fondo al hacer hover */
-    color: transparent; /* Cambia el color del texto al hacer hover */
-}
-
-.dropdown user-dropdown{
-    margin-top: 150px;
-}
-
-/* Ajustes para pantallas más pequeñas */
-@media (max-width: 768px) {
-    .dropdown {
-        width: 100%; /* Asegura que el menú ocupe el ancho completo en pantallas pequeñas */
-        left: 0;
-    }
-
-    .dropdown li {
-        font-size: 1rem; /* Reducir el tamaño de la fuente en pantallas más pequeñas */
-    }
-}

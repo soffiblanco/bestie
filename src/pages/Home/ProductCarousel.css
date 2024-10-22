@@ -1,11 +1,10 @@
 .carousel-container {
+  position: relative;
   display: flex;
+  justify-content: center;
   align-items: center;
-  justify-content: space-between;
   width: 90%;
   margin: 0 auto;
-  overflow: hidden;
-  position: relative;
 }
 
 .carousel-content {
@@ -21,11 +20,12 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   text-align: center;
   padding: 0;
-  width: calc(25% - 15px); /* Calculamos el 25% menos el gap entre productos */
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  color: white;
+  cursor: pointer;
+  transition: transform 0.3s ease-in-out;
+}
+
+.product-card:hover {
+  transform: scale(1.05);
 }
 
 .image-container {
@@ -52,39 +52,72 @@
 .product-title {
   font-size: 1.2rem;
   margin-bottom: 5px;
+  color: #A4D51D; /* Verde A4D51D */
 }
 
 .product-description {
   font-size: 0.9rem;
   margin-bottom: 10px;
+  color: white;
 }
 
 .product-icon {
   font-size: 1.5rem;
   margin-top: 10px;
+  background-color: transparent;
+  color: white;
+  border: 1px solid white;
+  border-radius: 50%;
+  padding: 10px;
+  transition: all 0.3s ease;
 }
 
+.product-icon:hover {
+  background-color: white;
+  color: blueviolet;
+}
+/* Botones del carrusel (flechas) */
 .carousel-button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
   background-color: #ffd423;
   border: none;
-  padding: 10px;
-  border-radius: 50%;
+  font-size: 1.5rem; /* Ajusta el tamaño de la flecha */
+  color: blueviolet;
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: color 0.3s ease, background-color 0.3s ease;
+  z-index: 10;
+  width: 40px; /* Ajusta el ancho del botón */
+  height: 40px; /* Ajusta la altura del botón */
+  border-radius: 50%; /* Hace que el botón sea redondo */
+  display: flex;
+  align-items: center;
+  justify-content: center; /* Asegura que la flecha esté centrada */
+}
+
+.carousel-button.prev-button {
+  left: -50px; /* Ajusta la posición de la flecha izquierda */
+}
+
+.carousel-button.next-button {
+  right: -50px; /* Ajusta la posición de la flecha derecha */
 }
 
 .carousel-button:hover {
-  background-color: #e6b91f;
+  background-color: #e6b91f; /* Color de fondo al pasar el mouse */
+  color: white; /* Color de la flecha al pasar el mouse */
 }
 
-/* Mantén el diseño de 4 productos por fila incluso en pantallas pequeñas */
+
+/* Ajuste responsivo */
 @media (max-width: 768px) {
   .product-card {
-    width: calc(25% - 10px); /* 4 productos por fila, ajustando el espacio */
+    width: calc(25% - 10px);
   }
 
   .image-container {
-    height: 120px; /* Ajustamos la altura de la imagen en pantallas más pequeñas */
+    height: 120px;
   }
 
   .product-title {
@@ -94,15 +127,23 @@
   .product-description {
     font-size: 0.8rem;
   }
+
+  .carousel-button.prev-button {
+    left: -30px; /* Ajusta para pantallas pequeñas */
+  }
+
+  .carousel-button.next-button {
+    right: -30px; /* Ajusta para pantallas pequeñas */
+  }
 }
 
 @media (max-width: 480px) {
   .product-card {
-    width: calc(25% - 5px); /* Aseguramos que sigan siendo 4 productos */
+    width: calc(25% - 5px);
   }
 
   .image-container {
-    height: 100px; /* Ajustamos más la altura de la imagen */
+    height: 100px;
   }
 
   .product-title {
@@ -112,5 +153,14 @@
   .product-description {
     font-size: 0.7rem;
   }
+
+  .carousel-button.prev-button {
+    left: -15px; /* Ajusta para pantallas más pequeñas */
+  }
+
+  .carousel-button.next-button {
+    right: -15px; /* Ajusta para pantallas más pequeñas */
+  }
 }
+
 

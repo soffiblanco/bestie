@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import './PhotoCard.css';
 import accesorioGato from '../../assets/accesorioGato.jpeg';
 import accesorioPerro from '../../assets/accesorioPerro.jpeg';
 import comidaAves from '../../assets/comidaAves.jpeg';
@@ -21,6 +20,7 @@ import medicinaPerro from '../../assets/medicinaPerro.jpeg';
 import medicinaTortugas from '../../assets/medicinaTortugas.jpeg';
 import ropaGato from '../../assets/ropaGato.jpeg';
 import ropaPerro from '../../assets/ropaPerro.jpeg';
+import './PhotoCard.css';
 
 // Datos de categorías con productos e imágenes
 const categories = [

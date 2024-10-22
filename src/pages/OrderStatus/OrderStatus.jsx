@@ -1,5 +1,4 @@
 import React from 'react';
-import './OrderStatus.css';
 
 const OrderStatus = ({ status }) => {
     const orderStatusList = [

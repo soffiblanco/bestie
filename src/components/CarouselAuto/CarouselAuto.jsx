@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import './CarouselAuto.css';
 
 const CarouselAuto = () => {
     const [currentProductIndex, setCurrentProductIndex] = useState(0);
     const [products, setProducts] = useState([]);
 
-    // Llamada a la API para obtener los 4 productos destacados
+    // Llamada a la API para obtener los productos destacados
     useEffect(() => {
-        fetch('http://localhost/apis/CarouselAuto.php')  // Asegúrate de que la URL sea correcta
+        fetch('http://localhost/apis/CarouselAuto.php') // Asegúrate de que la URL sea correcta
             .then(response => response.json())
             .then(data => {
                 if (Array.isArray(data.data)) {
@@ -32,16 +33,16 @@ const CarouselAuto = () => {
     };
 
     return (
-        <div className="carousel-container">
+        <div className="container"> {/* Bootstrap container */}
             {products.length > 0 ? (
                 <div
-                    className="carousel-image"
+                    className="carousel-image position-relative mb-4"
                     style={{
                         backgroundImage: `url(${products[currentProductIndex].Product_Image})`,
                     }}
                     onClick={() => handleProductClick(products[currentProductIndex].ID_Product)}  // Redirige al hacer clic en la imagen
                 >
-                    <div className="carousel-title">
+                    <div className="carousel-title text-center">
                         {products[currentProductIndex].Product_Name}
                     </div>
                 </div>

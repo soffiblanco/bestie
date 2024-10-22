@@ -1,7 +1,5 @@
-/* Order.css */
 .order-container {
-    max-width: 600px;
-    margin: 20px auto;
+    width: 100%; /* Ocupar todo el ancho de la pantalla */
     padding: 20px;
     background-color: white;
     border-radius: 10px;
@@ -10,14 +8,12 @@
 }
 
 .order-title {
-    text-align: center;
     font-size: 24px;
     margin-bottom: 10px;
     color: blueviolet;
 }
 
 .empty-order {
-    text-align: center;
     font-size: 18px;
     color: #999;
 }
@@ -28,10 +24,6 @@
 }
 
 .order-item {
-    display: flex;
-    align-items: center;
-    margin-bottom: 10px;
-    padding: 10px;
     background-color: #FFD423;
     border-radius: 8px;
 }
@@ -44,25 +36,19 @@
     margin-right: 15px;
 }
 
-.order-item-info {
-    flex-grow: 1;
-}
-
 .order-item-title {
     font-size: 18px;
-    margin: 0 0 5px;
+    margin-bottom: 5px;
+    color: blueviolet;
 }
 
 .order-item-price {
     font-size: 16px;
-    margin: 0;
     font-weight: bold;
+    color: blueviolet;
 }
 
 .order-total {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 20px;
     font-size: 18px;
     font-weight: bold;
     color: blueviolet;
@@ -70,15 +56,12 @@
 
 .add-product-button {
     width: 100%;
-    padding: 10px;
-    margin-top: 15px;
     background-color: blueviolet;
     color: white;
     border: none;
     border-radius: 8px;
-    cursor: pointer;
+    padding: 10px;
     font-size: 16px;
-    transition: background-color 0.3s;
 }
 
 .add-product-button:hover {
@@ -105,3 +88,4 @@
         margin-bottom: 5px;
     }
 }
+

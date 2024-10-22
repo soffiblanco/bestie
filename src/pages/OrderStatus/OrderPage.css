@@ -1,0 +1,51 @@
+.orders-page {
+    font-family: 'Poppins', sans-serif;
+    padding: 5% 2%; 
+    background-color: blueviolet;
+    text-align: center;
+}
+
+/* Estilo para la tarjeta de estado de orden */
+.order-status-container {
+    background-color: #FFD423;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.order-status-container .card-title {
+    color: white;
+    font-size: 2rem;
+}
+
+.order-history-section {
+    background-color: #FFD423;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.order-history-section .card-title {
+    color: white;
+    font-size: 2rem;
+}
+
+.order-history-list {
+    list-style-type: none;
+    padding: 0;
+    color: #333;
+}
+
+.order-history-item {
+    background-color: white;
+    color: #333;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Para dispositivos móviles */
+@media (max-width: 768px) {
+    .order-status-container .card-title, .order-history-section .card-title {
+        font-size: 1.8rem;
+    }
+}
