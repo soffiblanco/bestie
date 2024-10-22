@@ -16,7 +16,12 @@ const CatalogProducts = () => {
         fetch('http://localhost/apis/category.php') 
             .then((response) => response.json())
             .then((data) => {
-                setCategories(data.data);
+                // Verifica si data.data es un array antes de asignarlo
+                if (Array.isArray(data.data)) {
+                    setCategories(data.data);
+                } else {
+                    setError('Datos de categorías inválidos');
+                }
                 setLoading(false);
             })
             .catch((error) => {
@@ -32,7 +37,12 @@ const CatalogProducts = () => {
         fetch(`http://localhost/apis/subcategory.php?id_category=${categoryId}`)
             .then((response) => response.json())
             .then((data) => {
-                setSubcategories(data.data);
+                // Verifica si data.data es un array antes de asignarlo
+                if (Array.isArray(data.data)) {
+                    setSubcategories(data.data);
+                } else {
+                    setSubcategories([]); // Si no hay subcategorías válidas, establece un array vacío
+                }
                 setLoading(false);
             })
             .catch((error) => {
@@ -93,5 +103,3 @@ const CatalogProducts = () => {
 };
 
 export default CatalogProducts;
-
-
