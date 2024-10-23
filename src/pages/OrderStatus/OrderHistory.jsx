@@ -1,24 +1,30 @@
 import React from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const OrderHistory = ({ orders }) => {
     return (
-        <div className="order-history">
-            <h3>Historial de Órdenes</h3>
-            <ul>
+        <div className="container my-4">
+            <h3 className="text-center mb-4" style={{ color: 'blueviolet' }}>Historial de Órdenes</h3>
+            <div className="list-group">
                 {orders.map((order) => (
-                    <li key={order.ID_History_Order}> {/* Usamos ID_History_Order como clave */}
-                        <p>Orden #{order.ID_Order}</p> {/* ID de la orden */}
-                        <p>Estado: {order.State}</p> {/* Estado de la orden */}
-                        <p>Fecha de cambio: {new Date(order.Change_Date).toLocaleDateString()}</p> {/* Fecha de cambio */}
-                        <p>Comentario: {order.Change_Comment}</p> {/* Comentario del cambio */}
-                        <p>Editabilidad: {order.Is_Editable ? 'Editable' : 'No editable'}</p> {/* Si es editable */}
-                    </li>
+                    <div 
+                        key={order.ID_History_Order} 
+                        className="list-group-item mb-3 p-3" 
+                        style={{ backgroundColor: 'blueviolet', color: 'white', borderRadius: '10px' }}
+                    >
+                        <h5>Orden #{order.ID_Order}</h5>
+                        <p><strong>Estado:</strong> {order.State}</p>
+                        <p><strong>Fecha de cambio:</strong> {new Date(order.Change_Date).toLocaleDateString()}</p>
+                        <p><strong>Comentario:</strong> {order.Change_Comment}</p>
+                        <p><strong>Editabilidad:</strong> {order.Is_Editable ? 'Editable' : 'No editable'}</p>
+                    </div>
                 ))}
-            </ul>
+            </div>
         </div>
     );
 };
 
 export default OrderHistory;
+
 
 

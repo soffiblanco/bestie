@@ -25,9 +25,10 @@ import PaymentPage from './pages/Orders/PaymentPage';
 import PaymentSuccess from './pages/Orders/PaymentSuccess';
 import ProductDetails from './pages/Products/ProductDetails';
 import CatalogProducts from './pages/Products/CatalogProducts';
-import AboutUS from './pages/aboutUs/aboutUs'; 
+import AboutUS from './pages/aboutUs/AboutUs'; 
 import OrderPage from './pages/OrderStatus/OrderPage';
 import ProductCarousel from './pages/Home/ProductCarousel';
+import CatalogProductsSub from './pages/Products/CatalogProductsSub';
 
 function App() {
   return (
@@ -41,10 +42,10 @@ function App() {
             <Route path="/" element={<Navigate to="/home" />} /> {/* Redirecciona a /home */}
             <Route path="/home" element={<Home />} /> {/* Página de inicio */}
             <Route path="/login" element={<LoginForm />} />
-            <Route path="/categories" element={<Categories />} />
-            <Route path="/CatalogProducts/:category" element={<CatalogProducts />} />
-            <Route path="/CatalogProducts/:category/:subcategory" element={<CatalogProducts />} />
-            <Route path="/product/:id" element={<ProductDetails />} />
+            <Route path="/categories" element={<Categories />} />  {/*Página de categorías */}
+            <Route path="/CatalogProducts/:category" element={<CatalogProducts />} />  {/*Catálogo de categorías */}
+            <Route path="/CatalogProducts/:category/:subcategory" element={<CatalogProductsSub />} /> {/*Catálogo de subcategorías */}
+            <Route path="/product/:id" element={<ProductDetails />} /> {/*Página individual del producto */}
             <Route path="/profile" element={<Profile />} />
             <Route path="/users" element={<UserPage />} />
             <Route path="/categoriesp" element={<CategoryPage />} />

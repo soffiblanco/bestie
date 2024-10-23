@@ -1,13 +1,13 @@
-import React, { useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import { FaUser, FaLock, FaEnvelope, FaPhone, FaMapMarkerAlt, FaCcVisa, FaImage } from "react-icons/fa";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axiosInstance from '../../services/axiosConfig.js';
 import useAuth from '../../Auth/useAuth.js';
+import './LoginForm.css';
 
 const LoginForm = () => {
-
-    const {login}= useAuth();
+    const { login } = useAuth();
     const [isLoginActive, setIsLoginActive] = useState(true);
     const [formData, setFormData] = useState({
         username: '',
@@ -76,204 +76,243 @@ const LoginForm = () => {
                 'Content-Type': 'multipart/form-data',  // Ensure correct header for file upload
             }
         })
-        .then(response => {
-            if (response.status === 200) {
-                toast.success(response.data.message);
-             
-            if (isLoginActive && response.data.token) {
-                login( response.data.token);
-            }
+            .then(response => {
+                if (response.status === 200) {
+                    toast.success(response.data.message);
 
-                if (!isLoginActive) {
-                    // Clear form data and navigate to login
-                    setFormData({
-                        username: '',
-                        name: '',
-                        email: '',
-                        password: '',
-                        direction: '',
-                        telephone_number: '',
-                        card_holder: '',
-                        card_number: '',
-                        expiration_date: '',
-                        cvv: '',
-                        user_image: null
-                    });
-                    setIsLoginActive(true);
+                    if (isLoginActive && response.data.token) {
+                        login(response.data.token);
+                    }
+
+                    if (!isLoginActive) {
+                        // Clear form data and navigate to login
+                        setFormData({
+                            username: '',
+                            name: '',
+                            email: '',
+                            password: '',
+                            direction: '',
+                            telephone_number: '',
+                            card_holder: '',
+                            card_number: '',
+                            expiration_date: '',
+                            cvv: '',
+                            user_image: null
+                        });
+                        setIsLoginActive(true);
+                    }
                 }
-            }
-        })
-        .catch(error => {
-            toast.error(error.response?.data?.message || 'Request error.');
-        })
-        .finally(() => {
-            setLoading(false); // End loading
-        });
+            })
+            .catch(error => {
+                toast.error(error.response?.data?.message || 'Request error.');
+            })
+            .finally(() => {
+                setLoading(false); // End loading
+            });
     };
 
     return (
         <>
-            <ToastContainer position="top-right" />
-            <div className={`wrapper ${isLoginActive ? 'login-active' : 'register-active'}`}>
-                <form onSubmit={handleSubmit}>
-                    <h1>{isLoginActive ? 'Login' : 'Registration'}</h1>
+        
+            <div className="container mt-5">
+                <div className="card shadow p-4">
+                    <form onSubmit={handleSubmit}>
+                        <h1 className="text-center mb-4">{isLoginActive ? 'Login' : 'Registration'}</h1>
 
-                    {isLoginActive ? (
-                        <>
-                            <div className="input-box">
-                                <input
-                                    type="email"
-                                    name="email"
-                                    placeholder='Email'
-                                    value={formData.email}
-                                    onChange={handleChange}
-                                    required
-                                />
-                                <FaEnvelope className='icon' />
-                            </div>
-                            <div className="input-box">
-                                <input
-                                    type="password"
-                                    name="password"
-                                    placeholder='Password'
-                                    value={formData.password}
-                                    onChange={handleChange}
-                                    required
-                                />
-                                <FaLock className='icon' />
-                            </div>
-                        </>
-                    ) : (
-                        <>
-                            <div className="input-box">
-                                <input
-                                    type="text"
-                                    name="name"
-                                    placeholder='Name'
-                                    value={formData.name || ''}
-                                    onChange={handleChange}
-                                    required
-                                />
-                                <FaUser className='icon' />
-                            </div>
-                            <div className="input-box">
-                                <input
-                                    type="email"
-                                    name="email"
-                                    placeholder='Email'
-                                    value={formData.email || ''}
-                                    onChange={handleChange}
-                                    required
-                                />
-                                <FaEnvelope className='icon' />
-                            </div>
-                            <div className="input-box">
-                                <input
-                                    type="password"
-                                    name="password"
-                                    placeholder='Password'
-                                    value={formData.password || ''}
-                                    onChange={handleChange}
-                                    required
-                                />
-                                <FaLock className='icon' />
-                            </div>
-                            <div className="input-box">
-                                <input
-                                    type="text"
-                                    name="direction"
-                                    placeholder='Address'
-                                    value={formData.direction || ''}
-                                    onChange={handleChange}
-                                />
-                                <FaMapMarkerAlt className='icon' />
-                            </div>
-                            <div className="input-box">
-                                <input
-                                    type="tel"
-                                    name="telephone_number"
-                                    placeholder='Phone Number'
-                                    value={formData.telephone_number || ''}
-                                    onChange={handleChange}
-                                />
-                                <FaPhone className='icon' />
-                            </div>
-                            <div className="input-box">
-                                <input
-                                    type="file"
-                                    name="user_image"
-                                    placeholder='Profile Image'
-                                    onChange={handleImageChange}  // Update image change handler
-                                />
-                                <FaImage className='icon' />
-                            </div>
-                            <div className="input-box">
-                                <input
-                                    type="text"
-                                    name="card_holder"
-                                    placeholder='Card Holder'
-                                    value={formData.card_holder}
-                                    onChange={handleChange}
-                                />
-                                <FaCcVisa className='icon' />
-                            </div>
-                            <div className="input-box">
-                                <input
-                                    type="text"
-                                    name="card_number"
-                                    placeholder='Card Number'
-                                    value={formData.card_number}
-                                    onChange={handleChange}
-                                />
-                                <FaCcVisa className='icon' />
-                            </div>
-                            <div className="input-box">
-                                <input
-                                    type="text"
-                                    name="expiration_date"
-                                    placeholder='Expiration Date (YY-MM-DD)'
-                                    value={formData.expiration_date}
-                                    onChange={handleChange}
-                                />
-                                <FaCcVisa className='icon' />
-                            </div>
-                            <div className="input-box">
-                                <input
-                                    type="text"
-                                    name="cvv"
-                                    placeholder='CVV'
-                                    value={formData.cvv}
-                                    onChange={handleChange}
-                                />
-                                <FaCcVisa className='icon' />
-                            </div>
-                        </>
-                    )}
-
-                    <div className="remember-forgot">
                         {isLoginActive ? (
-                            <a href="#">Forgot password?</a>
+                            <>
+                                <div className="mb-3">
+                                    <div className="input-group">
+                                        <span className="input-group-text"><FaEnvelope /></span>
+                                        <input
+                                            type="email"
+                                            name="email"
+                                            className="form-control"
+                                            placeholder='Email'
+                                            value={formData.email}
+                                            onChange={handleChange}
+                                            required
+                                        />
+                                    </div>
+                                </div>
+                                <div className="mb-3">
+                                    <div className="input-group">
+                                        <span className="input-group-text"><FaLock /></span>
+                                        <input
+                                            type="password"
+                                            name="password"
+                                            className="form-control"
+                                            placeholder='Password'
+                                            value={formData.password}
+                                            onChange={handleChange}
+                                            required
+                                        />
+                                    </div>
+                                </div>
+                            </>
                         ) : (
-                            <label></label>
+                            <>
+                                <div className="mb-3">
+                                    <div className="input-group">
+                                        <span className="input-group-text"><FaUser /></span>
+                                        <input
+                                            type="text"
+                                            name="name"
+                                            className="form-control"
+                                            placeholder='Name'
+                                            value={formData.name || ''}
+                                            onChange={handleChange}
+                                            required
+                                        />
+                                    </div>
+                                </div>
+                                <div className="mb-3">
+                                    <div className="input-group">
+                                        <span className="input-group-text"><FaEnvelope /></span>
+                                        <input
+                                            type="email"
+                                            name="email"
+                                            className="form-control"
+                                            placeholder='Email'
+                                            value={formData.email || ''}
+                                            onChange={handleChange}
+                                            required
+                                        />
+                                    </div>
+                                </div>
+                                <div className="mb-3">
+                                    <div className="input-group">
+                                        <span className="input-group-text"><FaLock /></span>
+                                        <input
+                                            type="password"
+                                            name="password"
+                                            className="form-control"
+                                            placeholder='Password'
+                                            value={formData.password || ''}
+                                            onChange={handleChange}
+                                            required
+                                        />
+                                    </div>
+                                </div>
+                                <div className="mb-3">
+                                    <div className="input-group">
+                                        <span className="input-group-text"><FaMapMarkerAlt /></span>
+                                        <input
+                                            type="text"
+                                            name="direction"
+                                            className="form-control"
+                                            placeholder='Address'
+                                            value={formData.direction || ''}
+                                            onChange={handleChange}
+                                        />
+                                    </div>
+                                </div>
+                                <div className="mb-3">
+                                    <div className="input-group">
+                                        <span className="input-group-text"><FaPhone /></span>
+                                        <input
+                                            type="tel"
+                                            name="telephone_number"
+                                            className="form-control"
+                                            placeholder='Phone Number'
+                                            value={formData.telephone_number || ''}
+                                            onChange={handleChange}
+                                        />
+                                    </div>
+                                </div>
+                                <div className="mb-3">
+                                    <div className="input-group">
+                                        <span className="input-group-text"><FaImage /></span>
+                                        <input
+                                            type="file"
+                                            name="user_image"
+                                            className="form-control"
+                                            placeholder='Profile Image'
+                                            onChange={handleImageChange}  // Update image change handler
+                                        />
+                                    </div>
+                                </div>
+                                <div className="mb-3">
+                                    <div className="input-group">
+                                        <span className="input-group-text"><FaCcVisa /></span>
+                                        <input
+                                            type="text"
+                                            name="card_holder"
+                                            className="form-control"
+                                            placeholder='Card Holder'
+                                            value={formData.card_holder}
+                                            onChange={handleChange}
+                                        />
+                                    </div>
+                                </div>
+                                <div className="mb-3">
+                                    <div className="input-group">
+                                        <span className="input-group-text"><FaCcVisa /></span>
+                                        <input
+                                            type="text"
+                                            name="card_number"
+                                            className="form-control"
+                                            placeholder='Card Number'
+                                            value={formData.card_number}
+                                            onChange={handleChange}
+                                        />
+                                    </div>
+                                </div>
+                                <div className="mb-3">
+                                    <div className="input-group">
+                                        <span className="input-group-text"><FaCcVisa /></span>
+                                        <input
+                                            type="text"
+                                            name="expiration_date"
+                                            className="form-control"
+                                            placeholder='Expiration Date (YY-MM-DD)'
+                                            value={formData.expiration_date}
+                                            onChange={handleChange}
+                                        />
+                                    </div>
+                                </div>
+                                <div className="mb-3">
+                                    <div className="input-group">
+                                        <span className="input-group-text"><FaCcVisa /></span>
+                                        <input
+                                            type="text"
+                                            name="cvv"
+                                            className="form-control"
+                                            placeholder='CVV'
+                                            value={formData.cvv}
+                                            onChange={handleChange}
+                                        />
+                                    </div>
+                                </div>
+                            </>
                         )}
-                    </div>
-                    
-                    <button type="submit" disabled={loading}>
-                        {loading ? 'Loading...' : (isLoginActive ? 'Login' : 'Register')}
-                    </button>
-                    
-                    <div className="register-link">
-                        <p>
-                            {isLoginActive ? "Don't have an account?" : "Already have an account?"}
-                            <a href="#" onClick={() => setIsLoginActive(!isLoginActive)}>
-                                {isLoginActive ? ' Register' : ' Login'}
-                            </a>
-                        </p>
-                    </div>
-                </form>
+
+                        <div className="mb-3">
+                            {isLoginActive ? (
+                                <a href="#">Forgot password?</a>
+                            ) : (
+                                <label></label>
+                            )}
+                        </div>
+
+                        <button type="submit" className="btn btn-primary w-100" disabled={loading}>
+                            {loading ? 'Loading...' : (isLoginActive ? 'Login' : 'Register')}
+                        </button>
+
+                        <div className="text-center mt-3">
+                            <p>
+                                {isLoginActive ? "Don't have an account?" : "Already have an account?"}
+                                <a href="#" onClick={() => setIsLoginActive(!isLoginActive)}>
+                                    {isLoginActive ? ' Register' : ' Login'}
+                                </a>
+                            </p>
+                        </div>
+                    </form>
+                </div>
             </div>
         </>
     );
 };
 
 export default LoginForm;
+

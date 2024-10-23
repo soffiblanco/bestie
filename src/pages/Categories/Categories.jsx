@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import Carousel from '../../components/Carousel/Carousel';
 import PhotoCard from '../../components/PhotoCard/PhotoCard';
 import './Categories.css';
-
+/*Página principal de categorías*/
 const CategoriesPage = () => {
     const [categories, setCategories] = useState([]);  // Estado para las categorías
     const [imageIndex, setImageIndex] = useState(0);   // Estado para la rotación de imágenes

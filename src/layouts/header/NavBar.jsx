@@ -129,41 +129,48 @@ const Navbar = () => {
                   {isCategoriesOpen ? <IoIosArrowUp /> : <IoIosArrowDown />}
                 </a>
               </div>
+{/* Menú desplegable personalizado */}
+<ul className={`dropdown-menu ${isCategoriesOpen ? 'show' : ''}`}>
+  {categories.map((category) => (
+    <li key={category.name}>
+      <div className="d-flex justify-content-between align-items-center">
+        {/* Redirecciona a la página de la categoría cuando se hace clic en el nombre de la categoría */}
+        <span
+          className="dropdown-item"
+          onClick={() => handleCategoryClick(category.name)}  
+        >
+          {category.name}
+        </span>
+        {/* Flecha que despliega las subcategorías */}
+        <span
+          className="dropdown-item"
+          onClick={() => toggleSubcategories(category.name)}  
+        >
+          {openCategory === category.name ? <IoIosArrowUp /> : <IoIosArrowDown />}
+        </span>
+      </div>
 
-              {/* Menú desplegable personalizado */}
-              <ul className={`dropdown-menu ${isCategoriesOpen ? 'show' : ''}`}>
-                {categories.map((category) => (
-                  <li key={category.name}>
-                    <div
-                      className="dropdown-item"
-                      onClick={() => toggleSubcategories(category.name)}
-                    >
-                      {category.name}
-                      {openCategory === category.name ? (
-                        <IoIosArrowUp />
-                      ) : (
-                        <IoIosArrowDown />
-                      )}
-                    </div>
-                    {openCategory === category.name && (
-                      <ul className="dropdown-submenu">
-                        {category.subcategories.map((sub) => (
-                          <li key={sub}>
-                            <div
-                              className="dropdown-item"
-                              onClick={() =>
-                                handleSubcategoryClick(category.name, sub)
-                              }
-                            >
-                              {sub}
-                            </div>
-                          </li>
-                        ))}
-                      </ul>
-                    )}
-                  </li>
-                ))}
-              </ul>
+      {/* Menú de subcategorías */}
+      {openCategory === category.name && (
+        <ul className="dropdown-submenu">
+          {category.subcategories.map((sub) => (
+            <li key={sub}>
+              <div
+                className="dropdown-item"
+                onClick={() => handleSubcategoryClick(category.name, sub)}  
+              >
+                {sub}
+              </div>
+            </li>
+          ))}
+        </ul>
+      )}
+    </li>
+  ))}
+</ul>
+            </li>
+            <li className="nav-item">
+              <Link className="nav-link" to="/login" onClick={() => handleItemClick('Login')}>Login</Link>
             </li>
           </ul>
 

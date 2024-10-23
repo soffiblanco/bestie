@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import OrderStatus from './OrderStatus';
 import OrderHistory from './OrderHistory';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import './OrderPage.css'; // Aquí pondremos estilos personalizados, si es necesario
+import './OrderPage.css'; 
 
 const OrdersPage = () => {
     const [currentOrderStatus, setCurrentOrderStatus] = useState('Pendiente');
