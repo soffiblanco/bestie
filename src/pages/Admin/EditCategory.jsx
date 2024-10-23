@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { baseUrl } from '../../config.js';
-import ecommerce_fetch from '../../services/ecommerce_fetch';
+import ecommerce_fetch from '../../services/ecommerce_fetch.js';
 
 const EditCategory = () => {
     const { categoryId } = useParams(); // Get the category ID from the URL

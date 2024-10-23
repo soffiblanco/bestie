@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import LoginForm from './LoginForm';
+import LoginForm from '../../components/loginComponent/LoginForm'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 

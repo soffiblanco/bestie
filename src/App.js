@@ -8,6 +8,9 @@ import Footer from './layouts/footer/footer';
 import Home from './pages/Home/Home';
 import Categories from './pages/Categories/Categories';
 import Profile from './pages/Admin/Profile';
+import Verified from './pages/Admin/Verified';
+import ResetPassword from './components/loginComponent/ResetPassword';
+import PrivateRoute from './components/PrivateRoute';
 import UserPage from './pages/Admin/UserPage';
 import CategoryPage from './pages/Admin/CategoryPage';
 import SubcategoryPage from './pages/Admin/SubcategoryPage';
@@ -46,7 +49,7 @@ function App() {
             <Route path="/CatalogProducts/:category" element={<CatalogProducts />} />  {/*Catálogo de categorías */}
             <Route path="/CatalogProducts/:category/:subcategory" element={<CatalogProductsSub />} /> {/*Catálogo de subcategorías */}
             <Route path="/product/:id" element={<ProductDetails />} /> {/*Página individual del producto */}
-            <Route path="/profile" element={<Profile />} />
+            <Route path="/profile" element={<PrivateRoute><Profile /></PrivateRoute>} />
             <Route path="/users" element={<UserPage />} />
             <Route path="/categoriesp" element={<CategoryPage />} />
             <Route path="/subcategories" element={<SubcategoryPage />} />
@@ -64,6 +67,8 @@ function App() {
             <Route path="/payment" element={<PaymentPage />} />
             <Route path="/payment-success" element={<PaymentSuccess />} />
             <Route path="/about-us" element={<AboutUS />} />
+            <Route path="/Verified" element={<Verified/>} />
+            <Route path="/ResetPassword" element={<ResetPassword />} />
           </Routes>
         </main>
         <Footer /> {/* Footer siempre estará visible en todas las páginas */}

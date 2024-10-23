@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { baseUrl } from '../../config.js'
-import ecommerce_fetch from '../../services/ecommerce_fetch';
+import ecommerce_fetch from '../../services/ecommerce_fetch.js';
 
 const AddProduct = () => {
   const [product, setProduct] = useState('');
