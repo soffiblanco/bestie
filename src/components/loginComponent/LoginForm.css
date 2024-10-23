@@ -1,139 +1,58 @@
+/* LoginForm.css */
 
-.body{
-    width: 100%;
-}
-
-
-/* Título del formulario */
-form h1 {
-    font-size: 36px;
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-/* Caja de entrada de datos */
-.input-box {
+/* Estilos para centrar el formulario */
+body {
+    background-color: #333;  /* Fondo oscuro para resaltar el formulario */
     display: flex;
+    justify-content: center;
     align-items: center;
-    margin: 20px 0;
-    position: relative;
-    width: 100%;
+
+    margin: 0;
 }
 
-.input-box input {
-    flex: 1;
-    width: 100%;
-    height: 45px;
-    background: transparent;
-    outline: none;
-    border: 2px solid rgba(255, 255, 255, 0.2);
-    border-radius: 40px;
-    font-size: 16px;
-    color: #fff;
-    padding: 10px 20px;
-    padding-right: 45px;
+
+.card {
+    background-color: blueviolet;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* Estilo del placeholder */
-.input-box input::placeholder {
-    color: rgba(255, 255, 255, 0.7);
-}
-
-/* Icono dentro de la caja de entrada */
-.input-box .icon {
-    position: absolute;
-    right: 15px;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 20px;
-    color: rgba(255, 255, 255, 0.7);
-}
-
-/* Recordar y Olvidé mi contraseña */
-form .remember-forgot {
-    display: flex;
-    justify-content: space-between;
-    font-size: 14px;
-    margin-bottom: 15px;
-}
-
-.remember-forgot a {
-    color: #fff;
-    text-decoration: none;
-}
-
-.remember-forgot a:hover {
-    text-decoration: underline;
-}
-
-/* Botón de enviar */
-form button {
-    width: 100%;
-    height: 45px;
-    background: #fff;
-    border: none;
-    border-radius: 40px;
-    cursor: pointer;
-    font-size: 16px;
-    font-weight: 700;
-    color: #333;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    transition: background-color 0.3s ease;
-}
-
-form button:hover {
-    background-color: #f0f0f0;
-}
-
-/* Enlace para registrarse */
-form .register-link {
-    width: 100%;
-}
-
-.register-link p a {
-    color: #fff;
+.card h1 {
+    font-size: 24px;
     font-weight: 600;
+    color: white;
+}
+
+.input-group-text {
+    background-color: #ffd700;
+    border: none;
+}
+
+.form-control {
+    height: 45px;
+    font-size: 16px;
+    border-radius: 0;
+}
+
+.btn-primary {
+    background-color: #FFD423;
+    border: none;
+}
+
+.btn-primary:hover {
+    background-color: #5d2b94;
+}
+
+a {
+    color: white;
     text-decoration: none;
 }
 
-.register-link p a:hover {
+a:hover {
     text-decoration: underline;
 }
 
-/* Media Queries para Responsividad */
-@media (max-width: 768px) {
-    .wrapper {
-        padding: 20px;
-    }
-
-    form h1 {
-        font-size: 28px;
-    }
-
-    .input-box input {
-        font-size: 14px;
-        padding: 8px 15px;
-    }
-
-    form button {
-        height: 40px;
-        font-size: 14px;
-    }
-
-    body{
-        margin-top: 120%; 
-    }
+.text-center {
+    font-size: 14px;
 }
 
-@media (max-width: 480px) {
-    .wrapper {
-        width: 90%; /* Asegurar que ocupe la mayor parte de la pantalla en móviles */
-    }
-
-    .input-box .icon {
-        font-size: 18px;
-    }
-    body{
-        margin-top: 120%; 
-    }
-}
