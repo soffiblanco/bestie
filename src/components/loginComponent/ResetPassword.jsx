@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axiosInstance from '../../services/axiosConfig';
 import { useLocation } from 'react-router-dom';
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import './LoginForm.css';
+import './ResetPassword.css';
 import {ToastContainer, toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
@@ -21,7 +21,7 @@ function ResetPassword() {
   const location = useLocation();
 
   const handleBackToLogin = () => {
-    navigate('/LoginForm');
+    navigate('/login');
   };
 
   const togglePasswordVisibility = () => {
@@ -66,6 +66,11 @@ const toggleConfirmPasswordVisibility = () => {
 
           setNewPassword('');
           setConfirmPassword('');
+         
+          setTimeout(() => {
+            navigate('/login');
+        }, 2000);
+          
         } else {
        
         console.warn('Unexpected response status:', response.status);

@@ -136,11 +136,23 @@ const LoginForm = () => {
             data.append('card_holder', formData.card_holder);
             data.append('card_number', formData.card_number);
             data.append('expiration_date', selectedDate ? selectedDate.toISOString().split('T')[0] : '');
+            
+            if (selectedDate) {
+                const expirationMonth = ('0' + (selectedDate.getMonth() + 1)).slice(-2); // Para asegurarse que el mes sea de 2 dígitos
+                const expirationYear = selectedDate.getFullYear();
+                data.append('expiration_date', `${expirationMonth}-${expirationYear}`);
+            } else {
+                data.append('expiration_date', '');
+            }
+     
             data.append('cvv', formData.cvv);
 
             if (formData.user_image) {
                 data.append('user_image', formData.user_image);  // Append file to FormData
             }
+
+         
+
         }
 
         setLoading(true); // Start loading
@@ -378,8 +390,9 @@ const LoginForm = () => {
                             <div className="input-box">
                                 <DatePicker
                                     selected={selectedDate}
-                                    onChange={date => setSelectedDate(date)}
-                                    dateFormat="yyyy-MM-dd"
+                                    onChange={(date) => setSelectedDate(date)}
+                                    dateFormat="MM-yyyy"
+                                    showMonthYearPicker
                                     placeholderText="Select Expiration Date"
                                     onKeyDown={validateDate}
                                 />
