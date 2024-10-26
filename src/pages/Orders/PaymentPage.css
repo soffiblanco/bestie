@@ -1,50 +1,28 @@
-/* Importar la fuente Poppins */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
 
-/* Estilo general del contenedor */
 .container {
     max-width: 600px;
     margin: 0 auto;
     padding: 20px;
-    background-color: blueviolet;
-    border-radius: 8px;
+}
+
+.card {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+h2 {
+    font-size: 24px;
     font-family: 'Poppins', sans-serif;
-}
-
-/* Encabezado */
-
-    h2 {
-        margin-bottom: 20px;
-        font-size: 24px;
-        color: white; /* El texto será blanco */
-        text-align: center;
-        padding: 10px;
-        border-radius: 4px;
-        background-color: transparent; /* Elimina el fondo blanco */
-    }
-
-
-/* Estilo del formulario */
-.form-group {
-    margin-bottom: 15px;
-}
-
-.form-group label {
-    display: block;
-    font-weight: bold;
-    margin-bottom: 5px;
-    color: white;
+    margin-bottom: 20px;
 }
 
 .form-control {
-    width: 100%;
+    border-radius: 4px;
+    border: 2px solid blueviolet;
+    font-family: 'Poppins', sans-serif;
     padding: 12px;
     font-size: 16px;
-    border: 2px solid blueviolet;
-    border-radius: 4px;
-    background-color: #f9f9f9;
-    color: white;
 }
 
 .form-control:focus {
@@ -52,21 +30,17 @@
     box-shadow: 0 0 5px rgba(255, 255, 0, 0.4);
     outline: none;
     background-color: blueviolet;
-    color: black;
+    color: white;
 }
 
-/* Botón de pago */
 button[type="submit"] {
-    width: 100%;
-    padding: 14px;
+    font-family: 'Poppins', sans-serif;
     background-color: #A4D51D;
     color: white;
     font-size: 18px;
-    font-family: 'Poppins', sans-serif;
-    font-weight: 600;
-    border: none;
     border-radius: 4px;
-    cursor: pointer;
+    border: none;
+    padding: 14px;
     transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
@@ -75,41 +49,3 @@ button[type="submit"]:hover {
     color: blueviolet;
     transform: scale(1.05);
 }
-
-/* Estilos Responsivos */
-@media (max-width: 768px) {
-    .container {
-        padding: 15px;
-    }
-
-    h2 {
-        font-size: 22px;
-    }
-
-    .form-control {
-        font-size: 14px;
-        padding: 10px;
-    }
-
-    button[type="submit"] {
-        font-size: 16px;
-        padding: 12px;
-    }
-}
-
-@media (max-width: 480px) {
-    h2 {
-        font-size: 20px;
-    }
-
-    .form-control {
-        font-size: 14px;
-        padding: 8px;
-    }
-
-    button[type="submit"] {
-        font-size: 14px;
-        padding: 10px;
-    }
-}
-

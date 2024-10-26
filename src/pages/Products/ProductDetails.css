@@ -1,0 +1,36 @@
+
+
+.containerProduct {
+    background-color: blueviolet; /* Fondo de la tarjeta */
+    padding: 20px;
+    border-radius: 10px;
+    color: white; /* Todo el texto en blanco */
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.product-details img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+}
+
+.product-details h2, 
+.product-details p,
+.product-details h6, 
+.product-details .h5 {
+    color: white; /* Asegura que todo el texto dentro de la tarjeta sea blanco */
+}
+
+.product-details .btn-primary {
+    background-color: #A4D51D; /* Color del botón */
+    border-color: #A4D51D;
+    color: black;
+    display: flex;
+    align-items: center;
+}
+
+.product-details .btn-primary:hover {
+    background-color: #8bb01a; /* Oscurecer el color al pasar el cursor */
+    border-color: #8bb01a;
+}
