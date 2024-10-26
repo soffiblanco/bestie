@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { baseUrl } from '../../config.js'
 import ecommerce_fetch from '../../services/ecommerce_fetch';  // Importa ecommerceFetch
 import './Page.css';
@@ -22,7 +24,6 @@ const UserPage = () => {
         return response.json();
       })
       .then(data => {
-        console.log(data); // Verifica la estructura de los datos
         setUsers(data.data || []);
         setLoading(false);
       })
@@ -36,24 +37,35 @@ const UserPage = () => {
     navigate(`/EditUser/${userId}`);
   };
 
-  const handleDelete = (userId) => {
-    console.log(`Delete user with ID: ${userId}`);
-    ecommerce_fetch(`${baseUrl}/users.php?id_user=${userId}`, {
-      method: 'DELETE',
+  const handleToggleState = (userId, currentState) => {
+    ecommerce_fetch(`${baseUrl}/users.php`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        id_user: userId
+      }),
     })
       .then(response => {
         if (!response.ok) {
-          throw new Error('Error deleting user');
+          throw new Error('Error updating user state');
         }
         return response.json();
       })
       .then(data => {
-        alert(data.message);
-        setUsers(prevUsers => prevUsers.filter(user => user.ID_User !== userId));
+        toast.success(data.message);
+        // Actualizar el estado de usuario en el frontend
+        setUsers(prevUsers =>
+          prevUsers.map(user =>
+            user.ID_User === userId
+              ? { ...user, User_State: currentState === 'enabled' ? 'disabled' : 'enabled' }
+              : user
+          )
+        );
       })
-      .catch(err => alert('Error: ' + err.message));
+      .catch(err => toast.error('Error: ' + err.message));
   };
-
   const handleAddUser = () => {
     navigate('/AddUser'); 
   };
@@ -68,6 +80,7 @@ const UserPage = () => {
 
   return (
     <div className="user-page-container">
+      <ToastContainer />
       <h1 className="table-title">User List</h1>
       <table className="styled-table">
         <thead>
@@ -103,7 +116,12 @@ const UserPage = () => {
               <td>{user.User_State || 'State not available'}</td>
               <td>
                 <button className="edit-button" onClick={() => handleEdit(user.ID_User)}>Edit</button>
-                <button className="delete-button" onClick={() => handleDelete(user.ID_User)}>Delete</button>
+                <button
+                  className="toggle-state-button"
+                  onClick={() => handleToggleState(user.ID_User, user.User_State)}
+                >
+                  {user.User_State === 'enabled' ? 'Disable' : 'Enable'}
+                </button>
               </td>
             </tr>
           ))}
