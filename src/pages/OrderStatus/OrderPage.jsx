@@ -3,6 +3,7 @@ import OrderStatus from './OrderStatus';
 import OrderHistory from './OrderHistory';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './OrderPage.css'; 
+import ecommerce_fetch from '../../services/ecommerce_fetch.js'; // Importar ecommerce_fetch
 
 const OrdersPage = () => {
     const [currentOrderStatus, setCurrentOrderStatus] = useState('Pendiente');
@@ -10,9 +11,10 @@ const OrdersPage = () => {
     const [orders, setOrders] = useState([]); // Estado para las órdenes actuales
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-
+    
     useEffect(() => {
-        fetch('http://localhost/api/orders')
+        // Reemplazar fetch por ecommerce_fetch
+        ecommerce_fetch('http://localhost/apis/orders.php')
             .then((response) => {
                 if (!response.ok) {
                     throw new Error('Error al obtener las órdenes');
@@ -27,7 +29,8 @@ const OrdersPage = () => {
                 setError(err.message);
             });
 
-        fetch('http://localhost/api/order_history')
+        // Reemplazar fetch por ecommerce_fetch
+        ecommerce_fetch('http://localhost/apis/order_history.php')
             .then((response) => {
                 if (!response.ok) {
                     throw new Error('Error al obtener el historial de órdenes');
@@ -80,6 +83,3 @@ const OrdersPage = () => {
 };
 
 export default OrdersPage;
-
-
-
