@@ -379,7 +379,7 @@ const LoginForm = () => {
                             </div>
                             <div className="input-box">
                                 <input
-                                    type="text"
+                                    type="number"
                                     name="card_number"
                                     placeholder='Card Number'
                                     value={formData.card_number}

@@ -68,7 +68,7 @@
 }
 
 /* Estilos para los botones */
-.edit-button, .delete-button, .add-user-button {
+.edit-button, .toggle-state-button, .add-user-button {
     padding: 8px 12px;
     margin: 5px;
     border: none;
@@ -86,13 +86,10 @@
     background-color: #45a049; /* Verde más oscuro al pasar el mouse */
 }
 
-.delete-button {
-    background-color: #f44336; /* Rojo para eliminar */
+.toggle-state-button{
+    background-color: #F5872E;
 }
 
-.delete-button:hover {
-    background-color: #e53935; /* Rojo más oscuro al pasar el mouse */
-}
 
 .add-user-button {
     background-color: #007bff; /* Azul para agregar */

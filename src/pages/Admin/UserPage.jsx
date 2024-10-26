@@ -59,7 +59,7 @@ const UserPage = () => {
         setUsers(prevUsers =>
           prevUsers.map(user =>
             user.ID_User === userId
-              ? { ...user, User_State: currentState === 'enabled' ? 'disabled' : 'enabled' }
+              ? { ...user, User_State: currentState === 'Enabled' ? 'Disabled' : 'Enabled' }
               : user
           )
         );
@@ -120,7 +120,7 @@ const UserPage = () => {
                   className="toggle-state-button"
                   onClick={() => handleToggleState(user.ID_User, user.User_State)}
                 >
-                  {user.User_State === 'enabled' ? 'Disable' : 'Enable'}
+                  {user.User_State === 'Enabled' ? 'Disable' : 'Enabled'}
                 </button>
               </td>
             </tr>
