@@ -32,10 +32,13 @@ import AboutUS from './pages/aboutUs/AboutUs';
 import OrderPage from './pages/OrderStatus/OrderPage';
 import ProductCarousel from './pages/Home/ProductCarousel';
 import CatalogProductsSub from './pages/Products/CatalogProductsSub';
+import { AuthProvider } from './Auth/AuthContext';
+
 
 function App() {
   return (
     <OrderProvider>
+      <AuthProvider>
       <div className="App">
         <header className="App-header">
           <Navbar /> {/* El Navbar siempre estará visible */}
@@ -73,6 +76,7 @@ function App() {
         </main>
         <Footer /> {/* Footer siempre estará visible en todas las páginas */}
       </div>
+      </AuthProvider>
     </OrderProvider>
   );
 }

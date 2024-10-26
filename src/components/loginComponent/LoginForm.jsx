@@ -4,7 +4,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './LoginForm.css';
 import axiosInstance from '../../services/axiosConfig.js';
-import useAuth from '../../Auth/useAuth.js';
+import {useAuth} from '../../Auth/AuthContext.js';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import cardValidator from 'card-validator';

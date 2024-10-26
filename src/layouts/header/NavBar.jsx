@@ -6,7 +6,7 @@ import { FaUser, FaUserPlus } from 'react-icons/fa';
 import Paws from '../../assets/Paws.png';
 import 'bootstrap/dist/css/bootstrap.min.css';  
 import './NavBar.css';  
-import useAuth from '../../Auth/useAuth';
+import {useAuth} from '../../Auth/AuthContext.js';
 import HasPermission from '../../Auth/HasPermission';
 
 
@@ -19,8 +19,8 @@ const Navbar = () => {
   const userMenuRef = useRef(null);
   const categoriesRef = useRef(null);
   const navigate = useNavigate();
-  const { userData} = useAuth();
-
+  const {userData} = useAuth();
+  
   const handleItemClick = (item) => {
     setIsCategoriesOpen(false);
     setIsUserMenuOpen(false);
@@ -81,12 +81,14 @@ const Navbar = () => {
   }, []);
 
 
-   
-   
+
+
+    if(!userData){
+
       <li className="nav-item">
         <Link className="nav-link" to="/login" onClick={() => handleItemClick('Login')}>Login</Link>
       </li>
-      {console.log("El usuario no está autenticado.")}
+    }
 
     <>
       <div className="d-flex align-items-center" ref={userMenuRef}>
@@ -193,11 +195,14 @@ const Navbar = () => {
         ))}
       </ul>
             </li>
-       
+        
+          {
+              !userData &&
               <li className="nav-item">
                 <Link className="nav-link" to="/login" onClick={() => handleItemClick('Login')}>Login</Link>
               </li>
-            
+          }
+        
           </ul>
 
           <div className="d-flex align-items-center" ref={userMenuRef}>
@@ -205,11 +210,9 @@ const Navbar = () => {
               <TiShoppingCart size={30} />
             </div>
 
-            {/* Flecha que despliega las categorías 
+        
           <HasPermission permission ="Admin Categories" action="View">
-        */}
-        
-        
+          
             <div className="nav-item dropdown">
               <div
                 className="nav-link dropdown-toggle"
@@ -224,11 +227,11 @@ const Navbar = () => {
               <ul className="dropdown-menu" aria-labelledby="userMenu">
             
               
-              {/*<HasPermission permission="Admin User" action="Create Users">*/}
+              <HasPermission permission="Admin User ">
                   <li>
                     <Link to="/users" className="dropdown-item">Users</Link>
                   </li>
-              {/*</HasPermission>*/}
+              </HasPermission>
           
                 <li><Link to="/categoriesp" className="dropdown-item">Categories P</Link></li>
                 <li><Link to="/subcategories" className="dropdown-item">Subcategories</Link></li>
@@ -236,7 +239,7 @@ const Navbar = () => {
               </ul>
             </div>
           
-            {/*</HasPermission>*/}
+            </HasPermission>
         
           
             <div className="nav-link" onClick={goToProfile}>

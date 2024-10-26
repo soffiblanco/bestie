@@ -4,7 +4,7 @@ import './Profile.css';
 import { baseUrl } from '../../config.js'
 import ecommerce_fetch from '../../services/ecommerce_fetch.js';
 import { FaEdit } from "react-icons/fa";
-import useAuth from '../../Auth/useAuth.js';
+import {useAuth} from '../../Auth/AuthContext.js';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';

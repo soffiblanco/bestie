@@ -1,19 +1,20 @@
 import PropTypes from "prop-types";
-import useAuth from "../Auth/useAuth";
+import { useAuth } from "./AuthContext";
 
 const HasPermission = ({ permission, action, children }) => {
   const { userData } = useAuth();
 
-  console.log("userData:", userData);
-
   const hasPermission = (permission, action) => {
-    // Verificación para evitar errores si userData o permissions son null o undefined
+
     if (!userData || !userData.permissions) {
-      console.log("Permiso denegado: no hay `userData` o `permissions`"); 
       return false;
     }
 
     const categoryPermissions = userData.permissions[permission]?.Actions || [];
+
+    if (!categoryPermissions) {
+      return false;
+    }
 
     if (!action) {
       return categoryPermissions.length > 0;
@@ -22,7 +23,11 @@ const HasPermission = ({ permission, action, children }) => {
     return categoryPermissions.includes(action);
   };
 
-  return hasPermission(permission, action) ? <>{children}</> : null;
+  if (hasPermission(permission, action)) {
+    return <>{children}</>;
+  }
+
+  return false;
 };
 
 HasPermission.propTypes = {
