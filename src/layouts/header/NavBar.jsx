@@ -204,9 +204,12 @@ const Navbar = () => {
             <div className="nav-link" onClick={goToOrder}>
               <TiShoppingCart size={30} />
             </div>
-         
-          <HasPermission permission ='Admin Categories' action='Create Category '>
-           
+
+            {/* Flecha que despliega las categorías 
+          <HasPermission permission ="Admin Categories" action="View">
+        */}
+        
+        
             <div className="nav-item dropdown">
               <div
                 className="nav-link dropdown-toggle"
@@ -217,22 +220,23 @@ const Navbar = () => {
               >
                 <FaUserPlus size={25} />
               </div>
-  
+          
               <ul className="dropdown-menu" aria-labelledby="userMenu">
             
               
-              <HasPermission permission="Admin User" action="Create Users">
+              {/*<HasPermission permission="Admin User" action="Create Users">*/}
                   <li>
                     <Link to="/users" className="dropdown-item">Users</Link>
                   </li>
-              </HasPermission>
+              {/*</HasPermission>*/}
           
                 <li><Link to="/categoriesp" className="dropdown-item">Categories P</Link></li>
                 <li><Link to="/subcategories" className="dropdown-item">Subcategories</Link></li>
                 <li><Link to="/products" className="dropdown-item">Products</Link></li>
               </ul>
             </div>
-           </HasPermission>
+          
+            {/*</HasPermission>*/}
         
           
             <div className="nav-link" onClick={goToProfile}>

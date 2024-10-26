@@ -1,34 +1,27 @@
 /* AddUser.css */
-.add-user-container {
-    max-width: 400px;
-    margin: 0 auto;
-    padding: 20px;
-    background-color: #f9f9f9;
-    border-radius: 15px;
-    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease-in-out;
-  }
-  
-  .add-user-container h1 {
-    text-align: center;
-    color: #333;
-    font-size: 24px;
-    margin-bottom: 20px;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  }
-  
-  .input-box {
-    position: relative;
-    margin-bottom: 20px;
-  }
-  
+
+    .add-user-container h1 {
+      text-align: center;
+      color: #000000; /* Cambia a blanco para mejorar la visibilidad */
+      font-size: 24px;
+      margin-bottom: 20px;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .input-box input {
+      color: #333; /* Cambia este color según sea necesario para que contraste con el fondo */
+    }
+
+    .input-box .icon {
+      color: #000000; /* Cambia el icono a blanco para mejorar el contraste */
+    }
   .input-box input {
     width: 100%;
     padding: 12px 40px;
     font-size: 16px;
     border: 2px solid #ddd;
     border-radius: 8px;
-    background-color: #fff;
+    background-color: #000000;
     transition: all 0.3s ease;
   }
   

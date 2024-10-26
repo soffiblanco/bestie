@@ -4,9 +4,12 @@ import useAuth from "../Auth/useAuth";
 const HasPermission = ({ permission, action, children }) => {
   const { userData } = useAuth();
 
+  console.log("userData:", userData);
+
   const hasPermission = (permission, action) => {
     // Verificación para evitar errores si userData o permissions son null o undefined
     if (!userData || !userData.permissions) {
+      console.log("Permiso denegado: no hay `userData` o `permissions`"); 
       return false;
     }
 
