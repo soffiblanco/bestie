@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { baseUrl } from '../../config.js'
 import ecommerce_fetch from '../../services/ecommerce_fetch';
+import './Add.css';
 
 const AddSubcategory= () => {
   const [idcategory, setIdcategory] = useState('');

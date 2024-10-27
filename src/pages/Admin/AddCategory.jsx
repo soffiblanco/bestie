@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { baseUrl } from '../../config.js'
+import { baseUrl } from '../../config.js';
 import ecommerce_fetch from '../../services/ecommerce_fetch.js';
-
+import './Add.css';
 
 const AddCategory = () => {
   const [category, setCategory] = useState('');
@@ -39,36 +39,36 @@ const AddCategory = () => {
   };
 
   return (
-    <div>
+    <div className="add-category-container">
       <h1>Add New Category</h1>
       {loading ? (
         <p>Loading...</p>
       ) : (
         <form onSubmit={handleSubmit}>
-          <div>
-            <label htmlFor="category">Category Name:</label><br />
+          <div className="input-container">
+            <label htmlFor="category">Category Name:</label>
             <input
               type="text"
               id="category"
               value={category}
               onChange={(e) => setCategory(e.target.value)}
+              placeholder="Enter category name"
               required
             />
           </div>
-          <br />
-          <div>
-            <label htmlFor="category_description">Category Description:</label><br />
+          <div className="input-container">
+            <label htmlFor="category_description">Category Description:</label>
             <textarea
               id="category_description"
               value={categoryDescription}
               onChange={(e) => setCategoryDescription(e.target.value)}
               rows="4"
+              placeholder="Enter category description"
               required
             ></textarea>
           </div>
-          <br />
-          <div>
-            <label htmlFor="category_image">Category Image:</label><br />
+          <div className="input-container">
+            <label htmlFor="category_image">Category Image:</label>
             <input
               type="file"
               id="category_image"
@@ -77,11 +77,10 @@ const AddCategory = () => {
               required
             />
           </div>
-          <br />
           <button type="submit">Add Category</button>
         </form>
       )}
-      {message && <p>{message}</p>}
+      {message && <p className="message">{message}</p>}
     </div>
   );
 };

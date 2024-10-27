@@ -7,8 +7,9 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import cardValidator from 'card-validator';
 import { useNavigate } from 'react-router-dom';
+import './Add_User.css';
 
-import './Add.css';
+
 
 const AddUser = () => {
   const [formData, setFormData] = useState({

@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { baseUrl } from '../../config.js'
 import ecommerce_fetch from '../../services/ecommerce_fetch.js';
 
@@ -23,7 +25,6 @@ const CategoryPage = () => {
         return response.json();
       })
       .then(data => {
-        console.log(data); // Verifica la estructura de los datos
         setCategories(data.data || []); // Asegúrate de que 'data' tenga el formato esperado
         setLoading(false);
       })
@@ -36,23 +37,41 @@ const CategoryPage = () => {
   const handleEdit = (categoryId) => {
     navigate(`/EditCategory/${categoryId}`);
   };
-  
-  const handleDelete = (categoryId) => {
-    console.log(`Delete category with ID: ${categoryId}`);
-    ecommerce_fetch(`${baseUrl}/category.php?id_category=${categoryId}`, {
-      method: 'DELETE',
+
+  const handleToggleState = (categoryId, currentState) => {
+
+    console.log("Sending PATCH request with:", { id_category: categoryId }); // Depuración: JSON que se enviará
+
+    ecommerce_fetch(`${baseUrl}/category.php`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        id_category: categoryId
+      }),
     })
       .then(response => {
         if (!response.ok) {
-          throw new Error('Error deleting category');
+          throw new Error('Error updating category state');
         }
         return response.json();
       })
       .then(data => {
-        alert(data.message);
-        setCategories(prevCategories => prevCategories.filter(category => category.id_category !== categoryId));
+        console.log("Response from server:", data); 
+        toast.success(data.message);
+        // Actualizar el estado de categoría en el frontend
+        setCategories(prevCategories =>
+          prevCategories.map(category =>
+            category.id_category === categoryId
+              ? { ...category, Category_State: currentState === 'Enabled' ? 'Disabled' : 'Enabled' }
+              : category
+          )
+        );
+        console.log("Updated categories state:", categories);
+        document.activeElement.blur();
       })
-      .catch(err => alert('Error: ' + err.message));
+      .catch(err => toast.error('Error: ' + err.message));
   };
 
   const handleAddUser = () => {
@@ -69,6 +88,7 @@ const CategoryPage = () => {
 
   return (
     <div className="user-page-container">
+      <ToastContainer />
       <h1 className="table-title">Category List</h1> {/* Cambiado a "Category List" */}
       <table className="styled-table">
         <thead>
@@ -77,6 +97,7 @@ const CategoryPage = () => {
             <th>ID</th>
             <th>Category</th>
             <th>Category Description</th>
+            <th>Status</th>
             <th>Actions</th>
           </tr>
         </thead>
@@ -94,9 +115,15 @@ const CategoryPage = () => {
               <td>{category.id_category || 'ID not available'}</td> {/* Cambiado a 'id_category' */}
               <td>{category.category || 'Category Name not available'}</td>
               <td>{category.category_description || 'Category Description not available'}</td>
+              <td>{category.Category_State || 'Category State not available'}</td>
               <td>
-                <button className="edit-button" onClick={() => handleEdit(category.id_category)}>Edit</button> {/* Cambiado a 'id_category' */}
-                <button className="delete-button" onClick={() => handleDelete(category.id_category)}>Delete</button> {/* Pasando 'category.id_category' */}
+                <button className="edit-button" onClick={() => handleEdit(category.id_category)}>Edit</button> 
+                <button
+                  className="toggle-state-button"
+                  onClick={() => handleToggleState(category.id_category, category.Category_State)}
+                >
+                  {category.Category_State === 'Enabled' ? 'Disable' : 'Enabled'}
+                </button>
               </td>
             </tr>
           ))}
