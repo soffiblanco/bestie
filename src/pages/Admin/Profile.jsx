@@ -269,7 +269,6 @@ const handleEmailConfirm = () => {
       // Check if the response is not OK (status code outside 200-299)
       if (!response.ok) {
         return response.json().then((errorData) => {
-          // Throw an error with the message from the server
           throw new Error(errorData.message || 'Error updating user data');
         });
       }

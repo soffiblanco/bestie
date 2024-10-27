@@ -61,10 +61,10 @@ function App() {
             <Route path="/AddCategory" element={<AddCategory />} />
             <Route path="/AddSubcategory" element={<AddSubcategory />} />
             <Route path="/AddProduct" element={<AddProduct />} />
-            <Route path="/EditUser" element={<EditUser />} />
-            <Route path="/EditCategory" element={<EditCategory />} />
-            <Route path="/EditSubcategory" element={<EditSubcategory />} />
-            <Route path="/EditProduct" element={<EditProduct />} />
+            <Route path="/EditUser/:userId" element={<EditUser />} />
+            <Route path="/EditCategory/:categoryId" element={<EditCategory />} />
+            <Route path="/EditSubcategory/:subcategoryId" element={<EditSubcategory />} />
+            <Route path="/EditProduct/:productId" element={<EditProduct />} />
             <Route path="/order" element={<Order />} /> {/* Carrito*/}
             <Route path="/orders" element={<OrderPage />} /> {/* Ordenes*/}
             <Route path="/payment" element={<PaymentPage />} />

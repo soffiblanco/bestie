@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { baseUrl } from '../../config.js'
-import ecommerce_fetch from '../../services/ecommerce_fetch';
+import ecommerce_fetch from '../../services/ecommerce_fetch.js';
 
 const EditUser = () => {
   const { userId } = useParams();
