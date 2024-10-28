@@ -6,21 +6,16 @@ import { FaUser, FaUserPlus } from 'react-icons/fa';
 import Paws from '../../assets/Paws.png';
 import 'bootstrap/dist/css/bootstrap.min.css';  
 import './NavBar.css';  
-import {useAuth} from '../../Auth/AuthContext.js';
-import HasPermission from '../../Auth/HasPermission';
 
 
 const Navbar = () => {
-
-
   const [isCategoriesOpen, setIsCategoriesOpen] = useState(false);
   const [openCategory, setOpenCategory] = useState(null);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const userMenuRef = useRef(null);
   const categoriesRef = useRef(null);
   const navigate = useNavigate();
-  const {userData} = useAuth();
-  
+
   const handleItemClick = (item) => {
     setIsCategoriesOpen(false);
     setIsUserMenuOpen(false);
@@ -80,25 +75,6 @@ const Navbar = () => {
     };
   }, []);
 
-
-
-
-    if(!userData){
-
-      <li className="nav-item">
-        <Link className="nav-link" to="/login" onClick={() => handleItemClick('Login')}>Login</Link>
-      </li>
-    }
-
-    <>
-      <div className="d-flex align-items-center" ref={userMenuRef}>
-        <div className="nav-link" onClick={goToOrder}>
-          <TiShoppingCart size={30} />
-        </div>
-      </div>
-    </>
-
-
   const categories = [
     { name: 'Food', subcategories: ['Dog', 'Cat', 'Fish', 'Turtles', 'Birds'] },
     { name: 'Toys', subcategories: ['Dog', 'Cat'] },
@@ -153,8 +129,6 @@ const Navbar = () => {
                   {isCategoriesOpen ? <IoIosArrowUp /> : <IoIosArrowDown />}
                 </a>
               </div>
-
-              
 {/* Menú desplegable personalizado */}
 <ul className={`dropdown-menu ${isCategoriesOpen ? 'show' : ''}`}>
   {categories.map((category) => (
@@ -176,6 +150,40 @@ const Navbar = () => {
         </span>
       </div>
 
+              {/* Menú desplegable personalizado */}
+              <ul className={`dropdown-menu ${isCategoriesOpen ? 'show' : ''}`}>
+                {categories.map((category) => (
+                  <li key={category.name}>
+                    <div
+                      className="dropdown-item"
+                      onClick={() => toggleSubcategories(category.name)}
+                    >
+                      {category.name}
+                      {openCategory === category.name ? (
+                        <IoIosArrowUp />
+                      ) : (
+                        <IoIosArrowDown />
+                      )}
+                    </div>
+                    {openCategory === category.name && (
+                      <ul className="dropdown-submenu">
+                        {category.subcategories.map((sub) => (
+                          <li key={sub}>
+                            <div
+                              className="dropdown-item"
+                              onClick={() =>
+                                handleSubcategoryClick(category.name, sub)
+                              }
+                            >
+                              {sub}
+                            </div>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                  </li>
+                ))}
+              </ul>
       {/* Menú de subcategorías */}
       {openCategory === category.name && (
         <ul className="dropdown-submenu">
@@ -188,21 +196,16 @@ const Navbar = () => {
                 {sub}
               </div>
             </li>
-                ))}
-              </ul>
-            )}
-          </li>
-        ))}
-      </ul>
+          ))}
+        </ul>
+      )}
+    </li>
+  ))}
+</ul>
             </li>
-        
-          {
-              !userData &&
-              <li className="nav-item">
-                <Link className="nav-link" to="/login" onClick={() => handleItemClick('Login')}>Login</Link>
-              </li>
-          }
-        
+            <li className="nav-item">
+              <Link className="nav-link" to="/login" onClick={() => handleItemClick('Login')}>Login</Link>
+            </li>
           </ul>
 
           <div className="d-flex align-items-center" ref={userMenuRef}>
@@ -210,9 +213,6 @@ const Navbar = () => {
               <TiShoppingCart size={30} />
             </div>
 
-        
-          <HasPermission permission ="Admin Categories" action="View">
-          
             <div className="nav-item dropdown">
               <div
                 className="nav-link dropdown-toggle"
@@ -223,30 +223,19 @@ const Navbar = () => {
               >
                 <FaUserPlus size={25} />
               </div>
-          
               <ul className="dropdown-menu" aria-labelledby="userMenu">
-            
-              
-              <HasPermission permission="Admin User ">
-                  <li>
-                    <Link to="/users" className="dropdown-item">Users</Link>
-                  </li>
-              </HasPermission>
-          
+                <li><Link to="/profile" className="dropdown-item">Profile</Link></li>
+                <li><Link to="/users" className="dropdown-item">Users</Link></li>
                 <li><Link to="/categoriesp" className="dropdown-item">Categories P</Link></li>
                 <li><Link to="/subcategories" className="dropdown-item">Subcategories</Link></li>
                 <li><Link to="/products" className="dropdown-item">Products</Link></li>
               </ul>
             </div>
-          
-            </HasPermission>
-        
-          
+
             <div className="nav-link" onClick={goToProfile}>
               <FaUser size={20} />
             </div>
           </div>
-         
 
           <form className="d-flex" role="search">
             <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
