@@ -14,7 +14,6 @@
 }
 
 .styled-table {
-    width: 100%;
     border-collapse: collapse;
     font-size: 1rem;
     background-color: #ffffff; /* Fondo blanco para la tabla */

@@ -1,4 +1,5 @@
-/* Estilos para la página de órdenes */
+/*
+
 .orders-page {
     padding: 20px;
     background-color: #F5F5F5;
@@ -48,13 +49,14 @@
 }
 
 .status-icon {
-    font-size: 2.5rem; /* Tamaño uniforme para todos los íconos */
+    font-size: 2.5rem; 
 }
 
 .status-icon-container {
-    color: #ccc; /* Color gris para los íconos inactivos */
+    color: #ccc; 
 }
 
 .status-icon-container.active {
-    color: white; /* Color verde para los íconos activos */
+    color: white; 
 }
+*/

@@ -1,6 +1,6 @@
 .orders-page {
     font-family: 'Poppins', sans-serif;
-    padding: 5% 2%; 
+    
     background-color: blueviolet;
     text-align: center;
 }
@@ -10,6 +10,11 @@
     background-color: #FFD423;
     border-radius: 10px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+
+    width: 100%;
+    margin: 0 auto;
+    padding-top: 20px;
+    box-sizing: border-box;
 }
 
 .order-status-container .card-title {

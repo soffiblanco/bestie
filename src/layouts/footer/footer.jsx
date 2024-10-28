@@ -9,7 +9,7 @@ const Footer = () => {
             <div className='container'>
                 <div className='row'>
                     {/* Enlaces Rápidos */}
-                    <div className='col-md-3 mb-3'>
+                    <div className='col-md-2 mb-2'>
                         <h5>Quick Links</h5>
                         <ul className="list-unstyled">
                             <li><a href="/categories" className="text-white">Categories</a></li>
@@ -20,7 +20,7 @@ const Footer = () => {
                     </div>
 
                     {/* Información Legal */}
-                    <div className='col-md-3 mb-3'>
+                    <div className='col-md-2 mb-2'>
                         <h5>Legal</h5>
                         <ul className="list-unstyled">
                             <li><a href="/terms" className="text-white">Terms and Conditions</a></li>
@@ -31,7 +31,7 @@ const Footer = () => {
                     </div>
 
                     {/* Servicio al Cliente */}
-                    <div className='col-md-3 mb-3'>
+                    <div className='col-md-2 mb-2'>
                         <h5>Customer Service</h5>
                         <ul className="list-unstyled">
                             <li><a href="/contact" className="text-white">Contact Us</a></li>
@@ -42,7 +42,7 @@ const Footer = () => {
                     </div>
 
                     {/* Redes Sociales */}
-                    <div className='col-md-3 mb-3'>
+                    <div className='col-md-2 mb-2'>
                         <h5>Coming Soon on</h5>
                         <div className='d-flex justify-content-start'>
                             <a href="#" className="text-white me-3"><FaFacebook size={24} /></a>
