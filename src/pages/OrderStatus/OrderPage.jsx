@@ -13,19 +13,21 @@ const OrdersPage = () => {
     const [error, setError] = useState(null);
     
     useEffect(() => {
-        // Reemplazar fetch por ecommerce_fetch
         ecommerce_fetch('http://localhost/apis/orders.php')
             .then((response) => {
+                console.log("Status Code for orders:", response.status); // Código de estado
                 if (!response.ok) {
                     throw new Error('Error al obtener las órdenes');
                 }
                 return response.json();
             })
             .then((data) => {
+                console.log("Orders Data:", data); // Mostrar los datos de las órdenes
                 setOrders(data);
                 setCurrentOrderStatus(data[0]?.Order_State || 'Pendiente');
             })
             .catch((err) => {
+                console.error("Error fetching orders:", err);
                 setError(err.message);
             });
 

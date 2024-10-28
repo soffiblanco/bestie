@@ -46,3 +46,15 @@
 .order-history li p {
     margin: 5px 0;
 }
+
+.status-icon {
+    font-size: 2.5rem; /* Tamaño uniforme para todos los íconos */
+}
+
+.status-icon-container {
+    color: #ccc; /* Color gris para los íconos inactivos */
+}
+
+.status-icon-container.active {
+    color: white; /* Color verde para los íconos activos */
+}
