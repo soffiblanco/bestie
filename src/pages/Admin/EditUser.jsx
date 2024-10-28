@@ -1,22 +1,49 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { baseUrl } from '../../config.js'
+import { baseUrl } from '../../config.js';
+import { useAuth } from '../../Auth/AuthContext.js';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import ecommerce_fetch from '../../services/ecommerce_fetch.js';
+import './Edit.css';
 
 const EditUser = () => {
   const { userId } = useParams();
   const navigate = useNavigate();
+  const { userData } = useAuth();
 
   const [user, setUser] = useState(null);
-  const [formData, setFormData] = useState({});
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    id_role: '',
+    telephone_number: '',
+    direction: '',
+    card_holder: '',
+    card_number: '',
+    expiration_date: '',
+    cvv: '',
+    user_state: '',
+    user_image: ''
+  });
   const [fieldsToUpdate, setFieldsToUpdate] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [imageBase64, setImageBase64] = useState('');
 
   useEffect(() => {
-    ecommerce_fetch(`${baseUrl}/users.php?id_user=${userId}`,{
-      method:'GET',
+
+    toast.info('Toast de prueba para verificar funcionamiento.');
+
+    
+    setLoading(true);
+    console.log("Fetching user data...");
+    ecommerce_fetch(`${baseUrl}/users.php?id_user=${userId}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${userData.token}`,
+      },
     })
       .then((response) => {
         if (!response.ok) {
@@ -30,18 +57,32 @@ const EditUser = () => {
         setFormData(userData);
 
         const initialFieldsToUpdate = {};
-        ['name', 'email', 'role', 'telephone_number', 'direction', 'card_number', 'expiration_date', 'cvv', 'user_state', 'user_image'].forEach((field) => {
+        [
+          'name',
+          'email',
+          'id_role',
+          'telephone_number',
+          'direction',
+          'card_holder',
+          'card_number',
+          'expiration_date',
+          'cvv',
+          'user_state',
+          'user_image'
+        ].forEach((field) => {
           initialFieldsToUpdate[field] = false;
         });
         setFieldsToUpdate(initialFieldsToUpdate);
-
-        setLoading(false);
       })
       .catch((err) => {
         setError(err.message);
+        toast.error('Failed to fetch user data');
+      })
+      .finally(() => {
         setLoading(false);
+        console.log("User data fetch complete");
       });
-  }, [userId]);
+  }, [userId, userData.token]);
 
   const handleChange = (e) => {
     setFormData({
@@ -63,63 +104,61 @@ const EditUser = () => {
       const reader = new FileReader();
       reader.onloadend = () => {
         const base64String = reader.result.split(',')[1];
-        const mimeType = file.type; // Obtener el tipo de archivo, por ejemplo "image/jpeg"
-        const fullBase64String = `data:${mimeType};base64,${base64String}`; // Construir el string completo
-        setImageBase64(fullBase64String); // Guardar la imagen con el prefijo adecuado
-        console.log('Full Image Base64:', fullBase64String); // Mensaje de depuración para la imagen completa
+        const mimeType = file.type;
+        const fullBase64String = `data:${mimeType};base64,${base64String}`;
+        setImageBase64(fullBase64String);
       };
       reader.readAsDataURL(file);
     }
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
+    console.log('handleSubmit called'); // Debug message
 
-    // Crear un objeto solo con los campos seleccionados para actualizar
     const dataToSend = { id_user: userId };
-
     Object.keys(fieldsToUpdate).forEach((field) => {
       if (fieldsToUpdate[field]) {
-        if (field === 'user_image') {
-          dataToSend[field] = imageBase64; // Usar la imagen en base64 con el encabezado adecuado
-        } else {
-          dataToSend[field] = formData[field];
-        }
+        dataToSend[field] = field === 'user_image' ? imageBase64 : formData[field];
       }
     });
 
-    // Mensajes de depuración antes de enviar la solicitud
-    console.log('User ID:', userId);
-    console.log('Fields to update:', fieldsToUpdate);
-    console.log('Form data:', formData);
-    console.log('Data to send in PUT request:', JSON.stringify(dataToSend, null, 2));
-
-    // Verificar si el userId está definido
     if (!userId) {
-      console.error('User ID is undefined. Cannot submit form.');
-      alert('Error: User ID is undefined.');
+      toast.error('User ID is undefined. Cannot submit form.');
       return;
     }
 
-    // Enviar el JSON al backend
-    ecommerce_fetch(`${baseUrl}/apis/users.php`, {
+    setLoading(true);
+    console.log("Sending PUT request..."); // Debug message
+    ecommerce_fetch(`${baseUrl}/users.php`, {
       method: 'PUT',
-      body: JSON.stringify(dataToSend), // Convertir los datos a JSON
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${userData.token}`,
+      },
+      body: JSON.stringify(dataToSend),
     })
       .then((response) => {
         if (!response.ok) {
-          throw new Error('Error updating user');
+          return response.json().then((errorData) => {
+            throw new Error(errorData.message || 'Error updating user data');
+          });
         }
         return response.json();
       })
       .then((data) => {
-        console.log('Response from server:', data); // Mensaje de depuración para la respuesta del servidor
-        alert(data.message);
-        navigate('/UserPage');
+        toast.success(data.message || 'User updated successfully');
+        setTimeout(() => {
+          navigate('/users');
+        }, 2000);
       })
       .catch((err) => {
-        console.error('Error during update:', err);
-        alert('Error: ' + err.message);
+        console.error('Error updating user:', err); // Debug message
+        toast.error(err.message);
+      })
+      .finally(() => {
+        setLoading(false);
+        console.log("PUT request complete"); // Debug message
       });
   };
 
@@ -132,57 +171,62 @@ const EditUser = () => {
   }
 
   return (
-    <div className="edit-user-container">
-      <h1 className="form-title">Edit User</h1>
-      <form onSubmit={handleSubmit} className="edit-user-form">
-        {user && (
-          <>
-            {['name', 'email', 'role', 'telephone_number', 'direction', 'card_number', 'expiration_date', 'cvv', 'user_state'].map((field) => (
-              <div key={field} className="form-field">
+    <>
+      <ToastContainer position="top-right" />
+      <div className="edit-user-container">
+        <h1 className="form-title">Edit User</h1>
+        <form onSubmit={handleSubmit} className="edit-user-form">
+          {user && (
+            <>
+              {['name', 'email', 'id_role', 'telephone_number', 'direction', 'card_holder', 'card_number', 'expiration_date', 'cvv', 'user_state'].map((field) => (
+                <div key={field} className="form-field">
+                  <input
+                    type="checkbox"
+                    name={field}
+                    onChange={handleCheckboxChange}
+                    id={`checkbox-${field}`}
+                  />
+                  <label htmlFor={`checkbox-${field}`} className="field-label">
+                    {field.replace('_', ' ')}:
+                  </label>
+                  <input
+                    type="text"
+                    name={field}
+                    value={formData[field] || ''}
+                    onChange={handleChange}
+                    disabled={!fieldsToUpdate[field]}
+                    className="field-input"
+                  />
+                </div>
+              ))}
+
+              <div className="form-field">
                 <input
                   type="checkbox"
-                  name={field}
+                  name="user_image"
                   onChange={handleCheckboxChange}
-                  id={`checkbox-${field}`}
+                  id="checkbox-user_image"
                 />
-                <label htmlFor={`checkbox-${field}`} className="field-label">
-                  {field.replace('_', ' ')}:
+                <label htmlFor="checkbox-user_image" className="field-label">
+                  User Image
                 </label>
                 <input
-                  type="text"
-                  name={field}
-                  value={formData[field] || ''}
-                  onChange={handleChange}
-                  disabled={!fieldsToUpdate[field]}
+                  type="file"
+                  name="user_image"
+                  onChange={handleImageChange}
+                  disabled={!fieldsToUpdate['user_image']}
                   className="field-input"
                 />
               </div>
-            ))}
 
-            <div className="form-field">
-              <input
-                type="checkbox"
-                name="user_image"
-                onChange={handleCheckboxChange}
-                id="checkbox-user_image"
-              />
-              <label htmlFor="checkbox-user_image" className="field-label">
-                User Image
-              </label>
-              <input
-                type="file"
-                name="user_image"
-                onChange={handleImageChange}
-                disabled={!fieldsToUpdate['user_image']}
-                className="field-input"
-              />
-            </div>
-
-            <button type="submit" className="submit-button">Update User</button>
-          </>
-        )}
-      </form>
-    </div>
+              <button type="submit" className="submit-button" disabled={loading}>
+                {loading ? 'Updating...' : 'Update User'}
+              </button>
+            </>
+          )}
+        </form>
+      </div>
+    </>
   );
 };
 

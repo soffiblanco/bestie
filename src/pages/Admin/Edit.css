@@ -1,205 +1,90 @@
-/* EditUserSingleField.css */
-
-/* Contenedor Principal */
+/* Estilos para el componente EditUser */
 .edit-user-container {
-  max-width: 800px;
-  margin: 40px auto;
+  max-width: 600px;
+  margin: 0 auto;
   padding: 20px;
-  background-color: #f4f7f8;
-  border-radius: 8px;
-  font-family: Arial, sans-serif;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  background-color: #f8f9fa;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* Título del Formulario */
-.edit-user-container .title {
+.form-title {
+  font-size: 24px;
   text-align: center;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
   color: #333;
 }
 
-/* Detalles del Usuario */
-.user-details .field {
+.edit-user-form {
   display: flex;
-  align-items: center;
-  margin-bottom: 20px;
+  flex-direction: column;
 }
 
-/* Etiquetas de los Campos */
-.user-details .field label {
-  flex: 0 0 200px;
-  font-weight: bold;
+.form-field {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.field-label {
+  margin-left: 10px;
+  width: 150px;
+  font-weight: 500;
   color: #555;
 }
 
-/* Sección de Visualización */
-.user-details .field .display-section {
-  flex: 1;
-  display: flex;
-  align-items: center;
-}
-
-/* Texto de los Campos */
-.user-details .field .display-section span {
-  flex: 1;
-  font-size: 1em;
-  color: #333;
-}
-
-/* Botón de Edición */
-.user-details .field .display-section button {
-  background: none;
-  border: none;
-  color: #5bc0de;
-  cursor: pointer;
-  font-size: 1.2em;
-  margin-left: 10px;
-  transition: color 0.3s ease;
-}
-
-/* Hover del Botón de Edición */
-.user-details .field .display-section button:hover {
-  color: #31b0d5;
-}
-
-/* Sección de Edición */
-.user-details .field .edit-section {
-  flex: 1;
-  display: flex;
-  align-items: center;
-}
-
-/* Campos de Entrada y Select en Modo Edición */
-.user-details .field .edit-section input,
-.user-details .field .edit-section select {
-  flex: 1;
+.field-input {
+  flex-grow: 1;
   padding: 8px;
-  border: 1px solid #ccd0d5;
-  border-radius: 4px;
-  font-size: 1em;
-  box-sizing: border-box;
-}
-
-/* Icono de Visibilidad de Contraseña */
-.user-details .field .edit-section .eye-icon {
-  margin-left: -30px;
-  cursor: pointer;
-  color: #999;
-}
-
-/* Botón de Guardar */
-.user-details .field .edit-section button {
-  background: none;
-  border: none;
-  color: #5cb85c;
-  cursor: pointer;
-  font-size: 1.2em;
-  margin-left: 10px;
-  transition: color 0.3s ease;
-}
-
-/* Hover del Botón de Guardar */
-.user-details .field .edit-section button:hover {
-  color: #4cae4c;
-}
-
-/* Botón de Cancelar */
-.user-details .field .edit-section button + button {
-  color: #d9534f;
-}
-
-/* Hover del Botón de Cancelar */
-.user-details .field .edit-section button + button:hover {
-  color: #c9302c;
-}
-
-/* Sección de Imagen de Usuario */
-.user-details .field .image-section {
-  display: flex;
-  align-items: center;
-}
-
-/* Imagen de Usuario */
-.user-details .field .image-section .user-image {
-  width: 100px;
-  height: 100px;
-  object-fit: cover;
-  border-radius: 50%;
-  margin-right: 20px;
   border: 1px solid #ccc;
+  border-radius: 5px;
+  transition: border-color 0.3s;
 }
 
-/* Botón de Edición de Imagen */
-.user-details .field .image-section .edit-image-button {
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-  color: #5bc0de;
-  font-size: 1.2em;
-  transition: color 0.3s ease;
+.field-input:disabled {
+  background-color: #e9ecef;
 }
 
-/* Hover del Botón de Edición de Imagen */
-.user-details .field .image-section .edit-image-button:hover {
-  color: #31b0d5;
+.field-input:focus {
+  border-color: #007bff;
 }
 
-/* Botón para Volver a la Lista de Usuarios */
-.edit-user-container .back-button {
-  margin-top: 30px;
-  padding: 10px 20px;
-  background-color: #5bc0de;
+.submit-button {
+  padding: 10px;
+  background-color: #007bff;
+  color: #fff;
+  font-weight: bold;
   border: none;
-  border-radius: 4px;
-  color: white;
-  font-size: 1em;
+  border-radius: 5px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s;
 }
 
-/* Hover del Botón de Volver */
-.edit-user-container .back-button:hover {
-  background-color: #31b0d5;
+.submit-button:disabled {
+  background-color: #6c757d;
+  cursor: not-allowed;
 }
 
-/* Mensajes de Error */
-.user-details .field .error {
-  color: #e74c3c;
-  font-size: 0.9em;
-  margin-left: 10px;
-  display: block;
+.submit-button:hover:not(:disabled) {
+  background-color: #0056b3;
 }
 
-/* Campo de Fecha de Expiración con DatePicker */
-.user-details .field .edit-section .date-picker {
-  width: 100%;
-  padding: 8px;
-  border: 1px solid #ccd0d5;
-  border-radius: 4px;
-  font-size: 1em;
-  box-sizing: border-box;
-}
-
-/* Responsividad para Pantallas Pequeñas */
-@media (max-width: 600px) {
-  .user-details .field {
-      flex-direction: column;
-      align-items: flex-start;
+/* Responsive adjustments */
+@media (max-width: 480px) {
+  .edit-user-container {
+    padding: 15px;
   }
 
-  .user-details .field label {
-      flex: none;
-      margin-bottom: 5px;
+  .field-label {
+    width: 120px;
+    font-size: 14px;
   }
 
-  .user-details .field .display-section,
-  .user-details .field .edit-section {
-      width: 100%;
+  .field-input {
+    padding: 6px;
   }
 
-  .user-details .field .display-section button,
-  .user-details .field .edit-section button {
-      font-size: 1em;
-      margin-left: 5px;
+  .submit-button {
+    padding: 8px;
   }
 }
