@@ -9,6 +9,8 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import cardValidator from 'card-validator';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 
 const Profile = () => {
   // State to store profile data
@@ -31,6 +33,8 @@ const Profile = () => {
 
   const [editedData, setEditedData] = useState({
   });
+
+  const [selectedExpirationDate, setSelectedExpirationDate] = useState(null);
 
   // Separate state to handle email editing
   const [editedEmail, setEditedEmail] = useState('');
@@ -121,6 +125,16 @@ const toggleConfirmPasswordVisibility = () => {
             last_login: user.Last_Login || '',
             user_image: user.User_Image || 'https://via.placeholder.com/150' // Default profile image
           });
+
+
+          if (user.Expiration_Date) {
+            const [month, year] = user.Expiration_Date.split('-').map(Number);
+            // Crear una fecha con el primer día del mes seleccionado
+            const date = new Date(year, month - 1, 1);
+            setSelectedExpirationDate(date);
+          }
+
+          
           setLoading(false);
         } else {
           setError('No users found');
@@ -255,6 +269,14 @@ const handleEmailConfirm = () => {
     ...otherProfileData,
     ...editedData,
   };
+
+
+  if (isEditingGeneral && selectedExpirationDate) {
+    const month = ('0' + (selectedExpirationDate.getMonth() + 1)).slice(-2);
+    const year = selectedExpirationDate.getFullYear();
+    updatedData.expiration_date = `${month}-${year}`;
+  }
+
   
     console.log('Sending updatedData:', updatedData); 
    
@@ -269,7 +291,6 @@ const handleEmailConfirm = () => {
       // Check if the response is not OK (status code outside 200-299)
       if (!response.ok) {
         return response.json().then((errorData) => {
-          // Throw an error with the message from the server
           throw new Error(errorData.message || 'Error updating user data');
         });
       }
@@ -280,6 +301,7 @@ const handleEmailConfirm = () => {
       setProfileData((prevProfileData) => ({
         ...prevProfileData,
         ...editedData,
+        expiration_date: updatedData.expiration_date,
       }));
       toast.success(data.message || 'Data updated successfully');
       setIsEditingGeneral(false);
@@ -520,16 +542,18 @@ const handleEmailConfirm = () => {
             ) : null}
           </div>
           <div className="profile-info-item">
-            <p><strong>Expiration Date:</strong> {profileData.expiration_date}</p>
-            {isEditingGeneral ? (
-              <input
-                type="date"
-                value={editedData.expiration_date}
-                onChange={(e) => setEditedData({ ...editedData, expiration_date: e.target.value })}
-                onKeyDown={validateDate}
-              />
-            ) : null}
-          </div>
+          <p><strong>Expiration Date:</strong> {profileData.expiration_date}</p>
+          {isEditingGeneral ? (
+            <DatePicker
+              selected={selectedExpirationDate}
+              onChange={(date) => setSelectedExpirationDate(date)}
+              dateFormat="MM-yyyy"
+              showMonthYearPicker
+              placeholderText="Select Expiration Date"
+              className="date-picker-input"
+            />
+          ) : null}
+        </div>
           <div className="profile-info-item">
             <p><strong>CVV:</strong> {profileData.cvv}</p>
             {isEditingGeneral ? (

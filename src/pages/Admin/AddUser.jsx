@@ -7,8 +7,9 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import cardValidator from 'card-validator';
 import { useNavigate } from 'react-router-dom';
+import './Add_User.css';
 
-import './Add.css';
+
 
 const AddUser = () => {
   const [formData, setFormData] = useState({
@@ -69,12 +70,11 @@ const AddUser = () => {
     data.append('telephone_number', formData.telephone_number);
     data.append('card_holder', formData.card_holder);
     data.append('card_number', formData.card_number);
-    data.append('expiration_date', selectedDate ? selectedDate.toISOString().split('T')[0] : '');
     
     if (selectedDate) {
       const expirationMonth = ('0' + (selectedDate.getMonth() + 1)).slice(-2); // Mes en dos dígitos
       const expirationYear = selectedDate.getFullYear();
-      data.append('expiration_date', `${expirationMonth}/${expirationYear}`); // Cambiado a MM/YYYY
+      data.append('expiration_date', `${expirationMonth}-${expirationYear}`); // Cambiado a MM/YYYY
   } else {
       data.append('expiration_date', '');
   }

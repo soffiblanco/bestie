@@ -1,331 +1,92 @@
-body{
-  font-family: 'Poppins', sans-serif;
-  display: flex;
-  justify-content: center;
-  margin: 0;
-  min-height: 100vh;
-  align-items: center;
-  background-color: #f0f0f0;
-  color: #000000; /* Color de texto global en negro */
-}
+/* Añadir estos estilos al archivo CSS existente */
 
-.input-box{
-  background-color: transparent; 
-  position: relative;
+.add-category-container {
   width: 100%;
-  display: flex;
-  align-items: center;
-}
-
-.title{
-  margin-top: 20px;
-  margin-bottom: 15px;
-  text-align: center;
+  max-width: 500px;
+  background: #ffffff;
   color: #000000;
-}
-.remember-forgot{
-  background-color: transparent;
-  color: #000000; /* Asegurar que el texto sea negro */
-}
-
-.register-link {
-  background-color: transparent;
-  color: #000000; /* Asegurar que el texto sea negro */
-}
-
-
-.wrapper {
-  width: 420px;
-  background: transparent;
-  color: #000000; /* Color de texto en negro */
   border-radius: 10px;
-  backdrop-filter: blur(30px);
-  box-shadow: 0 0 10px rgba(0, 0, 0, .1);
-  padding: 20px 40px;
-  margin: 20px; 
-  overflow: auto;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  padding: 30px;
+  margin: 20px auto; /* Centrado */
+  overflow: hidden;
 }
 
-.wrapper.active {
-  height: 520px;
-}
-
-form h1 {
-  font-size: 36px;
+.add-category-container h1 {
+  font-size: 28px;
   text-align: center;
-  color: #000000; /* Color de título en negro */
+  color: #000000;
+  margin-bottom: 20px;
 }
 
-.wrapper form-box {
-  overflow: visible;
-}
-
-form .input-box {
-  position: relative;
-  width: 100%;
-  height: 50px;
-  margin: 30px 0;
-}
-
-.wrapper .form-box.login{
-  transition: translate .18s ease;
-  translate: 0;
-}
-
-.wrapper.active .form-box.login{
-  transition: none;
-  translate: -400px;
-}
-
-.wrapper .form-box.register{
-  position: absolute;
-  transition: none;
-  translate: 400px;
-}
-
-.wrapper.active .form-box.register{
-  transition: translate .18s ease;
-  translate: 0;
-}
-
-.input-box input {
-  flex: 1;
-  width: 100%;
-  height: 45%;
-  background: transparent;
-  outline: none;
-  border: 2px solid rgba(255, 255, 255, .2);
-  border-radius: 40px;
-  font-size: 16px;
-  color: #000000; /* Texto del input en negro */
-  padding: 20px 45px 20px 20px;
-}
-
-.input-box input::placeholder{
-  color: #000000; /* Placeholder en negro */
-}
-
-.input-box .icon {
-  position: absolute;
-  right: 20px;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 16px;
-  color: #000000; /* Icono en negro */
-}
-
-form .remember-forgot {
+.add-category-container form {
   display: flex;
-  justify-content: space-between;
-  font-size: 14.5px;
-  margin: -15px 0 15px;
+  flex-direction: column;
 }
 
-.remember-forgot label input{
-  accent-color: #000000;
-  margin-right: 4px;
+.add-category-container label {
+  font-size: 16px;
+  color: #000000;
+  margin-bottom: 5px;
 }
 
-.remember-forgot a{
-  color: #000000; /* Enlaces en negro */
-  text-decoration: none;
-}
-
-.remember-forgot a:hover{
-  text-decoration: underline;
-  color: #000000; /* Enlace en negro al hacer hover */
-}
-
-form button{
+.add-category-container input[type="text"],
+.add-category-container textarea,
+.add-category-container input[type="file"] {
   width: 100%;
-  height: 40px;
-  background: #fff;
-  border: none;
+  padding: 10px;
+  margin-bottom: 20px;
+  border: 2px solid rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  font-size: 16px;
+  color: #000000;
   outline: none;
-  border-radius: 40px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, .1);
-  cursor: pointer;
-  font-size: 16px;
-  color: #333;
-  font-weight: 700;
-  margin-bottom: 15px;
-  margin-top: 15px;
 }
 
-form .register-link {
-  font-size: 14.5px;
-  text-align: center;
-  margin: 20px 0 15px;
-  color: #ffffff; /* Enlace de registro en negro */
-}
-
-.register-link{
+.add-category-container input[type="text"]::placeholder,
+.add-category-container textarea::placeholder {
   color: #000000;
 }
 
-.input-box .icon{
-  position: absolute;
-  right: 20px;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 16px;
-  color: #000000; /* Icono en negro */
-}
-
-.confirm-email{
-  font-size: 1rem;
-  color: #333; 
-  margin-bottom: 8px;
-  margin-top: 50px;
-  font-weight: bold; 
-  text-align: center; 
-  display: block;
-}
-
-.input-box .eye-icon {
-  position: absolute;
-  right: 50px;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 16px;
-  cursor: pointer;
-  color: rgba(0, 0, 0, 0.2); 
-}
-
-.input-container {
-  position: relative;
-  display: inline-block;
-}
-
-.file-input {
+.add-category-container button {
   width: 100%;
-  padding: 10px 10px 10px 40px; /* Ajuste para el icono */
-  box-sizing: border-box;
-  border: 1px solid #000000;
-  border-radius: 4px;
+  height: 45px;
+  background: #4caf50; /* Verde para agregar */
+  border: none;
+  border-radius: 40px;
+  color: #fff;
   font-size: 16px;
-  color: #000000; /* Texto del input file en negro */
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
-.floating-label {
-  position: absolute;
-  top: -10px;
-  left: 40px; /* Ajuste para alinear bien el texto */
-  transform: translateY(-50%);
-  color: #aaa;
-  pointer-events: none; 
-  transition: all 0.2s ease-in-out;
-  font-size: 16px;
+.add-category-container button:hover {
+  background-color: #45a049; /* Verde más oscuro al pasar el mouse */
 }
 
-.file-input:focus + .floating-label,
-.file-input:not(:placeholder-shown) + .floating-label {
-  top: -8px;
-  left: 10px;
-  font-size: 12px;
-  color: #000000;
-}
-
-.icon {
-  position: absolute;
-  top: 50%;
-  right: 10px;
-  transform: translateY(-50%);
-  color: #000000;
-}
-
-input[type="password"]::-ms-reveal, 
-input[type="password"]::-ms-clear {
-  display: none;
-}
-
-/* Chrome, Safari, Edge, Opera */
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-
-/* Firefox */
-input[type=number] {
-  -moz-appearance: textfield;
+.message {
+  text-align: center;
+  font-size: 14px;
+  margin-top: 10px;
+  color: #333;
 }
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
-  .wrapper {
-      width: 90%;
-      padding: 20px;
-      margin: 10px auto;
+  .add-category-container {
+    width: 90%;
+    padding: 20px;
   }
-
-  form h1 {
-      font-size: 28px;
+  .add-category-container h1 {
+    font-size: 24px;
   }
-
-  .input-box input {
-      font-size: 14px;
-      padding: 15px 35px 15px 15px;
+  .add-category-container input[type="text"],
+  .add-category-container textarea,
+  .add-category-container input[type="file"] {
+    font-size: 14px;
   }
-
-  form .remember-forgot {
-      font-size: 13px;
-  }
-
-  form button {
-      height: 35px;
-      font-size: 14px;
-  }
-}
-
-@media (max-width: 480px) {
-  .wrapper {
-      width: 100%;
-      padding: 15px;
-      margin: 5px auto;
-  }
-
-  form h1 {
-      font-size: 24px;
-  }
-
-  .input-box input {
-      font-size: 12px;
-      padding: 10px 30px 10px 10px;
-  }
-
-  form .remember-forgot {
-      flex-direction: column;
-      align-items: flex-start;
-      font-size: 12px;
-      gap: 5px;
-  }
-
-  .input-box .icon {
-      font-size: 14px;
-  }
-
-  form button {
-      height: 30px;
-      font-size: 12px;
-  }
-}
-
-@media (max-width: 360px) {
-  .wrapper {
-      padding: 10px;
-  }
-
-  form h1 {
-      font-size: 20px;
-  }
-
-  .input-box input {
-      padding: 8px 25px 8px 8px;
-  }
-
-  form button {
-      height: 28px;
-      font-size: 11px;
+  .add-category-container button {
+    font-size: 14px;
   }
 }

@@ -1,6 +1,6 @@
-//export const baseUrl = "https://d188-181-199-210-226.ngrok-free.app/apis"
+export const baseUrl = "https://8e34-181-189-154-248.ngrok-free.app/apis"
 
-export const baseUrl = "http://localhost/apis"
+//export const baseUrl = "http://localhost/apis"
 
 
 

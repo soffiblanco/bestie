@@ -86,9 +86,20 @@
     background-color: #45a049; /* Verde más oscuro al pasar el mouse */
 }
 
-.toggle-state-button{
+.toggle-state-button {
     background-color: #F5872E;
 }
+
+.toggle-state-button:hover {
+    background-color: #d97627; /* Un poco más oscuro para el hover */
+}
+
+.toggle-state-button:focus {
+    outline: none; /* Elimina el contorno del enfoque */
+    background-color: #F5872E; /* Restaura el color de fondo a naranja */
+}
+
+
 
 
 .add-user-button {
