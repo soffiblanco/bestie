@@ -6,6 +6,8 @@ import { FaUser, FaUserPlus } from 'react-icons/fa';
 import Paws from '../../assets/Paws.png';
 import 'bootstrap/dist/css/bootstrap.min.css';  
 import './NavBar.css';  
+import {useAuth} from '../../Auth/AuthContext.js';
+import HasPermission from '../../Auth/HasPermission';
 
 
 const Navbar = () => {
@@ -15,12 +17,14 @@ const Navbar = () => {
   const userMenuRef = useRef(null);
   const categoriesRef = useRef(null);
   const navigate = useNavigate();
+  const {userData} = useAuth();
 
   const handleItemClick = (item) => {
     setIsCategoriesOpen(false);
     setIsUserMenuOpen(false);
     setOpenCategory(null);
   };
+
 
   const toggleCategories = () => {
     setIsCategoriesOpen(!isCategoriesOpen);
@@ -62,6 +66,21 @@ const Navbar = () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);
+
+  if(!userData){
+
+    <li className="nav-item">
+      <Link className="nav-link" to="/login" onClick={() => handleItemClick('Login')}>Login</Link>
+    </li>
+  }
+
+  <>
+    <div className="d-flex align-items-center" ref={userMenuRef}>
+      <div className="nav-link" onClick={goToOrder}>
+        <TiShoppingCart size={30} />
+      </div>
+    </div>
+  </>
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -129,6 +148,8 @@ const Navbar = () => {
                   {isCategoriesOpen ? <IoIosArrowUp /> : <IoIosArrowDown />}
                 </a>
               </div>
+
+
 {/* Menú desplegable personalizado */}
 <ul className={`dropdown-menu ${isCategoriesOpen ? 'show' : ''}`}>
   {categories.map((category) => (
@@ -150,40 +171,7 @@ const Navbar = () => {
         </span>
       </div>
 
-              {/* Menú desplegable personalizado */}
-              <ul className={`dropdown-menu ${isCategoriesOpen ? 'show' : ''}`}>
-                {categories.map((category) => (
-                  <li key={category.name}>
-                    <div
-                      className="dropdown-item"
-                      onClick={() => toggleSubcategories(category.name)}
-                    >
-                      {category.name}
-                      {openCategory === category.name ? (
-                        <IoIosArrowUp />
-                      ) : (
-                        <IoIosArrowDown />
-                      )}
-                    </div>
-                    {openCategory === category.name && (
-                      <ul className="dropdown-submenu">
-                        {category.subcategories.map((sub) => (
-                          <li key={sub}>
-                            <div
-                              className="dropdown-item"
-                              onClick={() =>
-                                handleSubcategoryClick(category.name, sub)
-                              }
-                            >
-                              {sub}
-                            </div>
-                          </li>
-                        ))}
-                      </ul>
-                    )}
-                  </li>
-                ))}
-              </ul>
+            
       {/* Menú de subcategorías */}
       {openCategory === category.name && (
         <ul className="dropdown-submenu">
@@ -196,22 +184,30 @@ const Navbar = () => {
                 {sub}
               </div>
             </li>
-          ))}
-        </ul>
-      )}
-    </li>
-  ))}
-</ul>
+             ))}
+             </ul>
+           )}
+         </li>
+       ))}
+     </ul>
+        
             </li>
-            <li className="nav-item">
-              <Link className="nav-link" to="/login" onClick={() => handleItemClick('Login')}>Login</Link>
-            </li>
+
+            {
+              !userData &&
+              <li className="nav-item">
+                <Link className="nav-link" to="/login" onClick={() => handleItemClick('Login')}>Login</Link>
+              </li>
+          }
+
           </ul>
 
           <div className="d-flex align-items-center" ref={userMenuRef}>
             <div className="nav-link" onClick={goToOrder}>
               <TiShoppingCart size={30} />
             </div>
+
+            <HasPermission permission ="Admin Categories" action="View">
 
             <div className="nav-item dropdown">
               <div
@@ -225,13 +221,19 @@ const Navbar = () => {
               </div>
               <ul className="dropdown-menu" aria-labelledby="userMenu">
                 <li><Link to="/profile" className="dropdown-item">Profile</Link></li>
-                <li><Link to="/users" className="dropdown-item">Users</Link></li>
+                <HasPermission permission="Admin User ">
+                  <li>
+                    <Link to="/users" className="dropdown-item">Users</Link>
+                  </li>
+              </HasPermission>
                 <li><Link to="/categoriesp" className="dropdown-item">Categories P</Link></li>
                 <li><Link to="/subcategories" className="dropdown-item">Subcategories</Link></li>
                 <li><Link to="/products" className="dropdown-item">Products</Link></li>
               </ul>
             </div>
 
+            </HasPermission>
+            
             <div className="nav-link" onClick={goToProfile}>
               <FaUser size={20} />
             </div>
