@@ -2,18 +2,23 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { baseUrl } from '../../config.js';
 import ecommerce_fetch from '../../services/ecommerce_fetch.js';
+import './Edit.css';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { useNavigate } from 'react-router-dom';
 
 const EditCategory = () => {
-    const { categoryId } = useParams(); // Get the category ID from the URL
+    const { categoryId } = useParams();
     const [formData, setFormData] = useState({
         category: "",
         category_description: "",
-        category_image: null,
         fieldsToUpdate: []
     });
+    const [imageBase64, setImageBase64] = useState(""); // Estado para la imagen base64
+    const [loading, setLoading] = useState(false);
+    const navigate = useNavigate();
 
     useEffect(() => {
-        // Load current category data if necessary
         ecommerce_fetch(`${baseUrl}/category.php?id_category=${categoryId}`, {
             method: 'GET',
         })
@@ -28,7 +33,7 @@ const EditCategory = () => {
                     });
                 }
             })
-            .catch(error => console.error("Error loading category:", error));
+            .catch(error => toast.error("Error loading category:", error));
     }, [categoryId]);
 
     const handleInputChange = (e) => {
@@ -39,11 +44,19 @@ const EditCategory = () => {
         });
     };
 
-    const handleFileChange = (e) => {
-        setFormData({
-            ...formData,
-            category_image: e.target.files[0]
-        });
+    const handleImageChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                const base64String = reader.result.split(',')[1];
+                const mimeType = file.type;
+                const fullBase64String = `data:${mimeType};base64,${base64String}`;
+                setImageBase64(fullBase64String);
+                console.log("Imagen en base64:", fullBase64String);
+            };
+            reader.readAsDataURL(file);
+        }
     };
 
     const handleCheckboxChange = (e) => {
@@ -52,7 +65,10 @@ const EditCategory = () => {
             const fieldsToUpdate = checked
                 ? [...prevData.fieldsToUpdate, value]
                 : prevData.fieldsToUpdate.filter((field) => field !== value);
-            return { ...prevData, fieldsToUpdate };
+            
+                console.log("Campos seleccionados para actualizar:", fieldsToUpdate);
+
+                return { ...prevData, fieldsToUpdate };
         });
     };
 
@@ -60,101 +76,112 @@ const EditCategory = () => {
         e.preventDefault();
 
         if (formData.fieldsToUpdate.length === 0) {
-            alert("Please select at least one field to update.");
+            toast.warn("Please select at least one field to update.");
             return;
         }
 
-        // Create the object with the fields to update
+        setLoading(true);
+
         const dataToUpdate = {
             id_category: categoryId
         };
-
+ 
         formData.fieldsToUpdate.forEach((field) => {
-            if (field === "category_image" && formData.category_image) {
-                // Read the image as base64
-                const reader = new FileReader();
-                reader.onloadend = () => {
-                    dataToUpdate[field] = reader.result;
-                    sendData(dataToUpdate);
-                };
-                reader.readAsDataURL(formData.category_image);
+            if (field === "category_image" && imageBase64) {
+                dataToUpdate[field] = imageBase64;
             } else {
                 dataToUpdate[field] = formData[field];
             }
         });
 
-        // If there is no image to update, send the data directly
-        if (!formData.fieldsToUpdate.includes("category_image")) {
-            sendData(dataToUpdate);
-        }
-    };
+        console.log("Datos a enviar al servidor:", JSON.stringify(dataToUpdate, null, 2));
 
-    const sendData = (dataToUpdate) => {
         ecommerce_fetch(`${baseUrl}/category.php`, {
             method: "PUT",
+            headers: {
+                'Content-Type': 'application/json'
+            },
             body: JSON.stringify(dataToUpdate)
         })
             .then(response => response.json())
             .then(data => {
-                alert(data.message);
+                toast.success(data.message || "Category updated successfully");
+                setTimeout(() => {
+                navigate('/categoriesp');
+                }, 2000);
             })
             .catch(error => {
-                console.error("Error:", error);
+                toast.error("Error:", error);
+            })
+            .finally(() => {
+                setLoading(false);
             });
     };
 
     return (
-        <form onSubmit={handleSubmit}>
-            <h2>Edit Category</h2>
+        <>
+            <ToastContainer position="top-right" />
+        <div className="edit-category-container">
+            <h2 className="form-title">Edit Category</h2>
+            <form onSubmit={handleSubmit} className="edit-category-form">
 
-            <div>
-                <input
-                    type="checkbox"
-                    id="updateCategory"
-                    value="category"
-                    onChange={handleCheckboxChange}
-                />
-                <label htmlFor="updateCategory">Update Category Name</label>
-                <input
-                    type="text"
-                    name="category"
-                    value={formData.category}
-                    onChange={handleInputChange}
-                />
-            </div>
+                <div className="form-field">
+                    <input
+                        type="checkbox"
+                        id="updateCategory"
+                        value="category"
+                        onChange={handleCheckboxChange}
+                    />
+                    <label htmlFor="updateCategory" className="field-label">Update Category Name</label>
+                    <input
+                        type="text"
+                        name="category"
+                        value={formData.category}
+                        onChange={handleInputChange}
+                        className="field-input"
+                    />
+                </div>
 
-            <div>
-                <input
-                    type="checkbox"
-                    id="updateDescription"
-                    value="category_description"
-                    onChange={handleCheckboxChange}
-                />
-                <label htmlFor="updateDescription">Update Description</label>
-                <textarea
-                    name="category_description"
-                    value={formData.category_description}
-                    onChange={handleInputChange}
-                ></textarea>
-            </div>
+                <div className="form-field">
+                    <input
+                        type="checkbox"
+                        id="updateDescription"
+                        value="category_description"
+                        onChange={handleCheckboxChange}
+                    />
+                    <label htmlFor="updateDescription" className="field-label">Update Description</label>
+                    <textarea
+                        name="category_description"
+                        value={formData.category_description}
+                        onChange={handleInputChange}
+                        className="field-input"
+                    ></textarea>
+                </div>
 
-            <div>
-                <input
-                    type="checkbox"
-                    id="updateImage"
-                    value="category_image"
-                    onChange={handleCheckboxChange}
-                />
-                <label htmlFor="updateImage">Update Image</label>
-                <input
-                    type="file"
-                    name="category_image"
-                    onChange={handleFileChange}
-                />
-            </div>
+                <div className="form-field">
+                    <input
+                        type="checkbox"
+                        id="updateImage"
+                        value="category_image"
+                        onChange={handleCheckboxChange}
+                    />
+                    <label htmlFor="updateImage" className="field-label">Update Image</label>
+                    <input
+                        type="file"
+                        name="category_image"
+                        accept="image/*"
+                        onChange={handleImageChange}
+                        className="file-input"
+                    />
+                </div>
 
-            <button type="submit">Save Changes</button>
-        </form>
+                <button type="submit" className="submit-button" disabled={loading}>
+                    {loading ? "Saving..." : "Save Changes"}
+                </button>
+            </form>
+        </div>
+
+        </>
     );
 };
 

@@ -74,6 +74,30 @@ body {
     border-radius: 10px;
 }
 
+.password-input-container {
+    position: relative; /* Para permitir posicionar el ícono dentro del contenedor */
+    margin-bottom: 10px; /* Espacio entre cada campo */
+}
+
+.password-input-container input {
+    width: 100%;
+    padding-right: 40px; /* Deja espacio para el ícono */
+    padding-left: 10px;
+    height: 40px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
+.eye-icon {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #333;
+}
+
 /* Style for headings */
 h1 {
     font-size: 24px;
@@ -109,6 +133,10 @@ p {
     .profile-info {
         justify-content: center; /* Center content on smaller screens */
         gap: 15px; /* Reduce spacing for smaller screens */
+    }
+
+    .eye-icon {
+        right: 10px; /* Puedes ajustar este valor según necesites */
     }
 }
 

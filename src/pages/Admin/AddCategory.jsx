@@ -65,6 +65,8 @@ const AddCategory = () => {
       data.category_image = imageBase64;
     }
 
+    console.log("Datos a enviar al servidor:", JSON.stringify(data, null, 2));
+
     // // Crear FormData para enviar la imagen y los otros datos
     // const formData = new FormData();
     // formData.append('category', category);

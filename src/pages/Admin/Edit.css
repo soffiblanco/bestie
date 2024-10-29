@@ -36,7 +36,7 @@
 .field-input {
   flex-grow: 1;
   padding: 8px;
-  border: 1px solid #ccc;
+  border: 1px solid #000000;
   border-radius: 5px;
   transition: border-color 0.3s;
 }
