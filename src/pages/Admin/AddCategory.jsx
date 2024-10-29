@@ -9,10 +9,10 @@ import ecommerce_fetch from '../../services/ecommerce_fetch';
 const AddCategory = () => {
   const [category, setCategory] = useState('');
   const [categoryDescription, setCategoryDescription] = useState('');
-  const [categoryImage, setCategoryImage] = useState(null);
   const [categoryState, setCategoryState] = useState('');
   const [loading, setLoading] = useState(false);
   const [categoryStatesOptions, setCategoryStatesOptions] = useState([]);
+  const [imageBase64, setImageBase64] = useState('');
   const navigate = useNavigate();
 
   // Obtener opciones de estado de categoría
@@ -26,7 +26,8 @@ const AddCategory = () => {
       })
       .then((data) => {
         // Extraemos la lista de estados de las categorías
-        setCategoryStatesOptions(data.data.map((item) => item.Category_State));
+        let categoriesState = [...new Set(data.data.map((item) => item.Category_State))];
+        setCategoryStatesOptions(categoriesState);
       })
       .catch((error) => {
         toast.error('Error: ' + error.message);
@@ -37,7 +38,14 @@ const AddCategory = () => {
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      setCategoryImage(file);
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const base64String = reader.result.split(',')[1];
+        const mimeType = file.type;
+        const fullBase64String = `data:${mimeType};base64,${base64String}`;
+        setImageBase64(fullBase64String);
+      };
+      reader.readAsDataURL(file);
     }
   };
 
@@ -46,22 +54,33 @@ const AddCategory = () => {
     e.preventDefault();
     setLoading(true);
 
-    // Crear FormData para enviar la imagen y los otros datos
-    const formData = new FormData();
-    formData.append('category', category);
-    formData.append('category_description', categoryDescription);
+    // Crear objeto para enviar la imagen y los otros datos
+    const data = {
+      category,
+      category_description: categoryDescription,
+      category_state: categoryState,
+    };
 
-    // Agregar la imagen solo si se seleccionó
-    if (categoryImage) {
-      formData.append('category_image', categoryImage);
+    if (imageBase64) {
+      data.category_image = imageBase64;
     }
 
-    formData.append('category_state', categoryState);
+    // // Crear FormData para enviar la imagen y los otros datos
+    // const formData = new FormData();
+    // formData.append('category', category);
+    // formData.append('category_description', categoryDescription);
+
+    // // Agregar la imagen solo si se seleccionó
+    // if (categoryImage) {
+    //   formData.append('category_image', categoryImage);
+    // }
+
+    // formData.append('category_state', categoryState);
 
     // Hacer la solicitud POST para agregar la categoría
     ecommerce_fetch(`${baseUrl}/category.php`, {
       method: 'POST',
-      body: formData,
+      body: JSON.stringify(data),
     })
       .then((response) => {
         if (!response.ok) {
@@ -76,7 +95,7 @@ const AddCategory = () => {
         // Limpiar el formulario después de un éxito
         setCategory('');
         setCategoryDescription('');
-        setCategoryImage(null);
+        setImageBase64(null);
         setCategoryState('');
         setTimeout(() => {
           navigate('/categoriesp');

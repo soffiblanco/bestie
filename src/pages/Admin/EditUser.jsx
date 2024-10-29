@@ -162,19 +162,11 @@ const EditUser = () => {
       });
   };
 
-  if (loading) {
-    return <p>Loading...</p>;
-  }
-
-  if (error) {
-    return <p>Error: {error}</p>;
-  }
-
   return (
     <>
       <ToastContainer position="top-right" />
       <div className="edit-user-container">
-        <h1 className="form-title">Edit User</h1>
+        <h1 className="form-title">{loading ? 'Edit User (Loading...)': 'Edit User'}</h1>
         <form onSubmit={handleSubmit} className="edit-user-form">
           {user && (
             <>
