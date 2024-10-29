@@ -39,7 +39,17 @@
   .custom-green {
     color: #A4D51D; /* Verde personalizado */
   }
+  .display-4 custom-green{
+    color: #A4D51D; /* Verde personalizado */
+  }
   
+  .text-center{
+    
+    width: 100%;
+    position: absolute;
+    text-align: center;
+    color: #A4D51D;
+  }
 
   
 

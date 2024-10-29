@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import OneProduct from './OneProduct'; 
 import { GoChevronLeft, GoChevronRight } from "react-icons/go";
+import { FaShoppingBag } from "react-icons/fa";
 import { useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './ProductCarousel.css';
@@ -39,7 +40,7 @@ const ProductCarousel = ({ numVisibleProducts = 4 }) => {
 
     return (
         <div className="container">
-            <div className="row align-items-center justify-content-center position-relative">
+          
                 {showArrows && (
                     <button className="btn btn-outline-primary carousel-button prev-button" onClick={handlePrev}>
                         <GoChevronLeft />
@@ -62,7 +63,7 @@ const ProductCarousel = ({ numVisibleProducts = 4 }) => {
                                         <h5 className="product-title">{product.Product}</h5>
                                         <p className="product-description">{product.Product_Description || 'Descripción no disponible'}</p>
                                         <button className="btn btn-outline-light product-icon">
-                                            <i className="bi bi-cart"></i>
+                                        <FaShoppingBag />
                                         </button>
                                     </div>
                                 </div>
@@ -76,7 +77,7 @@ const ProductCarousel = ({ numVisibleProducts = 4 }) => {
                         <GoChevronRight />
                     </button>
                 )}
-            </div>
+                
         </div>
     );
 };
