@@ -33,6 +33,8 @@ import OrderPage from './pages/OrderStatus/OrderPage';
 import ProductCarousel from './pages/Home/ProductCarousel';
 import CatalogProductsSub from './pages/Products/CatalogProductsSub';
 import { AuthProvider } from './Auth/AuthContext';
+import SearchProductResults from './pages/Products/SearchProductResults';
+
 
 
 function App() {
@@ -72,6 +74,7 @@ function App() {
             <Route path="/about-us" element={<AboutUS />} />
             <Route path="/Verified" element={<Verified/>} />
             <Route path="/ResetPassword" element={<ResetPassword />} />
+            <Route path="/search" element={<SearchProductResults />} />
           </Routes>
         </main>
         <Footer /> {/* Footer siempre estará visible en todas las páginas */}

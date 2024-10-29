@@ -1,5 +1,3 @@
-
-
 .containerProduct {
     background-color: blueviolet; /* Fondo de la tarjeta */
     padding: 20px;
@@ -7,9 +5,11 @@
     color: white; /* Todo el texto en blanco */
     max-width: 800px;
     margin: 0 auto;
+    margin-bottom: 40px;
 }
 
 .product-details img {
+
     max-width: 100%;
     height: auto;
     border-radius: 8px;
@@ -33,4 +33,57 @@
 .product-details .btn-primary:hover {
     background-color: #8bb01a; /* Oscurecer el color al pasar el cursor */
     border-color: #8bb01a;
+}
+
+.comments-section {
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: 10px;
+    color: black;
+}
+
+.comments-section h1 {
+    color: black; 
+}
+
+.comments-section p {
+    color: black; 
+}
+
+
+.list-group-item {
+    background-color: #e9ecef;
+    border-color: #0071e2;
+    color: black;
+    border-radius: 5px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    padding: 15px;
+    border-width: 3px;
+}
+.btn-link {
+    color: #007bff;
+    text-decoration: none;
+    padding: 0;
+}
+
+.btn-link:hover {
+    color: #0056b3;
+    text-decoration: underline;
+}
+
+.comments-section textarea {
+    resize: none;
+}
+
+.comments-section .btn-secondary {
+    background-color: #6c757d;
+    border-color: #6c757d;
+    color: white;
+}
+
+.comments-section .btn-secondary:hover {
+    background-color: #5a6268;
+    border-color: #0168cf;
+
 }

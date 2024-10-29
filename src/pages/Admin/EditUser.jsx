@@ -158,12 +158,12 @@ const toggleConfirmPasswordVisibility = () => {
         setError(err.message);
       });
 
-      ecommerce_fetch(`${baseUrl}/users.php?action=GET_USER_STATES`, {
+      ecommerce_fetch(`${baseUrl}/user_state`, {
         method: 'GET',
       })
         .then((response) => response.json())
         .then((data) => {
-          console.log("User states fetched:", data); // Verifica aquí los datos
+          console.log("User states fetched:", data);
           if (data && data.states) {
             setUserStates(data.states);
           } else {
@@ -171,7 +171,7 @@ const toggleConfirmPasswordVisibility = () => {
           }
         })
         .catch((err) => {
-          console.error('Error fetching user states:', err);
+          toast.error('Error fetching user states:', err);
         });
 
 

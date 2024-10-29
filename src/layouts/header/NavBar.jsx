@@ -14,6 +14,9 @@ const Navbar = () => {
   const [isCategoriesOpen, setIsCategoriesOpen] = useState(false);
   const [openCategory, setOpenCategory] = useState(null);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+  const [searchValue, setSearchValue] = useState('');
+
+
   const userMenuRef = useRef(null);
   const categoriesRef = useRef(null);
   const navigate = useNavigate();
@@ -45,6 +48,12 @@ const Navbar = () => {
     setIsCategoriesOpen(false);
     setOpenCategory(null);
   };
+
+  const handleSearchSubmit = (event) => {
+    event.preventDefault();
+    navigate(`/search?value=${searchValue}`);
+  };
+
 
   const goToOrder = () => {
     navigate('/Order');
@@ -220,7 +229,6 @@ const Navbar = () => {
                 <FaUserPlus size={25} />
               </div>
               <ul className="dropdown-menu" aria-labelledby="userMenu">
-                <li><Link to="/profile" className="dropdown-item">Profile</Link></li>
                 <HasPermission permission="Admin User ">
                   <li>
                     <Link to="/users" className="dropdown-item">Users</Link>
@@ -239,10 +247,11 @@ const Navbar = () => {
             </div>
           </div>
 
-          <form className="d-flex" role="search">
-            <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
+          <form className="d-flex" role="search" onSubmit={handleSearchSubmit}>
+            <input className="form-control me-2" value={searchValue} onChange={(e) => setSearchValue(e.target.value)} type="search" placeholder="Search" aria-label="Search" />
             <button className="btn btn-outline-success" type="submit">Search</button>
-          </form>
+          </form>
+ 
         </div>
       </div>
     </nav>
