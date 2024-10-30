@@ -12,24 +12,42 @@ function Product({ productId, title: initialTitle, description: initialDescripti
     const [price, setPrice] = useState(initialPrice || '');
     const [image, setImage] = useState(initialImage || '');
     const [loading, setLoading] = useState(!initialTitle); // Para mostrar el cargando si no hay datos iniciales
+    const [comments, setComments] = useState([]);
+    const [newComment, setNewComment] = useState("");
+
 
     useEffect(() => {
         if (!initialTitle) { // Solo hacemos la llamada a la API si no hay props iniciales
             fetch(`http://localhost/apis/products.php?id=${productId}`)
                 .then(response => response.json())
                 .then(data => {
-                    const productData = data.data[0]; // Asegúrate de ajustar según la estructura de tu respuesta
+                    const productData = data.data[0]; 
                     setTitle(productData.Product);
                     setDescription(productData.Product_Description);
                     setPrice(productData.Price);
                     setImage(productData.Product_Image);
-                    setLoading(false); // Quitamos el estado de cargando
+                    setLoading(false); 
                 })
                 .catch(error => {
                     console.error('Error fetching product details:', error);
                     setLoading(false);
                 });
         }
+        
+        fetch(`http://localhost/apis/comments.php?product_id=${id}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Error fetching comments');
+            }
+            return response.json();
+        })
+        .then(data => {
+            setComments(data.comments);
+        })
+        .catch(error => {
+            console.error('Error fetching comments:', error);
+        });
+
     }, [productId, initialTitle]);
 
     const handleAddToOrder = () => {
@@ -39,7 +57,7 @@ function Product({ productId, title: initialTitle, description: initialDescripti
             price,
             image,
         };
-        addProductToOrder(product); // Agrega el producto a la orden
+        addProductToOrder(product); 
     };
 
     const handleViewDetails = () => {
@@ -49,6 +67,7 @@ function Product({ productId, title: initialTitle, description: initialDescripti
     if (loading) {
         return <div>Cargando detalles del producto...</div>;
     }
+    
 
     return (
         <div className='container-product'>
@@ -69,6 +88,8 @@ function Product({ productId, title: initialTitle, description: initialDescripti
                     Agregar a la Orden
                 </button>
             </div>
+
+  
         </div>
     );
 }
