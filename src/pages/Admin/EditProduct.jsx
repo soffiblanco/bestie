@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { baseUrl } from '../../config.js'
 import ecommerce_fetch from '../../services/ecommerce_fetch';
+import './EditProduct.css';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const EditProduct = () => {
     const { productId } = useParams();
@@ -16,8 +19,8 @@ const EditProduct = () => {
     const [selectedCategories, setSelectedCategories] = useState([]);
     const [selectedSubcategories, setSelectedSubcategories] = useState([]);
     const [productImage, setProductImage] = useState(null);
-    const [message, setMessage] = useState('');
     const [loading, setLoading] = useState(false);
+    const navigate = useNavigate();
 
     // Control for checkboxes to update fields
     const [updateFields, setUpdateFields] = useState({
@@ -52,7 +55,7 @@ const EditProduct = () => {
                     setSelectedSubcategories([productData.Subcategory]);
                 }
             })
-            .catch((error) => console.error('Error fetching product:', error))
+            .catch((error) => toast.error('Error fetching product:', error))
             .finally(() => setLoading(false));
 
         // Fetch categories
@@ -65,7 +68,7 @@ const EditProduct = () => {
                     setCategories(data.data);
                 }
             })
-            .catch((error) => console.error('Error fetching categories:', error));
+            .catch((error) => toast.error('Error fetching categories:', error));
 
         // Fetch subcategories
         ecommerce_fetch(`${baseUrl}/subcategory.php`,{
@@ -77,7 +80,7 @@ const EditProduct = () => {
                     setSubcategories(data.data);
                 }
             })
-            .catch((error) => console.error('Error fetching subcategories:', error));
+            .catch((error) => toast.error('Error fetching subcategories:', error));
     }, [productId]);
 
     const handleSubmit = (e) => {
@@ -125,21 +128,22 @@ const EditProduct = () => {
         })
             .then((response) => response.json())
             .then((data) => {
-                setMessage(data.message);
+                toast.success(data.message || "Product updated successfully");
+                setTimeout(() => {
+                navigate('/products');
+                }, 2000);
             })
             .catch((error) => {
-                console.error('Error updating product:', error);
-                setMessage('Error: ' + error.message);
+              toast.error('Error updating product:', error);
             })
             .finally(() => setLoading(false));
     };
 
     return (
+        <>
+    <ToastContainer position="top-right" />
         <div>
-            <h1>Edit Product</h1>
-            {loading ? (
-                <p>Loading...</p>
-            ) : (
+            <h6>Edit Product</h6>
                 <form onSubmit={handleSubmit}>
                     <div>
                         <input
@@ -334,11 +338,13 @@ const EditProduct = () => {
                         />
                     </div>
                     <br />
-                    <button type="submit">Update Product</button>
+                    <button type="submit" className="submit-button" disabled={loading}>
+                    {loading ? "Saving..." : "Save Changes"}
+                </button>
                 </form>
             )}
-            {message && <p>{message}</p>}
         </div>
+        </>
     );
 };
 

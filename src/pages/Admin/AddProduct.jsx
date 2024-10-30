@@ -9,16 +9,16 @@ import ecommerce_fetch from '../../services/ecommerce_fetch';
 const AddProduct = () => {
   const [product, setProduct] = useState('');
   const [productDescription, setProductDescription] = useState('');
-  const [productImage, setProductImage] = useState(''); // Base64 image
+  const [imageBase64, setImageBase64] = useState('');
   const [brand, setBrand] = useState('');
   const [stock, setStock] = useState('');
   const [price, setPrice] = useState('');
-  const [category, setCategory] = useState('');
-  const [subcategory, setSubcategory] = useState('');
-  const [enabled, setEnabled] = useState(true);
-  const [loading, setLoading] = useState(false);
   const [categories, setCategories] = useState([]);
   const [subcategories, setSubcategories] = useState([]);
+  const [selectedCategories, setSelectedCategories] = useState([]); // Multiple categories
+  const [selectedSubcategories, setSelectedSubcategories] = useState([]); // Multiple subcategories
+  const [enabled, setEnabled] = useState(true);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   // Fetch categories on component mount
@@ -33,10 +33,10 @@ const AddProduct = () => {
       });
   }, []);
 
-  // Fetch subcategories based on selected category
+  // Fetch subcategories based on selected categories
   useEffect(() => {
-    if (category) {
-      ecommerce_fetch(`${baseUrl}/subcategoryBycategory.php?id_category=${category}`, { method: 'GET' })
+    if (selectedCategories.length > 0) {
+      ecommerce_fetch(`${baseUrl}/subcategoryBycategory.php?id_category=${selectedCategories.join(',')}`, { method: 'GET' })
         .then((response) => response.json())
         .then((data) => {
           setSubcategories(data.data || []);
@@ -47,22 +47,25 @@ const AddProduct = () => {
     } else {
       setSubcategories([]);
     }
-  }, [category]);
+  }, [selectedCategories]);
 
-  // Handle image change and convert to base64
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        const base64String = reader.result.split(',')[1];
-        const mimeType = file.type;
-        const fullBase64String = `data:${mimeType};base64,${base64String}`;
-        setProductImage(fullBase64String);
-      };
-      reader.readAsDataURL(file);
-    }
-  };
+
+  // Manejar el cambio de la imagen y actualizar el estado
+// Función para manejar la conversión de imagen a Base64
+const handleImageChange = (e, setImageBase64) => {
+  const file = e.target.files[0];
+  if (file) {
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      const base64String = reader.result.split(',')[1];
+      const mimeType = file.type;
+      const fullBase64String = `data:${mimeType};base64,${base64String}`;
+      setImageBase64(fullBase64String);
+    };
+    reader.readAsDataURL(file);
+  }
+};
+
 
   // Handle form submission
   const handleSubmit = (e) => {
@@ -73,14 +76,18 @@ const AddProduct = () => {
     const data = {
       product,
       product_description: productDescription,
-      product_image: productImage,
       brand,
       stock: parseInt(stock), // Convierte stock a número entero
       price: parseFloat(price), // Convierte price a número decimal
-      product_state: enabled ? 'Enabled' : 'Disabled', // Asegúrate de enviar el estado como texto
-      id_category: [category], // Enviar como un arreglo si la API lo requiere
-      id_subcategory: [subcategory] // Enviar como un arreglo si la API lo requiere
+      product_state: enabled ? 'Enabled' : 'Disabled', 
+      id_category: selectedCategories, // Enviar como arreglo
+      id_subcategory: selectedSubcategories // Enviar como arreglo
     };
+
+    if (imageBase64) {
+      data.product_image = imageBase64;
+    }
+
 
     console.log('Datos a enviar al servidor:', JSON.stringify(data, null, 2));
 
@@ -104,6 +111,17 @@ const AddProduct = () => {
       .finally(() => {
         setLoading(false);
       });
+  };
+
+  // Handle multiple selection for categories and subcategories
+  const handleCategoryChange = (e) => {
+    const selected = Array.from(e.target.selectedOptions, option => option.value);
+    setSelectedCategories(selected);
+  };
+
+  const handleSubcategoryChange = (e) => {
+    const selected = Array.from(e.target.selectedOptions, option => option.value);
+    setSelectedSubcategories(selected);
   };
 
   return (
@@ -140,7 +158,7 @@ const AddProduct = () => {
               type="file"
               id="product_image"
               accept="image/*"
-              onChange={handleImageChange}
+              onChange={(e) => handleImageChange(e, setImageBase64)}
               required
             />
           </div>
@@ -182,11 +200,11 @@ const AddProduct = () => {
             <label htmlFor="category">Category:</label>
             <select
               id="category"
-              value={category}
-              onChange={(e) => setCategory(e.target.value)}
+              value={selectedCategories}
+              onChange={handleCategoryChange}
+              multiple
               required
             >
-              <option value="">Select a category</option>
               {categories.map((cat) => (
                 <option key={cat.id_category} value={cat.id_category}>
                   {cat.category}
@@ -198,12 +216,12 @@ const AddProduct = () => {
             <label htmlFor="subcategory">Subcategory:</label>
             <select
               id="subcategory"
-              value={subcategory}
-              onChange={(e) => setSubcategory(e.target.value)}
+              value={selectedSubcategories}
+              onChange={handleSubcategoryChange}
+              multiple
               required
-              disabled={!category}
+              disabled={selectedCategories.length === 0}
             >
-              <option value="">Select a subcategory</option>
               {subcategories.map((subcat) => (
                 <option key={subcat.id_subcategory} value={subcat.id_subcategory}>
                   {subcat.subcategory}
