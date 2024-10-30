@@ -5,6 +5,7 @@ import { FaEdit } from "react-icons/fa";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './ProductDetails.css';
 import { baseUrl } from '../../config.js';
+import { useAuth } from '../../Auth/AuthContext.js';
 import { OrderContext } from '../../pages/Orders/OrderContexts';
 import ecommerce_fetch from '../../services/ecommerce_fetch.js';
 
@@ -20,6 +21,7 @@ const ProductDetails = () => {
     const [showChildren, setShowChildren] = useState({});
     const [users, setUsers] = useState([]);
     const editedCommentRef = useRef("");
+    const { userData } = useAuth();
     const textareaRef = useRef(null);
 
     const { addProductToOrder } = useContext(OrderContext);
@@ -97,9 +99,10 @@ const ProductDetails = () => {
     };
 
     const handleAddComment = () => {
+        const id_user = userData.id_user;
         if (newComment.trim() !== "") {
             const newCommentData = {
-                ID_User: 140, // Asumiendo que el ID de usuario se conoce y está hardcodeado por ahora
+                ID_User: id_user, // Utilizar el ID de usuario de la sesión actual
                 ID_Product: id,
                 Comment: newComment,
             };
@@ -133,6 +136,7 @@ const ProductDetails = () => {
     };
     
     const handleAddReply = (parentIndexes, reply) => {
+        const id_user = userData.id_user;
         if (reply.trim() !== "") {
             const updatedComments = JSON.parse(JSON.stringify(comments)); // Copia profunda del arreglo
             let current = updatedComments;
@@ -164,7 +168,7 @@ const ProductDetails = () => {
             }
     
             const newReplyData = {
-                ID_User: 140, // Asumiendo que el ID de usuario se conoce y está hardcodeado por ahora
+                ID_User: id_user, // Utilizar el ID de usuario de la sesión actual
                 ID_Product: id,
                 Comment: reply,
                 ID_Comment_Father: parentComment.ID_Comment,
@@ -301,6 +305,7 @@ const ProductDetails = () => {
 
         const isEditing = editingCommentIndexes && editingCommentIndexes.join() === parentIndexes.join();
         const indexPath = parentIndexes.join("-");
+        const isUserComment = userData.id_user == comment.ID_User;
 
         return (
             <li className="list-group-item comment-item mb-3">
@@ -321,11 +326,13 @@ const ProductDetails = () => {
                     ) : (
                         <>
                             <span className="me-2 flex-grow-1"><strong>{comment.User ? comment.User : getUserName(comment.ID_User)}:</strong> {comment.Comment}</span>
-                            <div className="edit-icon-container">
-                                <button className="btn btn-link edit-icon" onClick={() => handleEditComment(parentIndexes)}>
-                                    <FaEdit />
-                                </button>
-                            </div>
+                            {isUserComment && (
+                                <div className="edit-icon-container">
+                                    <button className="btn btn-link edit-icon" onClick={() => handleEditComment(parentIndexes)}>
+                                        <FaEdit />
+                                    </button>
+                                </div>
+                            )}
                         </>
                     )}
                 </div>
