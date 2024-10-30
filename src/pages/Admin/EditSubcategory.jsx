@@ -1,23 +1,26 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { baseUrl } from '../../config.js'
-import ecommerce_fetch from '../../services/ecommerce_fetch'; 
-import EditCategory from './EditCategory.jsx';
+import { baseUrl } from '../../config.js';
+import ecommerce_fetch from '../../services/ecommerce_fetch';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const EditSubcategory = () => {
   const { subcategoryId } = useParams();
   const navigate = useNavigate();
 
-  const [subcategory, setSubcategory] = useState(null);
   const [formData, setFormData] = useState({});
   const [fieldsToUpdate, setFieldsToUpdate] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [imageBase64, setImageBase64] = useState('');
+  const [categories, setCategories] = useState([]); // State to store available categories
+ 
 
   useEffect(() => {
-    ecommerce_fetch(`${baseUrl}/subcategory.php?id_subcategory=${subcategoryId}`,{
-       method:'GET',
+    // Fetch subcategory data
+    ecommerce_fetch(`${baseUrl}/subcategory.php?id_subcategory=${subcategoryId}`, {
+      method: 'GET',
     })
       .then((response) => {
         if (!response.ok) {
@@ -27,8 +30,10 @@ const EditSubcategory = () => {
       })
       .then((data) => {
         const subcategoryData = data.data[0];
-        setSubcategory(subcategoryData);
-        setFormData(subcategoryData);
+        setFormData({
+          ...subcategoryData,
+          id_category: subcategoryData.id_category, // Set current category ID
+        });
 
         const initialFieldsToUpdate = {};
         ['id_category', 'subcategory', 'subcategory_description', 'subcategory_image'].forEach((field) => {
@@ -41,6 +46,23 @@ const EditSubcategory = () => {
       .catch((err) => {
         setError(err.message);
         setLoading(false);
+      });
+
+    // Fetch categories data
+    ecommerce_fetch(`${baseUrl}/category.php`, {
+      method: 'GET',
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error('Error fetching categories');
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setCategories(data.data);
+      })
+      .catch((err) => {
+        toast.error('Error fetching categories:', err);
       });
   }, [subcategoryId]);
 
@@ -67,7 +89,6 @@ const EditSubcategory = () => {
         const mimeType = file.type;
         const fullBase64String = `data:${mimeType};base64,${base64String}`;
         setImageBase64(fullBase64String);
-        console.log('Full Image Base64:', fullBase64String);
       };
       reader.readAsDataURL(file);
     }
@@ -88,17 +109,6 @@ const EditSubcategory = () => {
       }
     });
 
-    console.log('Subcategory ID:', subcategoryId);
-    console.log('Fields to update:', fieldsToUpdate);
-    console.log('Form data:', formData);
-    console.log('Data to send in PUT request:', JSON.stringify(dataToSend, null, 2));
-
-    if (!subcategoryId) {
-      console.error('Subcategory ID is undefined. Cannot submit form.');
-      alert('Error: Subcategory ID is undefined.');
-      return;
-    }
-
     ecommerce_fetch(`${baseUrl}/subcategory.php`, {
       method: 'PUT',
       body: JSON.stringify(dataToSend),
@@ -110,9 +120,10 @@ const EditSubcategory = () => {
         return response.json();
       })
       .then((data) => {
-        console.log('Response from server:', data);
-        alert(data.message);
-        navigate('/SubcategoryPage');
+        toast.success(data.message|| 'Subctegory edited successfully');
+        setTimeout(() => {
+          navigate('/subcategories');
+        }, 2000);
       })
       .catch((err) => {
         console.error('Error during update:', err);
@@ -129,57 +140,83 @@ const EditSubcategory = () => {
   }
 
   return (
+    <>
+      <ToastContainer position="top-right" />
     <div className="edit-subcategory-container">
       <h1 className="form-title">Edit Subcategory</h1>
       <form onSubmit={handleSubmit} className="edit-subcategory-form">
-        {subcategory && (
-          <>
-            {['id_category', 'subcategory', 'subcategory_description'].map((field) => (
-              <div key={field} className="form-field">
-                <input
-                  type="checkbox"
-                  name={field}
-                  onChange={handleCheckboxChange}
-                  id={`checkbox-${field}`}
-                />
-                <label htmlFor={`checkbox-${field}`} className="field-label">
-                  {field.replace('_', ' ')}:
-                </label>
-                <input
-                  type="text"
-                  name={field}
-                  value={formData[field] || ''}
-                  onChange={handleChange}
-                  disabled={!fieldsToUpdate[field]}
-                  className="field-input"
-                />
-              </div>
+        <div className="form-field">
+          <input
+            type="checkbox"
+            name="id_category"
+            onChange={handleCheckboxChange}
+            id="checkbox-id_category"
+          />
+          <label htmlFor="checkbox-id_category" className="field-label">
+            Category:
+          </label>
+          <select
+            name="id_category"
+            value={formData.id_category || ''} // Set the selected category
+            onChange={handleChange}
+            disabled={!fieldsToUpdate['id_category']}
+            className="field-input"
+            required
+          >
+            <option value="">Select a category</option>
+            {categories.map((category) => (
+              <option key={category.id_category} value={category.id_category}>
+                {category.category}
+              </option>
             ))}
+          </select>
+        </div>
 
-            <div className="form-field">
-              <input
-                type="checkbox"
-                name="subcategory_image"
-                onChange={handleCheckboxChange}
-                id="checkbox-subcategory_image"
-              />
-              <label htmlFor="checkbox-subcategory_image" className="field-label">
-                Subcategory Image
-              </label>
-              <input
-                type="file"
-                name="subcategory_image"
-                onChange={handleImageChange}
-                disabled={!fieldsToUpdate['subcategory_image']}
-                className="field-input"
-              />
-            </div>
+        {['subcategory', 'subcategory_description'].map((field) => (
+          <div key={field} className="form-field">
+            <input
+              type="checkbox"
+              name={field}
+              onChange={handleCheckboxChange}
+              id={`checkbox-${field}`}
+            />
+            <label htmlFor={`checkbox-${field}`} className="field-label">
+              {field.replace('_', ' ')}:
+            </label>
+            <input
+              type="text"
+              name={field}
+              value={formData[field] || ''}
+              onChange={handleChange}
+              disabled={!fieldsToUpdate[field]}
+              className="field-input"
+            />
+          </div>
+        ))}
 
-            <button type="submit" className="submit-button">Update Subcategory</button>
-          </>
-        )}
+        <div className="form-field">
+          <input
+            type="checkbox"
+            name="subcategory_image"
+            onChange={handleCheckboxChange}
+            id="checkbox-subcategory_image"
+          />
+          <label htmlFor="checkbox-subcategory_image" className="field-label">
+            Subcategory Image
+          </label>
+          <input
+            type="file"
+            name="subcategory_image"
+            onChange={handleImageChange}
+            disabled={!fieldsToUpdate['subcategory_image']}
+            className="field-input"
+          />
+        </div>
+
+        <button type="submit" className="submit-button">Update Subcategory</button>
       </form>
     </div>
+    </>
   );
 };
 

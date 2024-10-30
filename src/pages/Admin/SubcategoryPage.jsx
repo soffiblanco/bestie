@@ -122,11 +122,11 @@ const SubcategoryPage = () => {
               <td>
                 <button className="edit-button" onClick={() => handleEdit(subcategory.id_subcategory)}>Edit</button> {/* Cambiado a 'id_category' */}
                 <button
-                  className="toggle-state-button"
-                  onClick={() => handleToggleState(subcategory.id_subcategory, subcategory.Subcategory_State)}
-                >
-                  {subcategories.Subcategory_State === 'Enabled' ? 'Disable' : 'Enabled'}
-                </button>
+              className="toggle-state-button"
+              onClick={() => handleToggleState(subcategory.id_subcategory, subcategory.Subcategory_State)}
+            >
+              {subcategory.Subcategory_State === 'Enabled' ? 'Disable' : 'Enabled'}
+            </button>
               </td>
             </tr>
           ))}
