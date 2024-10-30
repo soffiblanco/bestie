@@ -11,7 +11,7 @@ const CategoryCatalog = () => {
 
     useEffect(() => {
         setLoading(true);
-        fetch('http://localhost/apis/category.php')  // API para categorías
+        fetch('http://localhost/apis/products.php?fields=Category')  // Filtrar solo por categoría
             .then((response) => response.json())
             .then((data) => {
                 if (Array.isArray(data.data)) {
@@ -28,10 +28,8 @@ const CategoryCatalog = () => {
     }, []);
 
     const handleCategoryClick = (categoryId) => {
-        navigate(`/subcategories/${categoryId}`);  // Redirige al catálogo de subcategorías
+        navigate(`/catalog/${categoryId}`);  // Redirige al catálogo de productos filtrado por categoría
     };
-
- 
 
     if (loading) {
         return <div>Cargando...</div>;
@@ -47,14 +45,13 @@ const CategoryCatalog = () => {
             <div className="categories-grid">
                 {categories.map((category) => (
                     <div 
-                        key={category.id_category} 
+                        key={category.Category} 
                         className="category-card" 
-                        onClick={() => handleCategoryClick(category.id_category)}
+                        onClick={() => handleCategoryClick(category.Category)}
                     >
-                        <img src={category.category_image} alt={category.category} className="category-image"/>
-                        <h3>{category.category}</h3>
+                        <img src={category.category_image} alt={category.Category} className="category-image"/>
+                        <h3>{category.Category}</h3>
                         <p>{category.category_description}</p>
-
                     </div>
                 ))}
             </div>
