@@ -7,12 +7,22 @@ const SubcategoryCatalog = () => {
     const [subcategories, setSubcategories] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
-    const { categoryId } = useParams();  // Obtenemos el ID de la categoría de la URL
+    const { categoryId, subcategoryId } = useParams(); // Obtener ambos parámetros de la URL
     const navigate = useNavigate();
 
     useEffect(() => {
         setLoading(true);
-        fetch(`http://localhost/apis/subcategory.php?id_category=${categoryId}`)  // API para subcategorías
+    
+        // Construir la URL de la API según los parámetros disponibles
+        let apiUrl = `http://localhost/apis/products.php`;
+        if (categoryId) {
+            apiUrl += `?category=${categoryId}`;
+        }
+        if (subcategoryId) {
+            apiUrl += categoryId ? `&subcategory=${subcategoryId}` : `?subcategory=${subcategoryId}`;
+        }
+    
+        fetch(apiUrl)
             .then((response) => response.json())
             .then((data) => {
                 if (Array.isArray(data.data)) {
@@ -26,10 +36,11 @@ const SubcategoryCatalog = () => {
                 setError('Error al obtener las subcategorías');
                 setLoading(false);
             });
-    }, [categoryId]);
+    }, [categoryId, subcategoryId]);
+    
 
     const handleSubcategoryClick = (subcategoryId) => {
-        navigate(`/product/${subcategoryId}`);  // Redirige a la página de detalles del producto
+        navigate(`/product/${subcategoryId}`);
     };
 
     if (loading) {
@@ -47,21 +58,23 @@ const SubcategoryCatalog = () => {
                 <div className="subcategories-grid">
                     {subcategories.map((subcategory) => (
                         <div 
-                            key={subcategory.id_subcategory} 
+                            key={subcategory.ID_Product} 
                             className="subcategory-card" 
-                            onClick={() => handleSubcategoryClick(subcategory.id_subcategory)}
+                            onClick={() => handleSubcategoryClick(subcategory.ID_Product)}
                         >
-                            <img src={subcategory.subcategory_image} alt={subcategory.subcategory} className="subcategory-image"/>
-                            <h3>{subcategory.subcategory}</h3>
-                            <p>{subcategory.subcategory_description}</p>
+                            <img src={subcategory.Product_Image} alt={subcategory.Product} className="subcategory-image"/>
+                            <h3>{subcategory.Subcategory}</h3>
+                            <p>{subcategory.Product_Description}</p>
                         </div>
                     ))}
                 </div>
             ) : (
-                <p>No hay subcategorías para esta categoría</p>
+                <p>No hay productos para esta categoría/subcategoría</p>
             )}
         </div>
     );
 };
 
 export default SubcategoryCatalog;
+
+
