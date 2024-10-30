@@ -4,7 +4,7 @@ import { FaBagShopping } from "react-icons/fa6";
 import { FaEdit } from "react-icons/fa";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './ProductDetails.css';
-import { baseUrl } from '../../config.js'
+import { baseUrl } from '../../config.js';
 import { OrderContext } from '../../pages/Orders/OrderContexts';
 import ecommerce_fetch from '../../services/ecommerce_fetch.js';
 
@@ -17,6 +17,8 @@ const ProductDetails = () => {
     const [showNewCommentBox, setShowNewCommentBox] = useState(false);
     const [replyBoxIndex, setReplyBoxIndex] = useState(null);
     const [editingCommentIndexes, setEditingCommentIndexes] = useState(null);
+    const [showChildren, setShowChildren] = useState({});
+    const [users, setUsers] = useState([]);
     const editedCommentRef = useRef("");
     const textareaRef = useRef(null);
 
@@ -59,7 +61,40 @@ const ProductDetails = () => {
                 console.error('Error fetching comments:', error);
                 setError('Error al obtener los comentarios.');
             });
+
+        // Fetch users
+        ecommerce_fetch(`${baseUrl}/users.php`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Error fetching users');
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (Array.isArray(data.data)) {
+                    setUsers(data.data);
+                } else {
+                    setUsers([]);
+                }
+                console.log('Usuarios obtenidos:', data);
+            })
+            .catch(error => {
+                console.error('Error fetching users:', error);
+                setError('Error al obtener los usuarios.');
+            });
     }, [id]);
+
+    const getUserName = (userId) => {
+        console.log('Buscando usuario con ID:', userId);
+        const user = users.find(user => user.ID_User == userId);
+        if (user) {
+            console.log('Usuario encontrado:', user);
+            return user.Name;
+        } else {
+            console.log('Usuario no encontrado, usando valor predeterminado');
+            return 'Unknown User';
+        }
+    };
 
     const handleAddComment = () => {
         if (newComment.trim() !== "") {
@@ -86,7 +121,7 @@ const ProductDetails = () => {
             .then(data => {
                 console.log('Respuesta del servidor al agregar comentario:', data);
                 
-                const newCommentWithID = { ...newCommentData, ID_Comment: data.ID_Comment, children: [] };
+                const newCommentWithID = { ...newCommentData, ID_Comment: data.ID_Comment, children: [], User: getUserName(newCommentData.ID_User) };
                 setComments([...comments, newCommentWithID]);
                 setNewComment("");
                 setShowNewCommentBox(false);
@@ -97,33 +132,34 @@ const ProductDetails = () => {
         }
     };
     
-    
     const handleAddReply = (parentIndexes, reply) => {
         if (reply.trim() !== "") {
             const updatedComments = JSON.parse(JSON.stringify(comments)); // Copia profunda del arreglo
             let current = updatedComments;
     
-            // Recorrer parentIndexes y hacer log de current
-            parentIndexes.forEach((index, i) => {
+            // Navegar al comentario padre correcto usando los índices
+            parentIndexes.forEach((index) => {
                 if (current[index]) {
                     current = current[index].children;
-                    console.log(`Paso ${i + 1} - Current después de parentIndexes[${index}]:`, current);
                 } else {
                     console.error(`Índice inválido: ${index} en parentIndexes`, parentIndexes);
-                    return;
+                    return; // Detenemos la función si encontramos un índice inválido
                 }
             });
     
-            // Obtener el comentario padre y verificar su ID_Comment
-            const parentCommentIndex = parentIndexes[parentIndexes.length - 1];
+            // Obtener el comentario padre usando parentIndexes y verificar ID_Comment
             let parentComment = comments[parentIndexes[0]];
-    
             for (let i = 1; i < parentIndexes.length; i++) {
-                parentComment = parentComment.children[parentIndexes[i]];
+                if (parentComment && parentComment.children[parentIndexes[i]]) {
+                    parentComment = parentComment.children[parentIndexes[i]];
+                } else {
+                    console.error(`Índice inválido en la jerarquía de comentarios: ${parentIndexes[i]}`, parentIndexes);
+                    return; // Detenemos la función si encontramos un índice inválido
+                }
             }
     
             if (!parentComment || !parentComment.ID_Comment) {
-                console.error(`No se encontró ID_Comment en el comentario padre`, parentComment);
+                console.error('No se encontró el ID_Comment del comentario padre', parentComment);
                 return;
             }
     
@@ -136,13 +172,13 @@ const ProductDetails = () => {
     
             console.log('Datos de la nueva respuesta antes de enviar:', newReplyData);
     
-            // Hacer solicitud POST para agregar una nueva respuesta en el backend
+            // Hacer solicitud POST para agregar la nueva respuesta al backend
             fetch(`${baseUrl}/comment.php`, {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json', // Asegúrate de que el Content-Type sea correcto
+                    'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(newReplyData), // Convertir a JSON string
+                body: JSON.stringify(newReplyData),
             })
             .then(response => {
                 if (!response.ok) {
@@ -152,7 +188,11 @@ const ProductDetails = () => {
             })
             .then(data => {
                 console.log('Respuesta del servidor al agregar respuesta:', data);
-                current.push({ ...newReplyData, ID_Comment: data.ID_Comment, children: [] });
+    
+                // Agregar la nueva respuesta a la copia del comentario actual
+                current.push({ ...newReplyData, ID_Comment: data.ID_Comment, children: [], User: getUserName(newReplyData.ID_User) });
+    
+                // Actualizar el estado de los comentarios
                 setComments(updatedComments);
                 setReplyBoxIndex(null);
             })
@@ -162,9 +202,6 @@ const ProductDetails = () => {
         }
     };
     
-    
-
-
     const handleEditComment = (parentIndexes) => {
         let current = comments;
         parentIndexes.forEach((index, i) => {
@@ -225,6 +262,11 @@ const ProductDetails = () => {
         }
     };
 
+    const handleCancelEdit = () => {
+        setEditingCommentIndexes(null);
+        editedCommentRef.current = "";
+    };
+
     const handleAddToCart = () => {
         if (product) {
             addProductToOrder({
@@ -235,6 +277,13 @@ const ProductDetails = () => {
                 quantity: 1,
             });
         }
+    };
+
+    const toggleShowChildren = (indexPath) => {
+        setShowChildren(prevState => ({
+            ...prevState,
+            [indexPath]: !prevState[indexPath]
+        }));
     };
 
     if (error) {
@@ -251,10 +300,11 @@ const ProductDetails = () => {
         const [replyText, setReplyText] = useState("");
 
         const isEditing = editingCommentIndexes && editingCommentIndexes.join() === parentIndexes.join();
+        const indexPath = parentIndexes.join("-");
 
         return (
-            <li className="list-group-item comment-item">
-                <div className="d-flex align-items-center justify-content-between">
+            <li className="list-group-item comment-item mb-3">
+                <div className="d-flex align-items-center justify-content-between mb-3">
                     {isEditing ? (
                         <div>
                             <textarea
@@ -266,10 +316,11 @@ const ProductDetails = () => {
                                 autoFocus
                             ></textarea>
                             <button className="btn btn-success mt-2" onClick={handleSaveEditedComment}>Save</button>
+                            <button className="btn btn-secondary mt-2 ms-2" onClick={handleCancelEdit}>Cancel</button>
                         </div>
                     ) : (
                         <>
-                            <span className="me-2 flex-grow-1">{comment.Comment}</span>
+                            <span className="me-2 flex-grow-1"><strong>{comment.User ? comment.User : getUserName(comment.ID_User)}:</strong> {comment.Comment}</span>
                             <div className="edit-icon-container">
                                 <button className="btn btn-link edit-icon" onClick={() => handleEditComment(parentIndexes)}>
                                     <FaEdit />
@@ -295,15 +346,22 @@ const ProductDetails = () => {
                 )}
 
                 {comment.children && comment.children.length > 0 && (
-                    <ul className="list-group mt-3">
-                        {comment.children.map((reply, replyIndex) => (
-                            <CommentItem
-                                key={replyIndex}
-                                comment={reply}
-                                parentIndexes={[...parentIndexes, replyIndex]}
-                            />
-                        ))}
-                    </ul>
+                    <div className="mb-2">
+                        <button className="btn btn-link mb-2" onClick={() => toggleShowChildren(indexPath)}>
+                            {showChildren[indexPath] ? 'Hide Replies' : 'Show Replies'} ({comment.children.length})
+                        </button>
+                        {showChildren[indexPath] && (
+                            <ul className="list-group mt-4" style={{ marginLeft: '20px', paddingLeft: '20px', borderLeft: '2px solid #b885e7' }}>
+                                {comment.children.map((reply, replyIndex) => (
+                                    <CommentItem
+                                        key={replyIndex}
+                                        comment={reply}
+                                        parentIndexes={[...parentIndexes, replyIndex]}
+                                    />
+                                ))}
+                            </ul>
+                        )}
+                    </div>
                 )}
                 <button className="btn btn-link reply-button mt-2" onClick={() => setReplyBoxIndex(parentIndexes.join("-"))}>
                     Reply
@@ -341,14 +399,14 @@ const ProductDetails = () => {
                 )}
 
                 {showNewCommentBox ? (
-                    <div className="mt-3">
+                    <div className="mt-4">
                         <textarea
                             className="form-control"
                             value={newComment}
                             onChange={(e) => setNewComment(e.target.value)}
                             placeholder="Write a comment..."
                         ></textarea>
-                        <button className="btn btn-secondary mt-2" onClick={handleAddComment}>Add comment</button>
+                        <button className="btn btn-secondary mt-3" onClick={handleAddComment}>Add comment</button>
                     </div>
                 ) : (
                     <button className="btn btn-secondary mt-3" onClick={() => setShowNewCommentBox(true)}>Add Comment</button>
