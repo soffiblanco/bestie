@@ -1,36 +1,37 @@
 import React, { useEffect, useState } from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css'; 
+import 'bootstrap/dist/css/bootstrap.min.css';
 import './CatalogProducts.css';
-import { useNavigate } from 'react-router-dom'; 
+import { useNavigate, useParams } from 'react-router-dom';
 
-const CategoryCatalog = () => {
-    const [categories, setCategories] = useState([]);
+const CatalogProducts = () => {
+    const [subcategories, setSubcategories] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
-    const navigate = useNavigate(); 
+    const navigate = useNavigate();
+    const { category } = useParams();
 
     useEffect(() => {
         setLoading(true);
-        fetch('http://localhost/apis/products.php?fields=Category')  // Filtrar solo por categoría
+        fetch(`http://localhost/apis/category_subcategory_unique_view.php?category=${category}`) 
             .then((response) => response.json())
             .then((data) => {
                 if (Array.isArray(data.data)) {
-                    setCategories(data.data);
+                    setSubcategories(data.data);
                 } else {
-                    setError('Datos de categorías inválidos');
+                    setError('Datos de subcategorías inválidos');
                 }
                 setLoading(false);
             })
             .catch((error) => {
-                setError('Error al obtener las categorías');
+                setError('Error al obtener las subcategorías');
                 setLoading(false);
             });
-    }, []);
+    }, [category]);
 
-    const handleCategoryClick = (categoryId) => {
-        navigate(`/catalog/${categoryId}`);  // Redirige al catálogo de productos filtrado por categoría
+    const handleSubcategoryClick = (subcategoryName) => {
+        navigate(`/CatalogProducts/${category}/${subcategoryName}`);
     };
-
+    
     if (loading) {
         return <div>Cargando...</div>;
     }
@@ -41,17 +42,17 @@ const CategoryCatalog = () => {
 
     return (
         <div className="catalog-container">
-            <h1>Catálogo de Categorías</h1>
+            <h1>Subcategorías de {category}</h1>
             <div className="categories-grid">
-                {categories.map((category) => (
+                {subcategories.map((subcategory) => (
                     <div 
-                        key={category.Category} 
+                        key={subcategory.ID_Subcategory} 
                         className="category-card" 
-                        onClick={() => handleCategoryClick(category.Category)}
+                        onClick={() => handleSubcategoryClick(subcategory.Subcategory)}
                     >
-                        <img src={category.category_image} alt={category.Category} className="category-image"/>
-                        <h3>{category.Category}</h3>
-                        <p>{category.category_description}</p>
+                        <img src={subcategory.Subcategory_Image} alt={subcategory.Subcategory} className="category-image"/>
+                        <h3>{subcategory.Subcategory}</h3>
+                        <p>{subcategory.Subcategory_Description}</p>
                     </div>
                 ))}
             </div>
@@ -59,5 +60,5 @@ const CategoryCatalog = () => {
     );
 };
 
-export default CategoryCatalog;
+export default CatalogProducts;
 

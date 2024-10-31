@@ -53,7 +53,7 @@ function App() {
             <Route path="/categories" element={<Categories />} />  {/*Página de categorías */}
             <Route path="/CatalogProducts/:category" element={<CatalogProducts />} />  {/*Catálogo de categorías */}
             <Route path="/CatalogProducts/:category/:subcategory" element={<CatalogProductsSub />} /> {/*Catálogo de subcategorías */}
-            <Route path="/product/:id" element={<ProductDetails />} /> {/*Página individual del producto */}
+            <Route path="/CatalogProducts/:category/:subcategory/product/:id" element={<ProductDetails />} /> {/*Página individual del producto */}
             <Route path="/profile" element={<PrivateRoute><Profile /></PrivateRoute>} />
             <Route path="/users" element={<UserPage />} />
             <Route path="/categoriesp" element={<CategoryPage />} />

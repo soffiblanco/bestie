@@ -46,7 +46,12 @@ body {
     border-radius: 10px;
 }
 
-h1, h2, h3 {
+h1 {
+    color: blueviolet;
+    font-family: 'Poppins', sans-serif;
+}
+
+h3{
     color: white;
     font-family: 'Poppins', sans-serif;
 }
