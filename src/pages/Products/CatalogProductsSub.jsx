@@ -1,46 +1,36 @@
 import React, { useEffect, useState } from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/css/bootstrap.min.css'; 
 import './CatalogProducts.css';
 import { useParams, useNavigate } from 'react-router-dom';
 
-const CatalogProductsSub = () => {
-    const [products, setProducts] = useState([]);
+const SubcategoryCatalog = () => {
+    const [subcategories, setSubcategories] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
-    const { category, subcategory } = useParams(); // Extraemos 'category' y 'subcategory' de los parámetros de la URL
+    const { category, subcategory } = useParams();  // Obtenemos el ID de la categoría de la URL
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (!category || !subcategory) {
-            setError("No se ha especificado una categoría o subcategoría para el producto.");
-            return;
-        }
-
-        console.log(`Fetching products for category: ${category}, subcategory: ${subcategory}`);
-
         setLoading(true);
-        fetch(`http://localhost/apis/product_categories_subcategories_view.php?category=${category}&subcategory=${subcategory}`)
+        fetch(`http://localhost/apis/product_categories_subcategories_view.php?category=${category}&subcategory=${subcategory}`)  // API para subcategorías
             .then((response) => response.json())
             .then((data) => {
-                console.log('API response:', data);
-                if (data && Array.isArray(data.data) && data.data.length > 0) {
-                    setProducts(data.data);
+                if (Array.isArray(data.data)) {
+                    setSubcategories(data.data);
                 } else {
-                    setError(data.message || 'No se encontraron productos para esta categoría y subcategoría');
+                    setError('Datos de subcategorías inválidos');
                 }
                 setLoading(false);
             })
             .catch((error) => {
-                setError('Error al obtener los productos');
-                console.error('Error en la llamada al API:', error);
+                setError('Error al obtener las subcategorías');
                 setLoading(false);
             });
-    }, [category, subcategory]);
+    }, [category]);
 
-    // Ajusta `handleProductClick` para tomar el ID del producto actual
-    const handleProductClick = (productId) => {
-        navigate(`/CatalogProducts/${category}/${subcategory}/product/${productId}`);
-    };
+    const handleProductClick = (ID_Product) => {
+        navigate(`/CatalogProducts/${category}/${subcategory}/product/${ID_Product}`);  // Redirige a la página de detalles del producto
+    };   
 
     if (loading) {
         return <div>Cargando...</div>;
@@ -52,29 +42,26 @@ const CatalogProductsSub = () => {
 
     return (
         <div className="catalog-container">
-            <h2>Productos de {subcategory} en {category}</h2>
-            {products.length > 0 ? (
-                <div className="categories-grid">
-                    {products.map((product, index) => (
+            <h2>Productos</h2>
+            {subcategories.length > 0 ? (
+                <div className="subcategories-grid">
+                    {subcategories.map((product) => (
                         <div 
-                            key={index} 
-                            className="category-card" 
-                            onClick={() => handleProductClick(product.ID_Product)} // Aquí pasamos el ID del producto actual
+                            key={product.ID_Product} 
+                            className="subcategory-card" 
+                            onClick={() => handleProductClick(product.ID_Product)}
                         >
-                            <img src={product.Product_Image} alt={product.Product} className="category-image" />
+                            <img src={product.Product_Image} alt={product.Product} className="subcategory-image"/>
                             <h3>{product.Product}</h3>
                             <p>{product.Product_Description}</p>
-                            <p><strong>Precio:</strong> ${product.Price}</p>
                         </div>
                     ))}
                 </div>
             ) : (
-                <p>No hay productos para esta subcategoría y categoría</p>
+                <p>No hay subcategorías para esta categoría</p>
             )}
         </div>
     );
 };
 
-export default CatalogProductsSub;
-
-
+export default SubcategoryCatalog;
