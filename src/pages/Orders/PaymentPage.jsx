@@ -1,7 +1,10 @@
-import React, { useState } from 'react';
+// PaymentPage.jsx
+import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import './PaymentPage.css'; // Asegúrate de tener tu archivo de estilos personalizado
+import './PaymentPage.css';
+import { OrderContext } from '../../pages/Orders/OrderContexts';
+import { useAuth } from '../../Auth/AuthContext';
 
 function PaymentPage() {
     const [cardNumber, setCardNumber] = useState('');
@@ -10,20 +13,57 @@ function PaymentPage() {
     const [name, setName] = useState('');
     const [address, setAddress] = useState('');
     const navigate = useNavigate();
+    const { orderItems, createOrder } = useContext(OrderContext);
+    const {userData}= useAuth();
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log('Datos de Pago', { cardNumber, expiryDate, cvv, name, address });
-        navigate('/payment-success');
+
+        const id_user = userData.id_user;
+
+        // Validate data before submitting (optional)
+        if (orderItems.length === 0) {
+            alert("No products in the order.");
+            return;
+        }
+
+        // Prepare order data
+        const orderData = {
+            id_user:id_user, 
+            NIT: '123456789', // Replace with the actual NIT
+            Shipping_Price: 50.00, // Example
+            Minimum_Amount_Surcharge: 10.00, // Example
+            Total: orderItems.reduce((acc, item) => acc + item.price * item.quantity, 0),
+            Order_State: "Accepted",
+            Order_Date: new Date().toISOString(),
+            Direction_Order: address,
+            details: orderItems.map(item => ({
+                ID_Product: item.id, // Ensure each product has an ID
+                Product_Amount: item.quantity,
+                Unit_Price: item.price,
+                Subtotal: item.price * item.quantity
+            }))
+        };
+
+        try {
+            const response = await createOrder(orderData);
+            console.log('Order created:', response);
+            // Clear the cart if necessary
+            // setOrderItems([]);
+            navigate('/payment-success');
+        } catch (error) {
+            console.error("Error creating order:", error);
+            alert("There was a problem processing your order. Please try again.");
+        }
     };
 
     return (
         <div className="container mt-5">
             <div className="card p-4" style={{ backgroundColor: 'blueviolet', borderRadius: '10px' }}>
-                <h2 className="text-center text-white mb-4">Detalles de Pago</h2>
+                <h2 className="text-center text-white mb-4">Payment Details</h2>
                 <form onSubmit={handleSubmit}>
                     <div className="form-group mb-3">
-                        <label className="text-white">Número de Tarjeta</label>
+                        <label className="text-white">Card Number</label>
                         <input
                             type="text"
                             className="form-control"
@@ -36,7 +76,7 @@ function PaymentPage() {
                     <div className="row">
                         <div className="col-md-6">
                             <div className="form-group mb-3">
-                                <label className="text-white">Fecha de Expiración</label>
+                                <label className="text-white">Expiry Date</label>
                                 <input
                                     type="text"
                                     className="form-control"
@@ -62,29 +102,29 @@ function PaymentPage() {
                         </div>
                     </div>
                     <div className="form-group mb-3">
-                        <label className="text-white">Nombre</label>
+                        <label className="text-white">Name</label>
                         <input
                             type="text"
                             className="form-control"
                             value={name}
                             onChange={(e) => setName(e.target.value)}
-                            placeholder="Nombre completo"
+                            placeholder="Full name"
                             required
                         />
                     </div>
                     <div className="form-group mb-3">
-                        <label className="text-white">Dirección</label>
+                        <label className="text-white">Address</label>
                         <input
                             type="text"
                             className="form-control"
                             value={address}
                             onChange={(e) => setAddress(e.target.value)}
-                            placeholder="Dirección completa"
+                            placeholder="Full address"
                             required
                         />
                     </div>
                     <button type="submit" className="btn btn-success btn-block mt-4">
-                        Finalizar Compra
+                        Complete Purchase
                     </button>
                 </form>
             </div>
@@ -93,4 +133,3 @@ function PaymentPage() {
 }
 
 export default PaymentPage;
-
