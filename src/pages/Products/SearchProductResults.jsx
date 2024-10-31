@@ -1,22 +1,48 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { baseUrl } from "../../config.js";
 import "./SearchProductResults.css";
+import Select from "react-dropdown-select";
 
 const SearchProductResults = () => {
   const [results, setResults] = useState([]);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
+  const [categories, setCategories] = useState([]);
+  const [subcategories, setSubcategories] = useState([]);
+  const [selectedCategories, setSelectedCategories] = useState([]);
+  const [selectedSubcategories, setSelectedSubcategories] = useState([]);
+  const [minPrice, setMinPrice] = useState("");
+  const [maxPrice, setMaxPrice] = useState("");
 
   const location = useLocation();
-
   const searchParams = new URLSearchParams(location.search);
   const searchValue = searchParams.get("value") || "";
 
-  const handleProductClick = (productId) => {
-    navigate(`/product/${productId}`);
-  };
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const response = await fetch(`${baseUrl}/category.php`);
+        const data = await response.json();
+        setCategories(data.data);
+      } catch (error) {
+        console.error("Error fetching categories:", error);
+      }
+    };
+
+    const fetchSubcategories = async () => {
+      try {
+        const response = await fetch(`${baseUrl}/subcategory.php`);
+        const data = await response.json();
+        setSubcategories(data.data);
+      } catch (error) {
+        console.error("Error fetching subcategories:", error);
+      }
+    };
+
+    fetchCategories();
+    fetchSubcategories();
+  }, []);
 
   useEffect(() => {
     if (searchValue) {
@@ -24,7 +50,19 @@ const SearchProductResults = () => {
       setError("");
       setResults([]);
 
-      fetch(`${baseUrl}/search.php?value=${searchValue}`)
+      const params = new URLSearchParams({
+        searchValue,
+        category:
+          selectedCategories.length > 0 ? selectedCategories.join(",") : "",
+        subcategory:
+          selectedSubcategories.length > 0
+            ? selectedSubcategories.join(",")
+            : "",
+        minPrice: minPrice !== "" ? minPrice : null,
+        maxPrice: maxPrice !== "" ? maxPrice : null,
+      });
+
+      fetch(`${baseUrl}/search.php?${params}`)
         .then((response) => response.json())
         .then((data) => {
           if (data.data && data.data.length > 0) {
@@ -40,42 +78,100 @@ const SearchProductResults = () => {
           setLoading(false);
         });
     }
-  }, [searchValue]);
+  }, [
+    searchValue,
+    selectedCategories,
+    selectedSubcategories,
+    minPrice,
+    maxPrice,
+  ]);
+
+  const handleCategoryChange = (selectedCats) => {
+    setSelectedCategories(selectedCats.map((cat) => cat.category));
+  };
+
+  const handleSubcategoryChange = (selectedSubcats) => {
+    setSelectedSubcategories(
+      selectedSubcats.map((subcat) => subcat.subcategory)
+    );
+  };
 
   return (
-    <div style={{ color: "black" }}>
-      <h1>Search Results</h1>
+    <div className="search-results">
+      <div style={{ color: "black" }}>
+        {error && <p style={{ color: "red" }}>{error}</p>}
 
-      {error && <p style={{ color: "red" }}>{error}</p>}
+        {loading && <p>Loading...</p>}
 
-      {loading && <p>Loading...</p>}
+        <div className="filters">
+          <h3>Filter by Categories</h3>
+          {categories.length > 0 && (
+            <Select
+              multi={true}
+              options={categories}
+              labelField="category"
+              valueField="id_category"
+              placeholder="Select Categories"
+              onChange={handleCategoryChange}
+            />
+          )}
 
-      {results.length > 0 ? (
-        <div className="grid">
-          {results.map((product, index) => (
-            <div key={index} className="card">
-              <img
-                src={product.Product_Image}
-                alt={product.Product}
-                className="card-image"
+          <h3>Filter by Subcategories</h3>
+          {subcategories.length > 0 && (
+            <Select
+              multi={true}
+              options={subcategories}
+              labelField="subcategory"
+              valueField="id_subcategory"
+              placeholder="Select Subcategories"
+              onChange={handleSubcategoryChange}
+            />
+          )}
+
+          <h3>Price Range:</h3>
+          <div className="price-range">
+            <label>
+              Min Price:
+              <input
+                type="number"
+                value={minPrice}
+                onChange={(e) => setMinPrice(e.target.value)}
               />
-              <div className="card-content">
-                <h2>{product.Product}</h2>
-                <p>{product.Product_Description}</p>
-                <p>
-                  <strong>Price:</strong> ${product.Price}
-                </p>
-                <p>
-
-                  <button onClick={()=>handleProductClick(product.ID_Product)}>View Details </button>
-                </p>
-              </div>
-            </div>
-          ))}
+            </label>
+            <label>
+              Max Price:
+              <input
+                type="number"
+                value={maxPrice}
+                onChange={(e) => setMaxPrice(e.target.value)}
+              />
+            </label>
+          </div>
         </div>
-      ) : (
-        !loading && <p>No products found.</p>
-      )}
+
+        {results.length > 0 ? (
+          <div className="grid">
+            {results.map((product, index) => (
+              <div key={index} className="card">
+                <img
+                  src={product.Product_Image}
+                  alt={product.Product}
+                  className="card-image"
+                />
+                <div className="card-content">
+                  <h2>{product.Product}</h2>
+                  <p>{product.Product_Description}</p>
+                  <p>
+                    <strong>Price:</strong> ${product.Price}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : (
+          !loading && <p>No products found.</p>
+        )}
+      </div>
     </div>
   );
 };
