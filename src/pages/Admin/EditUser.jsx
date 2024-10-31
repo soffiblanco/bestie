@@ -158,7 +158,7 @@ const toggleConfirmPasswordVisibility = () => {
         setError(err.message);
       });
 
-      ecommerce_fetch(`${baseUrl}/user_state`, {
+      ecommerce_fetch(`${baseUrl}/user_state.php`, {
         method: 'GET',
       })
         .then((response) => response.json())
@@ -483,51 +483,61 @@ const handleEmailConfirm = () => {
           </div>
     </div>
 
-         {/* Password Section */}
-          <div className="profile-section">
-          <h2 className='section-title'>Pasword</h2>
-          <div className="profile-info-item">
-            <p><strong>Password:</strong> {'***'}</p>
-            {isEditingPassword && (
-              <div className="password-change">
-                <input
-                  type={showoldPassword ? 'text' : 'password'}
-                  placeholder="Old Password"
-                  value={oldPassword}
-                  onChange={(e) => setOldPassword(e.target.value)}
-                />
-                <span className="eye-icon" onClick={toggleOldPasswordVisibility}>
-                    {showoldPassword ? <FaEyeSlash /> : <FaEye />}
-                </span>
-                <input
-                  type={showPassword ? 'text' : 'password'}
-                  placeholder="New Password"
-                  value={newPassword}
-                  onChange={(e) => setNewPassword(e.target.value)}
-                />
-              <span className="eye-icon" onClick={togglePasswordVisibility}>
-                  {showPassword ? <FaEyeSlash /> : <FaEye />}
-              </span>   
-                <input
-                type={showConfirmPassword ? 'text' : 'password'}
-                placeholder="Confirm New Password"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)}
-              />
-                <span className="eye-icon" onClick={toggleConfirmPasswordVisibility}>
-                    {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
-                </span>
-                <button onClick={handlePasswordChange} disabled={loading}>
-                {loading ? 'Loading...' : 'Change Password'}
-              </button>
-              </div>     
-            )}
-              <FaEdit 
-                onClick={() => setIsEditingPassword(!isEditingPassword)} 
-                style={{ cursor: 'pointer', marginLeft: '10px' }} 
-              />
-            </div>
-          </div>
+   {/* Password Section */}
+<div className="profile-section">
+  <h2 className='section-title'>Password</h2>
+  <div className="profile-info-item">
+    <p><strong>Password:</strong> {'***'}</p>
+    {isEditingPassword && (
+      <div className="password-change">
+        <div className="password-input-container">
+          <input
+            type={showoldPassword ? 'text' : 'password'}
+            placeholder="Old Password"
+            value={oldPassword}
+            onChange={(e) => setOldPassword(e.target.value)}
+          />
+          <span className="eye-icon" onClick={toggleOldPasswordVisibility}>
+            {showoldPassword ? <FaEyeSlash /> : <FaEye />}
+          </span>
+        </div>
+        
+        <div className="password-input-container">
+          <input
+            type={showPassword ? 'text' : 'password'}
+            placeholder="New Password"
+            value={newPassword}
+            onChange={(e) => setNewPassword(e.target.value)}
+          />
+          <span className="eye-icon" onClick={togglePasswordVisibility}>
+            {showPassword ? <FaEyeSlash /> : <FaEye />}
+          </span>   
+        </div>
+
+        <div className="password-input-container">
+          <input
+            type={showConfirmPassword ? 'text' : 'password'}
+            placeholder="Confirm New Password"
+            value={confirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+          />
+          <span className="eye-icon" onClick={toggleConfirmPasswordVisibility}>
+            {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
+          </span>
+        </div>
+
+        <button onClick={handlePasswordChange} disabled={loading}>
+          {loading ? 'Loading...' : 'Change Password'}
+        </button>
+      </div>     
+    )}
+    <FaEdit 
+      onClick={() => setIsEditingPassword(!isEditingPassword)} 
+      style={{ cursor: 'pointer', marginLeft: '10px' }} 
+    />
+  </div>
+</div>
+
 
           {/* General Information Section */}
           <div className='profile-section'>

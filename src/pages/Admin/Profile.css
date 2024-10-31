@@ -75,13 +75,14 @@ body {
 }
 
 .password-input-container {
-    position: relative; /* Para permitir posicionar el ícono dentro del contenedor */
-    margin-bottom: 10px; /* Espacio entre cada campo */
+    position: relative;
+    width: 100%;
+    margin-bottom: 10px;
 }
 
 .password-input-container input {
-    width: 100%;
-    padding-right: 40px; /* Deja espacio para el ícono */
+    width: calc(100% - 40px); /* Deja espacio para el ícono */
+    padding-right: 40px;
     padding-left: 10px;
     height: 40px;
     border-radius: 5px;
