@@ -109,6 +109,62 @@
     margin-top: 20px;
 }
 
+.featured-selector {
+    margin: 40px 0; /* Aumenta el margen superior e inferior para mayor separación */
+    padding: 20px;
+    text-align: center;
+    border: 1px solid #ddd; /* Añade un borde para destacar la sección */
+    border-radius: 10px;
+    background-color: #f9f9f9; /* Fondo claro para mayor contraste */
+  }
+  
+  .featured-selector h2 {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+  }
+  
+  .featured-selector select {
+    width: 80%;
+    padding: 10px;
+    margin-bottom: 20px;
+    font-size: 1rem;
+  }
+  
+  .save-featured-button {
+    padding: 10px 20px;
+    font-size: 1rem;
+    color: #fff;
+    background-color: #4caf50;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .save-featured-button:hover {
+    background-color: #45a049;
+  }
+
+  .featured-instruction {
+    font-size: 1rem;
+    color: #666;
+    margin-bottom: 15px;
+  }
+  
+  .product-button {
+    margin: 5px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    cursor: pointer;
+    background-color: #f9f9f9;
+  }
+  
+  .product-button.selected {
+    background-color: #007bff;
+    color: #fff;
+    border-color: #007bff;
+  }
+  
 .add-user-button:hover {
     background-color: #0056b3; /* Azul más oscuro al pasar el mouse */
 }
