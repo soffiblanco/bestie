@@ -1,45 +1,39 @@
-// OrderContext.js
+// OrderContexts.js
 import React, { createContext, useState } from 'react';
+import ecommerce_fetch from '../../services/ecommerce_fetch';
 
 export const OrderContext = createContext();
 
 export const OrderProvider = ({ children }) => {
-    const [orderItems, setOrderItems] = useState([]);
+    const [orders, setOrders] = useState([]);
 
-    const addProductToOrder = (product) => {
-        const existingProduct = orderItems.find(item => item.title === product.title);
-
-        if (existingProduct) {
-            setOrderItems(orderItems.map(item =>
-                item.title === product.title
-                    ? { ...item, quantity: item.quantity + 1 }
-                    : item
-            ));
-        } else {
-            setOrderItems([...orderItems, { ...product, quantity: 1 }]);
+    const fetchOrders = async () => {
+        try {
+            const response = await ecommerce_fetch('http://localhost/apis/orders.php');
+            if (!response.ok) throw new Error('Error fetching orders');
+            const data = await response.json();
+            setOrders(data);
+        } catch (error) {
+            console.error('Error fetching orders:', error);
+            throw error;
         }
     };
 
-    const decreaseProductQuantity = (product) => {
-        const existingProduct = orderItems.find(item => item.title === product.title);
-
-        if (existingProduct.quantity > 1) {
-            setOrderItems(orderItems.map(item =>
-                item.title === product.title
-                    ? { ...item, quantity: item.quantity - 1 }
-                    : item
-            ));
-        } else {
-            removeProductFromOrder(product);
+    const deleteOrder = async (orderId) => {
+        try {
+            const response = await ecommerce_fetch(`http://localhost/apis/orders.php?id=${orderId}`, {
+                method: 'DELETE',
+            });
+            if (!response.ok) throw new Error('Error deleting order');
+            setOrders((prevOrders) => prevOrders.filter(order => order.ID_Order !== orderId));
+        } catch (error) {
+            console.error('Error deleting order:', error);
+            throw error;
         }
-    };
-
-    const removeProductFromOrder = (product) => {
-        setOrderItems(orderItems.filter(item => item.title !== product.title));
     };
 
     return (
-        <OrderContext.Provider value={{ orderItems, addProductToOrder, decreaseProductQuantity, removeProductFromOrder }}>
+        <OrderContext.Provider value={{ orders, fetchOrders, deleteOrder }}>
             {children}
         </OrderContext.Provider>
     );

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { baseUrl } from "../../config.js";
 import "./SearchProductResults.css";
 import Select from "react-dropdown-select";
@@ -14,10 +15,17 @@ const SearchProductResults = () => {
   const [selectedSubcategories, setSelectedSubcategories] = useState([]);
   const [minPrice, setMinPrice] = useState("");
   const [maxPrice, setMaxPrice] = useState("");
+  const navigate = useNavigate();
 
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const searchValue = searchParams.get("value") || "";
+
+
+  const handleProductClick = (productId) => {
+    navigate(`/CatalogProducts/:category/:subcategory/product/${productId}`);
+  };
+
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -147,6 +155,9 @@ const SearchProductResults = () => {
               />
             </label>
           </div>
+          <buton>
+
+          </buton>
         </div>
 
         {results.length > 0 ? (
@@ -164,6 +175,12 @@ const SearchProductResults = () => {
                   <p>
                     <strong>Price:</strong> ${product.Price}
                   </p>
+
+                  <p>
+
+                  <button onClick={()=>handleProductClick(product.ID_Product)}>View Details </button>
+                  </p>
+
                 </div>
               </div>
             ))}

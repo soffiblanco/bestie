@@ -8,6 +8,9 @@ import { baseUrl } from '../../config.js';
 import { useAuth } from '../../Auth/AuthContext.js';
 import { OrderContext } from '../../pages/Orders/OrderContexts';
 import ecommerce_fetch from '../../services/ecommerce_fetch.js';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { toast } from 'react-toastify';
 
 const ProductDetails = () => {
     const { id } = useParams();
@@ -107,11 +110,11 @@ const ProductDetails = () => {
                 Comment: newComment,
             };
     
-            // Hacer solicitud POST para agregar un nuevo comentario en el backend
+      
             fetch(`${baseUrl}/comment.php`, {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json', // Asegúrate de que el Content-Type sea correcto
+                    'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(newCommentData), // Convertir a JSON string
             })
@@ -280,6 +283,7 @@ const ProductDetails = () => {
                 image: product.Product_Image,
                 quantity: 1,
             });
+            toast.success('Your product has been added to your order');
         }
     };
 
@@ -296,7 +300,7 @@ const ProductDetails = () => {
 
     if (!product) {
         return <div className="spinner-border text-primary" role="status">
-            <span className="sr-only">Cargando detalles del producto...</span>
+            <span className="sr-only">  Loading.</span>
         </div>;
     }
 
@@ -378,6 +382,8 @@ const ProductDetails = () => {
     };
 
     return (
+        <>
+      <ToastContainer position="top-right" />
         <div className="containerProduct mt-5">
             <div className="row">
                 <div className="col-md-6">
@@ -420,6 +426,7 @@ const ProductDetails = () => {
                 )}
             </div>
         </div>
+        </>
     );
 };
 

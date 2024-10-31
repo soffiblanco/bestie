@@ -1,10 +1,15 @@
-import React from 'react';
+// PaymentSuccess.jsx
+import React, { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { OrderContext } from '../../pages/Orders/OrderContexts';
 
 const PaymentSuccess = () => {
     const navigate = useNavigate();
+    const { setOrderItems } = useContext(OrderContext); // Asegúrate de exponer esta función en el contexto
 
     const redirectToOrders = () => {
+        // Limpiar el carrito después de la compra
+        setOrderItems([]);
         navigate('/orders'); 
     };
 
@@ -18,4 +23,3 @@ const PaymentSuccess = () => {
 };
 
 export default PaymentSuccess;
-
