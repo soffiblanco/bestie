@@ -16,7 +16,12 @@ const OrderPage = () => {
     
     useEffect(() => {
         fetchOrders()
-            .then(() => setCurrentOrderStatus(orders[0]?.Order_State || 'Pending'))
+            .then(() => {
+                console.log("Fetched orders:", orders); // Verificar órdenes obtenidas
+                if (orders && orders.length > 0) {
+                    setCurrentOrderStatus(orders[0].Order_State || 'Pending');
+                }
+            })
             .catch(err => setError('Error fetching orders'));
 
         ecommerce_fetch('http://localhost/apis/order_history.php')
@@ -32,7 +37,7 @@ const OrderPage = () => {
                 setError(err.message);
                 setLoading(false);
             });
-    }, [fetchOrders, orders]);
+    }, [fetchOrders]);
 
     const handleDelete = async (orderId) => {
         if (window.confirm("Are you sure you want to delete this order?")) {
@@ -78,11 +83,11 @@ const OrderPage = () => {
                     <div className="card mb-4">
                         <div className="card-body">
                             <h3 className="card-title">My Orders</h3>
-                            {orders.length === 0 ? (
+                            {orders && orders.length === 0 ? (
                                 <p className="text-center">You have no orders.</p>
                             ) : (
                                 <ul className="list-group">
-                                    {orders.map(order => (
+                                    {orders && orders.map(order => (
                                         <li key={order.ID_Order} className="list-group-item d-flex justify-content-between align-items-center">
                                             <div>
                                                 <h5>Order #{order.ID_Order}</h5>

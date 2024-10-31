@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './PaymentPage.css';
 import { OrderContext } from '../../pages/Orders/OrderContexts';
-import { useAuth } from '../../Auth/AuthContext';
 
 function PaymentPage() {
     const [cardNumber, setCardNumber] = useState('');
@@ -14,12 +13,9 @@ function PaymentPage() {
     const [address, setAddress] = useState('');
     const navigate = useNavigate();
     const { orderItems, createOrder } = useContext(OrderContext);
-    const {userData}= useAuth();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
-        const id_user = userData.id_user;
 
         // Validate data before submitting (optional)
         if (orderItems.length === 0) {
@@ -29,7 +25,7 @@ function PaymentPage() {
 
         // Prepare order data
         const orderData = {
-            id_user:id_user, 
+            ID_User: 1, // You should retrieve the authenticated user's ID
             NIT: '123456789', // Replace with the actual NIT
             Shipping_Price: 50.00, // Example
             Minimum_Amount_Surcharge: 10.00, // Example
