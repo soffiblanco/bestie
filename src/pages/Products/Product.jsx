@@ -34,7 +34,7 @@ function Product({ productId, title: initialTitle, description: initialDescripti
                 });
         }
         
-        fetch(`http://localhost/apis/comments.php?product_id=${id}`)
+        fetch(`http://localhost/apis/comments.php?product_id=${productId}`)
         .then(response => {
             if (!response.ok) {
                 throw new Error('Error fetching comments');
@@ -60,8 +60,8 @@ function Product({ productId, title: initialTitle, description: initialDescripti
         addProductToOrder(product); 
     };
 
-    const handleViewDetails = () => {
-        navigate(`/product/${productId}`); // Redirige a la página individual del producto
+    const handleViewDetails = (productId) => {
+        navigate(`/CatalogProducts/${category}/${subcategory}/product/:${productId}`); // Redirige a la página individual del producto
     };
 
     if (loading) {

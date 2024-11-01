@@ -8,12 +8,11 @@ import { baseUrl } from '../../config.js';
 import { useAuth } from '../../Auth/AuthContext.js';
 import { OrderContext } from '../../pages/Orders/OrderContexts';
 import ecommerce_fetch from '../../services/ecommerce_fetch.js';
-import { ToastContainer } from 'react-toastify';
+import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { toast } from 'react-toastify';
 
 const ProductDetails = () => {
-    const { ID_Product } = useParams();
+    const { id } = useParams();
     const [product, setProduct] = useState(null);
     const [error, setError] = useState(null);
     const [comments, setComments] = useState([]);
@@ -31,7 +30,7 @@ const ProductDetails = () => {
 
     useEffect(() => {
         // Fetch product
-        ecommerce_fetch(`${baseUrl}/products.php?ID_Product=${ID_Product}`)
+        ecommerce_fetch(`${baseUrl}/products.php?id=${id}`)
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Error fetching product details');
@@ -39,7 +38,7 @@ const ProductDetails = () => {
                 return response.json();
             })
             .then(data => {
-                const foundProduct = data.data.find(item => item.ID_Product_Product === ID_Product);
+                const foundProduct = data.data.find(item => item.ID_Product === id);
                 if (foundProduct) {
                     setProduct(foundProduct);
                 } else {
@@ -52,7 +51,7 @@ const ProductDetails = () => {
             });
 
         // Fetch comments for product
-        ecommerce_fetch(`${baseUrl}/comment.php?ID_Product_Product=${ID_Product}`)
+        ecommerce_fetch(`${baseUrl}/comment.php?ID_Product=${id}`)
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Error fetching comments');
@@ -81,17 +80,17 @@ const ProductDetails = () => {
                 } else {
                     setUsers([]);
                 }
-                console.log('Usuarios obtenID_Productos:', data);
+                console.log('Usuarios obtenidos:', data);
             })
             .catch(error => {
                 console.error('Error fetching users:', error);
                 setError('Error al obtener los usuarios.');
             });
-    }, [ID_Product]);
+    }, [id]);
 
-    const getUserName = (userID_Product) => {
-        console.log('Buscando usuario con ID_Product:', userID_Product);
-        const user = users.find(user => user.ID_Product_User == userID_Product);
+    const getUserName = (userId) => {
+        console.log('Buscando usuario con ID:', userId);
+        const user = users.find(user => user.ID_User == userId);
         if (user) {
             console.log('Usuario encontrado:', user);
             return user.Name;
@@ -102,21 +101,20 @@ const ProductDetails = () => {
     };
 
     const handleAddComment = () => {
-        const ID_Product_user = userData.ID_Product_user;
+        const id_user = userData.id_user;
         if (newComment.trim() !== "") {
             const newCommentData = {
-                ID_Product_User: ID_Product_user, // Utilizar el ID_Product de usuario de la sesión actual
-                ID_Product_Product: ID_Product,
+                ID_User: id_user,
+                ID_Product: id,
                 Comment: newComment,
             };
-    
       
             fetch(`${baseUrl}/comment.php`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(newCommentData), // Convertir a JSON string
+                body: JSON.stringify(newCommentData),
             })
             .then(response => {
                 if (!response.ok) {
@@ -125,10 +123,10 @@ const ProductDetails = () => {
                 return response.json();
             })
             .then(data => {
-                console.log('Respuesta del servID_Productor al agregar comentario:', data);
+                console.log('Respuesta del servidor al agregar comentario:', data);
                 
-                const newCommentWithID_Product = { ...newCommentData, ID_Product_Comment: data.ID_Product_Comment, children: [], User: getUserName(newCommentData.ID_Product_User) };
-                setComments([...comments, newCommentWithID_Product]);
+                const newCommentWithID = { ...newCommentData, ID_Comment: data.ID_Comment, children: [], User: getUserName(newCommentData.ID_User) };
+                setComments([...comments, newCommentWithID]);
                 setNewComment("");
                 setShowNewCommentBox(false);
             })
@@ -139,47 +137,43 @@ const ProductDetails = () => {
     };
     
     const handleAddReply = (parentIndexes, reply) => {
-        const ID_Product_user = userData.ID_Product_user;
+        const id_user = userData.id_user;
         if (reply.trim() !== "") {
-            const updatedComments = JSON.parse(JSON.stringify(comments)); // Copia profunda del arreglo
+            const updatedComments = JSON.parse(JSON.stringify(comments));
             let current = updatedComments;
     
-            // Navegar al comentario padre correcto usando los índices
             parentIndexes.forEach((index) => {
                 if (current[index]) {
                     current = current[index].children;
                 } else {
-                    console.error(`Índice inválID_Producto: ${index} en parentIndexes`, parentIndexes);
-                    return; // Detenemos la función si encontramos un índice inválID_Producto
+                    console.error(`Índice inválido: ${index} en parentIndexes`, parentIndexes);
+                    return;
                 }
             });
     
-            // Obtener el comentario padre usando parentIndexes y verificar ID_Product_Comment
             let parentComment = comments[parentIndexes[0]];
             for (let i = 1; i < parentIndexes.length; i++) {
                 if (parentComment && parentComment.children[parentIndexes[i]]) {
                     parentComment = parentComment.children[parentIndexes[i]];
                 } else {
-                    console.error(`Índice inválID_Producto en la jerarquía de comentarios: ${parentIndexes[i]}`, parentIndexes);
-                    return; // Detenemos la función si encontramos un índice inválID_Producto
+                    console.error(`Índice inválido en la jerarquía de comentarios: ${parentIndexes[i]}`, parentIndexes);
+                    return;
                 }
             }
     
-            if (!parentComment || !parentComment.ID_Product_Comment) {
-                console.error('No se encontró el ID_Product_Comment del comentario padre', parentComment);
-                return;
+            if (!parentComment || !parentComment.ID_Comment) {
+                console.error('No se encontró el ID_Comment del comentario padre', parentComment);
             }
-    
+
             const newReplyData = {
-                ID_Product_User: ID_Product_user, // Utilizar el ID_Product de usuario de la sesión actual
-                ID_Product_Product: ID_Product,
+                ID_User: id_user,
+                ID_Product: id,
                 Comment: reply,
-                ID_Product_Comment_Father: parentComment.ID_Product_Comment,
+                ID_Comment_Father: parentComment.ID_Comment,
             };
     
             console.log('Datos de la nueva respuesta antes de enviar:', newReplyData);
     
-            // Hacer solicitud POST para agregar la nueva respuesta al backend
             fetch(`${baseUrl}/comment.php`, {
                 method: 'POST',
                 headers: {
@@ -194,12 +188,9 @@ const ProductDetails = () => {
                 return response.json();
             })
             .then(data => {
-                console.log('Respuesta del servID_Productor al agregar respuesta:', data);
+                console.log('Respuesta del servidor al agregar respuesta:', data);
     
-                // Agregar la nueva respuesta a la copia del comentario actual
-                current.push({ ...newReplyData, ID_Product_Comment: data.ID_Product_Comment, children: [], User: getUserName(newReplyData.ID_Product_User) });
-    
-                // Actualizar el estado de los comentarios
+                current.push({ ...newReplyData, ID_Comment: data.ID_Comment, children: [], User: getUserName(newReplyData.ID_User) });
                 setComments(updatedComments);
                 setReplyBoxIndex(null);
             })
@@ -239,7 +230,6 @@ const ProductDetails = () => {
                 }
             });
 
-            // Make PUT request to update comment in the backend
             const commentToUpdate = current[editingCommentIndexes[editingCommentIndexes.length - 1]];
             ecommerce_fetch(`${baseUrl}/comment.php`, {
                 method: 'PUT',
@@ -247,7 +237,7 @@ const ProductDetails = () => {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    ID_Product_Comment: commentToUpdate.ID_Product_Comment,
+                    ID_Comment: commentToUpdate.ID_Comment,
                     Comment: editedCommentRef.current,
                 }),
             })
@@ -277,7 +267,7 @@ const ProductDetails = () => {
     const handleAddToCart = () => {
         if (product) {
             addProductToOrder({
-                ID_Product: product.ID_Product_Product,
+                id: product.ID_Product,
                 title: product.Product,
                 price: product.Price,
                 image: product.Product_Image,
@@ -309,7 +299,7 @@ const ProductDetails = () => {
 
         const isEditing = editingCommentIndexes && editingCommentIndexes.join() === parentIndexes.join();
         const indexPath = parentIndexes.join("-");
-        const isUserComment = userData.ID_Product_user == comment.ID_Product_User;
+        const isUserComment = userData.id_user == comment.ID_User;
 
         return (
             <li className="list-group-item comment-item mb-3">
@@ -329,7 +319,7 @@ const ProductDetails = () => {
                         </div>
                     ) : (
                         <>
-                            <span className="me-2 flex-grow-1"><strong>{comment.User ? comment.User : getUserName(comment.ID_Product_User)}:</strong> {comment.Comment}</span>
+                            <span className="me-2 flex-grow-1"><strong>{comment.User ? comment.User : getUserName(comment.ID_User)}:</strong> {comment.Comment}</span>
                             {isUserComment && (
                                 <div className="edit-icon-container">
                                     <button className="btn btn-link edit-icon" onClick={() => handleEditComment(parentIndexes)}>
@@ -359,10 +349,10 @@ const ProductDetails = () => {
                 {comment.children && comment.children.length > 0 && (
                     <div className="mb-2">
                         <button className="btn btn-link mb-2" onClick={() => toggleShowChildren(indexPath)}>
-                            {showChildren[indexPath] ? 'HID_Producte Replies' : 'Show Replies'} ({comment.children.length})
+                        {showChildren[indexPath] ? 'Hide Replies' : 'Show Replies'} ({comment.children.length})
                         </button>
                         {showChildren[indexPath] && (
-                            <ul className="list-group mt-4" style={{ marginLeft: '20px', paddingLeft: '20px', borderLeft: '2px solID_Product #b885e7' }}>
+                            <ul className="list-group mt-4" style={{ marginLeft: '20px', paddingLeft: '20px', borderLeft: '2px solid #b885e7' }}>
                                 {comment.children.map((reply, replyIndex) => (
                                     <CommentItem
                                         key={replyIndex}
@@ -383,49 +373,49 @@ const ProductDetails = () => {
 
     return (
         <>
-      <ToastContainer position="top-right" />
-        <div className="containerProduct mt-5">
-            <div className="row">
-                <div className="col-md-6">
-                    <img src={product.Product_Image} alt={product.Product} className="img-fluID_Product rounded" />
-                </div>
-                <div className="col-md-6">
-                    <h2 className="my-3">{product.Product}</h2>
-                    <p className="h6">{product.Product_Description}</p>
-                    <p className="h5">Price: ${product.Price}</p>
-                    <button className="btn btn-primary mt-3" onClick={handleAddToCart}>
-                        <FaBagShopping className="me-2" /> Add to cart
-                    </button>
-                </div>
-            </div>
-
-            <div className="comments-section mt-5">
-                <h1>Comments</h1>
-                {comments.length > 0 ? (
-                    <ul className="list-group">
-                        {comments.map((comment, index) => (
-                            <CommentItem key={index} comment={comment} parentIndexes={[index]} />
-                        ))}
-                    </ul>
-                ) : (
-                    <p>No comments yet.</p>
-                )}
-
-                {showNewCommentBox ? (
-                    <div className="mt-4">
-                        <textarea
-                            className="form-control"
-                            value={newComment}
-                            onChange={(e) => setNewComment(e.target.value)}
-                            placeholder="Write a comment..."
-                        ></textarea>
-                        <button className="btn btn-secondary mt-3" onClick={handleAddComment}>Add comment</button>
+            <ToastContainer position="top-right" />
+            <div className="containerProduct mt-5">
+                <div className="row">
+                    <div className="col-md-6">
+                        <img src={product.Product_Image} alt={product.Product} className="img-fluid rounded" />
                     </div>
-                ) : (
-                    <button className="btn btn-secondary mt-3" onClick={() => setShowNewCommentBox(true)}>Add Comment</button>
-                )}
+                    <div className="col-md-6">
+                        <h2 className="my-3">{product.Product}</h2>
+                        <p className="h6">{product.Product_Description}</p>
+                        <p className="h5">Price: ${product.Price}</p>
+                        <button className="btn btn-primary mt-3" onClick={handleAddToCart}>
+                            <FaBagShopping className="me-2" /> Add to cart
+                        </button>
+                    </div>
+                </div>
+
+                <div className="comments-section mt-5">
+                    <h1>Comments</h1>
+                    {comments.length > 0 ? (
+                        <ul className="list-group">
+                            {comments.map((comment, index) => (
+                                <CommentItem key={index} comment={comment} parentIndexes={[index]} />
+                            ))}
+                        </ul>
+                    ) : (
+                        <p>No comments yet.</p>
+                    )}
+
+                    {showNewCommentBox ? (
+                        <div className="mt-4">
+                            <textarea
+                                className="form-control"
+                                value={newComment}
+                                onChange={(e) => setNewComment(e.target.value)}
+                                placeholder="Write a comment..."
+                            ></textarea>
+                            <button className="btn btn-secondary mt-3" onClick={handleAddComment}>Add comment</button>
+                        </div>
+                    ) : (
+                        <button className="btn btn-secondary mt-3" onClick={() => setShowNewCommentBox(true)}>Add Comment</button>
+                    )}
+                </div>
             </div>
-        </div>
         </>
     );
 };
