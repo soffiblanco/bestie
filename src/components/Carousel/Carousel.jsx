@@ -2,14 +2,16 @@ import React, { useState, useEffect } from 'react';
 import { GoChevronLeft, GoChevronRight } from "react-icons/go";
 import 'bootstrap/dist/css/bootstrap.min.css'; 
 import './Carousel.css';
+import { useNavigate } from 'react-router-dom';
 
 const Carousel = () => {
     const [currentProductIndex, setCurrentProductIndex] = useState(0);
     const [products, setProducts] = useState([]);
+    const navigate = useNavigate();
 
-    // Llamada a la API para obtener los 10 productos más vendidos
+    // Llamada a la API para obtener los 10 productos más vendidos con categoría y subcategoría
     useEffect(() => {
-        fetch('http://localhost/apis/Carousel.php')  // Asegúrate de que la URL sea correcta
+        fetch('http://localhost/apis/Carousel.php')  // URL de tu API actualizada
             .then(response => response.json())
             .then(data => {
                 if (Array.isArray(data.data)) {
@@ -34,20 +36,25 @@ const Carousel = () => {
     };
 
     // Manejar clic en la imagen del producto para redirigir a la página del producto
-    const handleProductClick = (productId) => {
-        window.location.href = `/product/${productId}`;  // Redirige a la página individual del producto
+    const handleProductClick = (product) => {
+        // Redirige a la página de detalles del producto con categoría y subcategoría en la ruta
+        navigate(`/CatalogProducts/${product.Category}/${product.Subcategory}/product/${product.ID_Product}`);
     };
 
     return (
-        <div className="carousel-container">
-            <button onClick={prevProduct} className="carousel-button"><GoChevronLeft /></button>
+        <div>
+                        <button onClick={prevProduct} className="carousel-button left">
+                <GoChevronLeft size={30} />
+            </button>
+        <div className="carousel-container position-relative d-flex align-items-center justify-content-center">
+
             {products.length > 0 ? (
                 <div
                     className="carousel-image"
                     style={{
                         backgroundImage: `url(${products[currentProductIndex].Product_Image})`,
                     }}
-                    onClick={() => handleProductClick(products[currentProductIndex].ID_Product)}  // Redirige al hacer clic en la imagen
+                    onClick={() => handleProductClick(products[currentProductIndex])}  // Redirige al hacer clic en la imagen
                 >
                     <div className="carousel-title">
                         {products[currentProductIndex].Product_Name}
@@ -56,8 +63,11 @@ const Carousel = () => {
             ) : (
                 <div className="carousel-message">Cargando productos...</div>  // Mensaje mientras se cargan los productos
             )}
-            <button onClick={nextProduct} className="carousel-button"><GoChevronRight /></button>
         </div>
+        <button onClick={nextProduct} className="carousel-button right">
+                <GoChevronRight size={30} />
+            </button>
+</div>
     );
 };
 

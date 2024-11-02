@@ -4,10 +4,9 @@ import './Mosaic.css';
 
 const Mosaic = () => {
     const [categories, setCategories] = useState([]);
-    const navigate = useNavigate(); // Para redirección programática
+    const navigate = useNavigate();
 
     useEffect(() => {
-        // Llamada a la API para obtener productos aleatorios de cada categoría
         fetch('http://localhost/apis/Mosaic.php')
             .then(response => response.json())
             .then(data => {
@@ -19,27 +18,29 @@ const Mosaic = () => {
     }, []);
 
     const handleCategoryClick = (categoryId) => {
-        navigate(`/catalogProducts/${categoryId}`);  // Redirige al catálogo de productos filtrado por categoría
-    }; 
+        navigate(`/catalogProducts/${categoryId}`);
+    };
 
     return (
-        <div className="categories-grid">
-            {categories.map((category) => (
-                <div
-                    key={category.ID_Category}
-                    className="category-item"
-                    onClick={() => handleCategoryClick(category.Category)}
-                >
+        <div className="mosaic-wrapper">
+            <div className="mosaic-grid">
+                {categories.map((category) => (
                     <div
-                        className="category-image"
-                        style={{
-                            backgroundImage: `url(${category.Product_Image})`
-                        }}
+                        key={category.ID_Category}
+                        className="mosaic-category-item"
+                        onClick={() => handleCategoryClick(category.Category)}
                     >
-                        <div className="category-name">{category.Category}</div>
+                        <div
+                            className="mosaic-category-image"
+                            style={{
+                                backgroundImage: `url(${category.Product_Image})`
+                            }}
+                        >
+                            <div className="mosaic-category-name">{category.Category}</div>
+                        </div>
                     </div>
-                </div>
-            ))}
+                ))}
+            </div>
         </div>
     );
 };

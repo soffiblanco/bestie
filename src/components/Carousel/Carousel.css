@@ -5,17 +5,21 @@
     justify-content: center;
     margin-bottom: 30px;
     position: relative;
-    width: 100%; /* Asegura que ocupe todo el ancho */
-    max-width: 100%; /* Elimina la limitación de ancho */
+    width: 100%;
+    max-width: 100%;
     margin: 20px auto;
-    padding-top: 10px; /* Espacio adicional entre carruseles */
+    padding-top: 10px;
 }
 
 /* Imagen del carrusel */
 .carousel-image {
+    height: 300px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     width: 100%;
-    height: auto;
-    aspect-ratio: 16 / 9; /* Mantener proporción responsiva */
+    aspect-ratio: 16 / 9;
     background-size: cover;
     background-position: center;
     position: relative;
@@ -31,27 +35,64 @@
     cursor: pointer;
 }
 
-/* Título del carrusel centrado en la parte inferior */
-.carousel-title {
-    font-family: 'Poppins', sans-serif;
-    font-size: 1.5rem;
-    color: #000;
-    text-align: center;
-    width: 100%;
-    position: absolute;
-    bottom: 10px; /* Espacio desde la parte inferior */
-    padding: 10px 0;
-    background: rgba(255, 255, 255, 0.5); /* Fondo semitransparente */
-}
-
 /* Media Queries para Responsividad */
 @media (max-width: 768px) {
     .carousel-image {
-        aspect-ratio: 4 / 3; /* Ajuste para pantallas más pequeñas */
+        aspect-ratio: 4 / 3;
         height: auto;
     }
 
     .carousel-title {
         font-size: 1.2rem;
     }
+}
+
+.carousel-title {
+    position: absolute;
+    bottom: 10px;
+    background: rgba(0, 0, 0, 0.6);
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 1.2rem;
+    text-align: center;
+}
+
+/* Botones del carrusel */
+.carousel-button {
+    background-color: #ffd423;
+    border: none;
+    color: blueviolet;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    z-index: 10;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.carousel-button.left {
+    left: 5px;
+}
+
+.carousel-button.right {
+    right: 5px;
+}
+
+.carousel-button:hover {
+    background-color: blueviolet;
+    color: white;
+}
+
+.carousel-message {
+    font-size: 1.2rem;
+    color: #666;
+    text-align: center;
 }

@@ -1,34 +1,43 @@
-.carousel-container {
+.custom-carousel-container {
   position: relative;
   display: flex;
-  justify-content: center;
   align-items: center;
-  width: 90%;
+  width: 100%;
   margin: 0 auto;
+  overflow: hidden;
 }
 
-.carousel-content {
+.custom-carousel-row {
   display: flex;
-  gap: 15px;
+  gap: 20px;
   transition: transform 0.5s ease-in-out;
   width: 100%;
+  justify-content: center;
 }
 
-.product-card {
-  background-color: blueviolet;
+.custom-carousel-col {
+  flex: 0 0 calc(25% - 20px); /* Ajusta el ancho de las cards para que solo haya 4 visibles */
+  max-width: calc(25% - 20px);
+}
+
+.custom-product-card {
+  background-color: white;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   text-align: center;
   padding: 0;
   cursor: pointer;
   transition: transform 0.3s ease-in-out;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
-.product-card:hover {
+.custom-product-card:hover {
   transform: scale(1.05);
 }
 
-.image-container {
+.custom-image-container {
   background-color: white;
   width: 100%;
   height: 150px;
@@ -39,127 +48,131 @@
   border-top-right-radius: 10px;
 }
 
-.product-image {
+.custom-product-image {
   max-width: 100%;
   max-height: 100%;
   object-fit: contain;
 }
 
-.product-info {
+.custom-card-body {
   padding: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
 }
 
-.product-title {
+.custom-product-title {
   font-size: 1.2rem;
   margin-bottom: 5px;
-  color: #A4D51D; /* Verde A4D51D */
+  color: blueviolet;
 }
 
-.product-description {
+.custom-product-description {
   font-size: 0.9rem;
   margin-bottom: 10px;
-  color: white;
+  color: blueviolet;
 }
 
-.product-icon {
+.custom-product-icon {
   font-size: 1.5rem;
-  margin-top: 10px;
-  background-color: transparent;
+  background-color: #ffd423;
   color: white;
-  border: 1px solid white;
+  border: none;
   border-radius: 50%;
   padding: 10px;
   transition: all 0.3s ease;
 }
 
-.product-icon:hover {
-  background-color: white;
-  color: blueviolet;
+.custom-product-icon:hover {
+  background-color: blueviolet;
+  color: white;
 }
-/* Botones del carrusel (flechas) */
-.carousel-button {
+
+.custom-carousel-button {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
   background-color: #ffd423;
   border: none;
-  font-size: 1.5rem; /* Ajusta el tamaño de la flecha */
+  font-size: 1.5rem;
   color: blueviolet;
   cursor: pointer;
   transition: color 0.3s ease, background-color 0.3s ease;
   z-index: 10;
-  width: 40px; /* Ajusta el ancho del botón */
-  height: 40px; /* Ajusta la altura del botón */
-  border-radius: 50%; /* Hace que el botón sea redondo */
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
   display: flex;
   align-items: center;
-  justify-content: center; /* Asegura que la flecha esté centrada */
+  justify-content: center;
 }
 
-.carousel-button.prev-button {
-  left: -50px; /* Ajusta la posición de la flecha izquierda */
+.custom-prev-button {
+  left: -50px;
 }
 
-.carousel-button.next-button {
-  right: -50px; /* Ajusta la posición de la flecha derecha */
+.custom-next-button {
+  right: -50px;
 }
 
-.carousel-button:hover {
-  background-color: #e6b91f; /* Color de fondo al pasar el mouse */
-  color: white; /* Color de la flecha al pasar el mouse */
+.custom-carousel-button:hover {
+  background-color: #e6b91f;
+  color: white;
 }
-
 
 /* Ajuste responsivo */
 @media (max-width: 768px) {
-  .product-card {
-    width: calc(25% - 10px);
+  .custom-carousel-col {
+    flex: 0 0 calc(50% - 20px); /* Dos cards visibles en pantallas medianas */
+    max-width: calc(50% - 20px);
   }
 
-  .image-container {
+  .custom-image-container {
     height: 120px;
   }
 
-  .product-title {
+  .custom-product-title {
     font-size: 1rem;
   }
 
-  .product-description {
+  .custom-product-description {
     font-size: 0.8rem;
   }
 
-  .carousel-button.prev-button {
-    left: -30px; /* Ajusta para pantallas pequeñas */
+  .custom-prev-button {
+    left: -30px;
   }
 
-  .carousel-button.next-button {
-    right: -30px; /* Ajusta para pantallas pequeñas */
+  .custom-next-button {
+    right: -30px;
   }
 }
 
 @media (max-width: 480px) {
-  .product-card {
-    width: calc(25% - 5px);
+  .custom-carousel-col {
+    flex: 0 0 100%; /* Una card visible en pantallas pequeñas */
+    max-width: 100%;
   }
 
-  .image-container {
+  .custom-image-container {
     height: 100px;
   }
 
-  .product-title {
+  .custom-product-title {
     font-size: 0.9rem;
   }
 
-  .product-description {
+  .custom-product-description {
     font-size: 0.7rem;
   }
 
-  .carousel-button.prev-button {
-    left: -15px; /* Ajusta para pantallas más pequeñas */
+  .custom-prev-button {
+    left: -15px;
   }
 
-  .carousel-button.next-button {
-    right: -15px; /* Ajusta para pantallas más pequeñas */
+  .custom-next-button {
+    right: -15px;
   }
 }
 

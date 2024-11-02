@@ -1,6 +1,19 @@
-/* CategoriesPage.css */
+/* Contenedor principal del mosaico */
+.mosaic-wrapper {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    min-height: 100vh;
+    border-radius: 10px;
+    background-color: blueviolet; /* Fondo morado suave */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+}
 
-.categories-grid {
+/* Configuración de la cuadrícula del mosaico */
+.mosaic-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     grid-template-rows: repeat(4, 1fr);
@@ -11,57 +24,59 @@
         "a a c d"
         "e f c d"
         "e f g g";
-    height: 80vh; /* Ajustar la altura de la cuadrícula */
-    width: 85vw; /* Asegura que ocupe todo el ancho de la ventana */
-    margin: 0 auto; /* Centra la cuadrícula horizontalmente */
-    box-sizing: border-box; /* Incluir el padding en el ancho total */
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+    height: 80vh;
+    box-sizing: border-box;
 }
 
 /* Definir áreas específicas para cada categoría */
-.category-item:nth-child(1) {
+.mosaic-category-item:nth-child(1) {
     grid-area: a;
 }
 
-.category-item:nth-child(2) {
+.mosaic-category-item:nth-child(2) {
     grid-area: b;
 }
 
-.category-item:nth-child(3) {
+.mosaic-category-item:nth-child(3) {
     grid-area: c;
 }
 
-.category-item:nth-child(4) {
+.mosaic-category-item:nth-child(4) {
     grid-area: d;
 }
 
-.category-item:nth-child(5) {
+.mosaic-category-item:nth-child(5) {
     grid-area: e;
 }
 
-.category-item:nth-child(6) {
+.mosaic-category-item:nth-child(6) {
     grid-area: f;
 }
 
-.category-item:nth-child(7) {
+.mosaic-category-item:nth-child(7) {
     grid-area: g;
 }
 
-.category-item {
+/* Estilos para cada elemento de categoría con bordes redondeados */
+.mosaic-category-item {
     position: relative;
     overflow: hidden;
-    border-radius: 20px;
+    border-radius: 20px; /* Esquinas redondeadas */
     cursor: pointer;
     transition: transform 0.3s ease;
     background-size: cover;
     background-position: center;
-    height: 100%; /* Ajustar la altura para que ocupe toda la celda */
+    height: 100%;
 }
 
-.category-item:hover {
+.mosaic-category-item:hover {
     transform: scale(1.05);
 }
 
-.category-image {
+.mosaic-category-image {
     background-size: cover;
     background-position: center;
     width: 100%;
@@ -70,9 +85,11 @@
     align-items: flex-end;
     justify-content: center;
     position: relative;
+    border-radius: 20px; /* Esquinas redondeadas */
+    overflow: hidden; /* Para asegurarse de que la imagen siga la curva */
 }
 
-.category-name {
+.mosaic-category-name {
     background: rgba(0, 0, 0, 0.6);
     color: white;
     width: 100%;
@@ -80,15 +97,6 @@
     padding: 5px 0;
     position: absolute;
     bottom: 0;
-}
-
-photoCard-test{
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    height: 100vh; /* Altura completa de la ventana */
-    background-color: rgb(181, 123, 235); /* Fondo morado suave */
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    border-bottom-left-radius: 20px; /* Redondeo para que coincida con la parte inferior */
+    border-bottom-right-radius: 20px;
 }

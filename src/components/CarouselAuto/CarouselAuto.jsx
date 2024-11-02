@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './CarouselAuto.css';
+import { useNavigate } from 'react-router-dom';
 
 const CarouselAuto = () => {
     const [currentProductIndex, setCurrentProductIndex] = useState(0);
     const [products, setProducts] = useState([]);
+    const navigate = useNavigate();
 
     // Llamada a la API para obtener los productos destacados
     useEffect(() => {
@@ -27,9 +29,8 @@ const CarouselAuto = () => {
         return () => clearInterval(interval); // Limpia el intervalo al desmontar el componente
     }, [products]);
 
-    // Manejar clic en la imagen del producto para redirigir a la página del producto
-    const handleProductClick = (productId) => {
-        window.location.href = `/product/${productId}`;  // Redirige a la página individual del producto
+    const handleProductClick = (product) => {
+        navigate(`/CatalogProducts/${product.Category}/${product.Subcategory}/product/${product.ID_Product}`);
     };
 
     return (
@@ -40,7 +41,7 @@ const CarouselAuto = () => {
                     style={{
                         backgroundImage: `url(${products[currentProductIndex].Product_Image})`,
                     }}
-                    onClick={() => handleProductClick(products[currentProductIndex].ID_Product)}  // Redirige al hacer clic en la imagen
+                    onClick={() => handleProductClick(products[currentProductIndex])} // Pasa el producto actual
                 >
                     <div className="carousel-title text-center">
                         {products[currentProductIndex].Product_Name}
@@ -54,4 +55,5 @@ const CarouselAuto = () => {
 };
 
 export default CarouselAuto;
+
 

@@ -33,7 +33,7 @@ const CatalogProducts = () => {
     };
     
     if (loading) {
-        return <div>Cargando...</div>;
+        return <div>Loading...</div>;
     }
 
     if (error) {
@@ -42,7 +42,7 @@ const CatalogProducts = () => {
 
     return (
         <div className="catalog-container">
-            <h1>Subcategorías de {category}</h1>
+            <h1>{category} subcategories</h1>
             <div className="categories-grid">
                 {subcategories.map((subcategory) => (
                     <div 

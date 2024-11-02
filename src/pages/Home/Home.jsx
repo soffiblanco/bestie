@@ -36,7 +36,7 @@ const Home = () => {
       <div className="row">
         <div className="col-12 mb-5">
           <div className="card text-white p-4 shadow" style={{ backgroundColor: 'blueviolet' }}> {/* Fondo blueviolet */}
-            <h3 className="text-center mb-4 custom-green">Nuestros productos destacados</h3> {/* Texto verde */}
+            <h3 className="text-center mb-4 custom-green">Our Featured Products</h3> {/* Texto verde */}
             <div className="carousel-container">
               <CarouselAuto categories={[]} numProducts={4} interval={3000} />
             </div>
@@ -45,7 +45,7 @@ const Home = () => {
         
         <div className="col-12 mb-5">
           <div className="card text-white p-4 shadow" style={{ backgroundColor: 'blueviolet' }}> {/* Fondo blueviolet */}
-            <h3 className="text-center mb-4 custom-green">Nuestros productos más vendidos</h3> {/* Texto verde */}
+            <h3 className="text-center mb-4 custom-green">Our Best-Selling Products</h3> {/* Texto verde */}
             <div className="carousel-container">
               <Carousel categories={[]} numProducts={3} interval={3000} />
             </div>
@@ -54,14 +54,14 @@ const Home = () => {
 
         <div className="col-12 mb-5">
           <div className="card text-white p-4 shadow" style={{ backgroundColor: 'blueviolet' }}> {/* Fondo blueviolet */}
-            <h3 className="text-center mb-4 custom-green">¡Última oportunidad!</h3> {/* Texto verde */}
+            <h3 className="text-center mb-4 custom-green">Last Chance!</h3> {/* Texto verde */}
             <div className="carousel-container">
               <ProductCarousel />
             </div>
           </div>
         </div>
       </div>
-
+      <h3 className="text-center mb-4 custom-green">Categories</h3>
       <Mosaic />
     </div>
   );

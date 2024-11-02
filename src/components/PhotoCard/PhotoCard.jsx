@@ -1,136 +1,95 @@
-import React, { useState, useEffect } from 'react';
-import accesorioGato from '../../assets/accesorioGato.jpeg';
-import accesorioPerro from '../../assets/accesorioPerro.jpeg';
-import comidaAves from '../../assets/comidaAves.jpeg';
-import comidaGato from '../../assets/comidaGato.jpeg';
-import comidaPeces from '../../assets/comidaPeces.jpeg';
-import comidaPerro from '../../assets/comidaPerro.jpeg';
-import comidaTortugas from '../../assets/comidaTortugas.jpeg';
-import hogarAves from '../../assets/hogarAves.jpeg';
-import hogarGato from '../../assets/hogarGato.jpeg';
-import hogarPeces from '../../assets/hogarPeces.jpeg';
-import hogarPerro from '../../assets/hogarPerro.jpeg';
-import hogarTortugas from '../../assets/hogarTortugas.jpeg';
-import jugueteGato from '../../assets/jugueteGato.jpeg';
-import juguetePerro from '../../assets/juguetePerro.jpeg';
-import medicinaAves from '../../assets/medicinaAves.jpeg';
-import medicinaGato from '../../assets/medicinaGato.jpeg';
-import medicinaPeces from '../../assets/medicinaPeces.jpeg';
-import medicinaPerro from '../../assets/medicinaPerro.jpeg';
-import medicinaTortugas from '../../assets/medicinaTortugas.jpeg';
-import ropaGato from '../../assets/ropaGato.jpeg';
-import ropaPerro from '../../assets/ropaPerro.jpeg';
+import React, { useEffect, useState } from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import './PhotoCard.css';
-
-// Datos de categorías con productos e imágenes
-const categories = [
-    {
-        name: 'Alimento',
-        products: [
-            { name: 'Perro', image: comidaPerro },
-            { name: 'Gato', image: comidaGato },
-            { name: 'Peces', image: comidaPeces },
-            { name: 'Tortugas', image: comidaTortugas },
-            { name: 'Aves', image: comidaAves }
-        ]
-    },
-    {
-        name: 'Juguetes',
-        products: [
-            { name: 'Perro', image: juguetePerro },
-            { name: 'Gato', image: jugueteGato }
-        ]
-    },
-    {
-        name: 'Hogar',
-        products: [
-            { name: 'Perro', image: hogarPerro },
-            { name: 'Gato', image: hogarGato },
-            { name: 'Peces', image: hogarPeces },
-            { name: 'Tortugas', image: hogarTortugas },
-            { name: 'Aves', image: hogarAves }
-        ]
-    },
-    {
-        name: 'Accesorios',
-        products: [
-            { name: 'Perro', image: accesorioPerro },
-            { name: 'Gato', image: accesorioGato }
-        ]
-    },
-    {
-        name: 'Medicina',
-        products: [
-            { name: 'Perro', image: medicinaPerro },
-            { name: 'Gato', image: medicinaGato },
-            { name: 'Peces', image: medicinaPeces },
-            { name: 'Tortugas', image: medicinaTortugas },
-            { name: 'Aves', image: medicinaAves }
-        ]
-    },
-    {
-        name: 'Ropa',
-        products: [
-            { name: 'Perro', image: ropaPerro },
-            { name: 'Gato', image: ropaGato }
-        ]
-    }
-];
+import { useNavigate } from 'react-router-dom';
 
 const PhotoCard = () => {
     const [categoryImages, setCategoryImages] = useState({});
+    const [categories, setCategories] = useState([]);
+    const navigate = useNavigate();
 
+    // Obtener las subcategorías agrupadas por categoría desde la API
     useEffect(() => {
-        const initializeImages = () => {
-            const initialImages = categories.reduce((acc, category) => {
-                const randomProduct = getRandomProduct(category.products);
-                acc[category.name] = randomProduct.image;
-                return acc;
-            }, {});
-            setCategoryImages(initialImages);
-        };
+        fetch(`http://localhost/apis/category_subcategory_unique_view.php`)
+            .then((response) => response.json())
+            .then((data) => {
+                if (Array.isArray(data.data)) {
+                    // Agrupar las subcategorías por categoría y limitar a 5 categorías
+                    const groupedCategories = data.data.reduce((acc, subcategory) => {
+                        const category = subcategory.Category;
+                        if (!acc[category]) {
+                            acc[category] = [];
+                        }
+                        acc[category].push(subcategory);
+                        return acc;
+                    }, {});
 
-        initializeImages();
-
-        const interval = setInterval(() => {
-            setCategoryImages((prevImages) => {
-                const newImages = { ...prevImages };
-                categories.forEach((category) => {
-                    const randomProduct = getRandomProduct(category.products);
-                    newImages[category.name] = randomProduct.image;
-                });
-                return newImages;
-            });
-        }, 3000);
-
-        return () => clearInterval(interval);
+                    // Limitar a las primeras 5 categorías
+                    const limitedCategories = Object.entries(groupedCategories).slice(0, 5);
+                    setCategories(limitedCategories);
+                } else {
+                    console.error("Estructura de datos inesperada:", data);
+                }
+            })
+            .catch((error) => console.error('Error al obtener categorías:', error));
     }, []);
 
-    const getRandomProduct = (products) => {
-        const randomIndex = Math.floor(Math.random() * products.length);
-        return products[randomIndex];
+    // Cambiar las imágenes aleatoriamente cada 3 segundos
+    useEffect(() => {
+        if (categories.length > 0) {
+            const initializeImages = () => {
+                const initialImages = categories.reduce((acc, [category, subcategories]) => {
+                    const randomSubcategory = getRandomSubcategory(subcategories);
+                    acc[category] = randomSubcategory.Subcategory_Image;
+                    return acc;
+                }, {});
+                setCategoryImages(initialImages);
+            };
+
+            initializeImages();
+
+            const interval = setInterval(() => {
+                setCategoryImages((prevImages) => {
+                    const newImages = { ...prevImages };
+                    categories.forEach(([category, subcategories]) => {
+                        const randomSubcategory = getRandomSubcategory(subcategories);
+                        newImages[category] = randomSubcategory.Subcategory_Image;
+                    });
+                    return newImages;
+                });
+            }, 3000);
+
+            return () => clearInterval(interval);
+        }
+    }, [categories]);
+
+    // Seleccionar aleatoriamente una subcategoría de la lista de subcategorías
+    const getRandomSubcategory = (subcategories) => {
+        const randomIndex = Math.floor(Math.random() * subcategories.length);
+        return subcategories[randomIndex];
+    };
+
+    const handleCategoryClick = (category) => {
+        navigate(`/CatalogProducts/${category}`);
     };
 
     return (
         <div className="photo-card">
-            {categories.map((category, index) => (
-                <div key={index} className="photo-card-item">
-                    <h3 className="photo-card-category-title">{category.name}</h3>
+            {categories.map(([category, subcategories], index) => (
+                <div key={index} className="photo-card-item" onClick={() => handleCategoryClick(category)}>
+                    <h3 className="photo-card-category-title">{category || "Categoría desconocida"}</h3>
                     <img
-                        src={categoryImages[category.name]}
-                        alt={category.name}
+                        src={categoryImages[category] || "https://via.placeholder.com/150"} // Imagen placeholder si no hay imagen
+                        alt={category || "Categoría desconocida"}
                         className="photo-card-category-image"
                     />
                 </div>
             ))}
         </div>
     );
-    
 };
 
 export default PhotoCard;
-
-
 
 
 
