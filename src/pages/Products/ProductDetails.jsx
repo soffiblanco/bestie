@@ -80,7 +80,6 @@ const ProductDetails = () => {
                 } else {
                     setUsers([]);
                 }
-                console.log('Usuarios obtenidos:', data);
             })
             .catch(error => {
                 console.error('Error fetching users:', error);
@@ -89,22 +88,14 @@ const ProductDetails = () => {
     }, [id]);
 
     const getUserName = (userId) => {
-        console.log('Buscando usuario con ID:', userId);
         const user = users.find(user => user.ID_User == userId);
-        if (user) {
-            console.log('Usuario encontrado:', user);
-            return user.Name;
-        } else {
-            console.log('Usuario no encontrado, usando valor predeterminado');
-            return 'Unknown User';
-        }
+        return user ? user.Name : 'Unknown User';
     };
 
     const handleAddComment = () => {
-        const id_user = userData.id_user;
-        if (newComment.trim() !== "") {
+        if (userData && userData.id_user && newComment.trim() !== "") {
             const newCommentData = {
-                ID_User: id_user,
+                ID_User: userData.id_user,
                 ID_Product: id,
                 Comment: newComment,
             };
@@ -123,8 +114,6 @@ const ProductDetails = () => {
                 return response.json();
             })
             .then(data => {
-                console.log('Respuesta del servidor al agregar comentario:', data);
-                
                 const newCommentWithID = { ...newCommentData, ID_Comment: data.ID_Comment, children: [], User: getUserName(newCommentData.ID_User) };
                 setComments([...comments, newCommentWithID]);
                 setNewComment("");
@@ -137,8 +126,7 @@ const ProductDetails = () => {
     };
     
     const handleAddReply = (parentIndexes, reply) => {
-        const id_user = userData.id_user;
-        if (reply.trim() !== "") {
+        if (userData && userData.id_user && reply.trim() !== "") {
             const updatedComments = JSON.parse(JSON.stringify(comments));
             let current = updatedComments;
     
@@ -166,13 +154,11 @@ const ProductDetails = () => {
             }
 
             const newReplyData = {
-                ID_User: id_user,
+                ID_User: userData.id_user,
                 ID_Product: id,
                 Comment: reply,
                 ID_Comment_Father: parentComment.ID_Comment,
             };
-    
-            console.log('Datos de la nueva respuesta antes de enviar:', newReplyData);
     
             fetch(`${baseUrl}/comment.php`, {
                 method: 'POST',
@@ -188,8 +174,6 @@ const ProductDetails = () => {
                 return response.json();
             })
             .then(data => {
-                console.log('Respuesta del servidor al agregar respuesta:', data);
-    
                 current.push({ ...newReplyData, ID_Comment: data.ID_Comment, children: [], User: getUserName(newReplyData.ID_User) });
                 setComments(updatedComments);
                 setReplyBoxIndex(null);
@@ -199,7 +183,27 @@ const ProductDetails = () => {
             });
         }
     };
-    
+
+    const handleAddToCart = () => {
+        if (product) {
+            addProductToOrder({
+                id: product.ID_Product,
+                title: product.Product,
+                price: product.Price,
+                image: product.Product_Image,
+                quantity: 1,
+            });
+            toast.success('Your product has been added to your order');
+        }
+    };
+
+    const toggleShowChildren = (indexPath) => {
+        setShowChildren(prevState => ({
+            ...prevState,
+            [indexPath]: !prevState[indexPath]
+        }));
+    };
+
     const handleEditComment = (parentIndexes) => {
         let current = comments;
         parentIndexes.forEach((index, i) => {
@@ -248,7 +252,6 @@ const ProductDetails = () => {
                 return response.json();
             })
             .then(data => {
-                console.log('Comment updated successfully:', data);
                 setComments(updatedComments);
                 setEditingCommentIndexes(null);
                 editedCommentRef.current = "";
@@ -262,26 +265,6 @@ const ProductDetails = () => {
     const handleCancelEdit = () => {
         setEditingCommentIndexes(null);
         editedCommentRef.current = "";
-    };
-
-    const handleAddToCart = () => {
-        if (product) {
-            addProductToOrder({
-                id: product.ID_Product,
-                title: product.Product,
-                price: product.Price,
-                image: product.Product_Image,
-                quantity: 1,
-            });
-            toast.success('Your product has been added to your order');
-        }
-    };
-
-    const toggleShowChildren = (indexPath) => {
-        setShowChildren(prevState => ({
-            ...prevState,
-            [indexPath]: !prevState[indexPath]
-        }));
     };
 
     if (error) {
@@ -299,7 +282,7 @@ const ProductDetails = () => {
 
         const isEditing = editingCommentIndexes && editingCommentIndexes.join() === parentIndexes.join();
         const indexPath = parentIndexes.join("-");
-        const isUserComment = userData.id_user == comment.ID_User;
+        const isUserComment = userData && userData.id_user == comment.ID_User;
 
         return (
             <li className="list-group-item comment-item mb-3">
@@ -331,7 +314,7 @@ const ProductDetails = () => {
                     )}
                 </div>
 
-                {replyBoxIndex === parentIndexes.join("-") && (
+                {replyBoxIndex === parentIndexes.join("-") && userData && (
                     <div className="mt-3">
                         <textarea
                             className="form-control mb-2"
@@ -364,9 +347,12 @@ const ProductDetails = () => {
                         )}
                     </div>
                 )}
-                <button className="btn btn-link reply-button mt-2" onClick={() => setReplyBoxIndex(parentIndexes.join("-"))}>
-                    Reply
-                </button>
+
+                {userData && (
+                    <button className="btn btn-link reply-button mt-2" onClick={() => setReplyBoxIndex(parentIndexes.join("-"))}>
+                        Reply
+                    </button>
+                )}
             </li>
         );
     };
@@ -382,7 +368,7 @@ const ProductDetails = () => {
                     <div className="col-md-6">
                         <h2 className="my-3">{product.Product}</h2>
                         <p className="h6">{product.Product_Description}</p>
-                        <p className="h5">Price: ${product.Price}</p>
+                        <p className="h5">Price: Q{product.Price}</p>
                         <button className="btn btn-primary mt-3" onClick={handleAddToCart}>
                             <FaBagShopping className="me-2" /> Add to cart
                         </button>
@@ -393,7 +379,7 @@ const ProductDetails = () => {
                     <h1>Comments</h1>
                     {comments.length > 0 ? (
                         <ul className="list-group">
-                            {comments.map((comment, index) => (
+                            {comments.map((comment, index) => ( 
                                 <CommentItem key={index} comment={comment} parentIndexes={[index]} />
                             ))}
                         </ul>
@@ -401,7 +387,7 @@ const ProductDetails = () => {
                         <p>No comments yet.</p>
                     )}
 
-                    {showNewCommentBox ? (
+                    {userData && showNewCommentBox ? (
                         <div className="mt-4">
                             <textarea
                                 className="form-control"
@@ -411,8 +397,10 @@ const ProductDetails = () => {
                             ></textarea>
                             <button className="btn btn-secondary mt-3" onClick={handleAddComment}>Add comment</button>
                         </div>
-                    ) : (
+                    ) : userData ? (
                         <button className="btn btn-secondary mt-3" onClick={() => setShowNewCommentBox(true)}>Add Comment</button>
+                    ) : (
+                        <p>Please log in to add a comment.</p>
                     )}
                 </div>
             </div>

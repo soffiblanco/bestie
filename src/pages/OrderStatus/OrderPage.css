@@ -1,56 +1,76 @@
 .orders-page {
     font-family: 'Poppins', sans-serif;
-    
-    background-color: blueviolet;
+    background-color: #5D3FD3;
     text-align: center;
+    padding: 2rem 0;
+    margin-bottom: 20px;
+    border-radius: 30px;
 }
 
-/* Estilo para la tarjeta de estado de orden */
-.order-status-container {
+/* Estilo para la tarjeta de órdenes */
+.card_order {
     background-color: #FFD423;
-    border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-
-    width: 100%;
-    margin: 0 auto;
-    padding-top: 20px;
-    box-sizing: border-box;
-}
-
-.order-status-container .card-title {
-    color: white;
-    font-size: 2rem;
-}
-
-.order-history-section {
-    background-color: #FFD423;
-    border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-}
-
-.order-history-section .card-title {
-    color: white;
-    font-size: 2rem;
-}
-
-.order-history-list {
-    list-style-type: none;
-    padding: 0;
-    color: #333;
-}
-
-.order-history-item {
-    background-color: white;
-    color: #333;
+    border-radius: 20px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+    margin: 1rem auto;
+    max-width: 600px;
     padding: 1rem;
-    margin-bottom: 1rem;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* Para dispositivos móviles */
-@media (max-width: 768px) {
-    .order-status-container .card-title, .order-history-section .card-title {
-        font-size: 1.8rem;
-    }
+.card-title {
+    color: #333;
+    font-size: 2.2rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+/* Estilo para cada orden individual */
+.list-group-item {
+    background-color: #f8f9fa;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    margin-bottom: 1.5rem;
+    padding: 1rem 1.5rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.list-group-item:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);
+}
+
+.list-group-item h5 {
+    color: #333;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+.list-group-item p {
+    color: #555;
+    margin: 0.2rem 0;
+}
+
+/* Botón "View Details & Tracking" */
+.btn-primary-order {
+    background-color: #4c6dff;
+    color: #fff;
+    border: none;
+    padding: 0.5rem 1.2rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+    border-radius: 20px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 4px 12px rgba(76, 109, 255, 0.4);
+    margin-top: 1rem;
+    width: auto; 
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.btn-primary-order:hover {
+    background-color: #3a58d1;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px rgba(58, 88, 209, 0.5);
 }

@@ -342,7 +342,6 @@ const EditProduct = () => {
                     {loading ? "Saving..." : "Save Changes"}
                 </button>
                 </form>
-            )}
         </div>
         </>
     );

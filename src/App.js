@@ -34,6 +34,9 @@ import ProductCarousel from './pages/Home/ProductCarousel';
 import CatalogProductsSub from './pages/Products/CatalogProductsSub';
 import { AuthProvider } from './Auth/AuthContext';
 import SearchProductResults from './pages/Products/SearchProductResults';
+import AdminOrder from './pages/Admin/AdminOrder';
+import OrderStatus from './pages/OrderStatus/OrderStatus'
+import ManagingOrder from './pages/Admin/ManagingOrder'
 
 
 
@@ -63,13 +66,16 @@ function App() {
             <Route path="/AddCategory" element={<AddCategory />} />
             <Route path="/AddSubcategory" element={<AddSubcategory />} />
             <Route path="/AddProduct" element={<AddProduct />} />
+            <Route path="/AdminOrder" element={<AdminOrder />} />
             <Route path="/EditUser/:userId" element={<EditUser />} />
             <Route path="/EditCategory/:categoryId" element={<EditCategory />} />
             <Route path="/EditSubcategory/:subcategoryId" element={<EditSubcategory />} />
             <Route path="/EditProduct/:productId" element={<EditProduct />} />
             <Route path="/order" element={<Order />} /> {/* Carrito*/}
             <Route path="/orders" element={<OrderPage />} /> {/* Ordenes*/}
-            <Route path="/payment" element={<PaymentPage />} />
+            <Route path="/orderStatus/:orderId" element={<OrderStatus />} /> {/* Ordenes Seguimiento*/}
+            <Route path="/ManagingOrder/:orderId" element={<ManagingOrder />} /> {/* Ordenes Seguimiento*/}
+            <Route path="/payment" element={<PrivateRoute><PaymentPage /></PrivateRoute>} />
             <Route path="/payment-success" element={<PaymentSuccess />} />
             <Route path="/about-us" element={<AboutUS />} />
             <Route path="/Verified" element={<Verified/>} />

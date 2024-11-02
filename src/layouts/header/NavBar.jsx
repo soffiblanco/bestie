@@ -237,6 +237,7 @@ const Navbar = () => {
                 <li><Link to="/categoriesp" className="dropdown-item">Categories P</Link></li>
                 <li><Link to="/subcategories" className="dropdown-item">Subcategories</Link></li>
                 <li><Link to="/products" className="dropdown-item">Products</Link></li>
+                <li><Link to="/AdminOrder" className="dropdown-item">Admin Order</Link></li>
               </ul>
             </div>
 
