@@ -2,15 +2,19 @@ import React, { useEffect, useState } from "react";
 import { baseUrl } from "../../config";
 import { useAuth } from "../../Auth/AuthContext";
 import ecommerce_fetch from "../../services/ecommerce_fetch";
+import cardValidator from 'card-validator';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 
 export const CreditCardForm = ({ onCreditCardSaved }) => {
   const [cardNumber, setCardNumber] = useState("");
-  const [expiryDate, setExpiryDate] = useState("");
   const [cvv, setCvv] = useState("");
   const [name, setName] = useState("");
   const { userData } = useAuth();
+  const [expiryDate, setExpiryDate] = useState(null); // Usando DatePicker
   const [expiryError, setExpiryError] = useState("");
   const [cardError, setCardError] = useState("");
+  const [cvvError, setCvvError] = useState("");
 
   const saveCreditCard = async () => {
     const url = `${baseUrl}/creditcard.php`;
@@ -22,8 +26,8 @@ export const CreditCardForm = ({ onCreditCardSaved }) => {
       },
       body: JSON.stringify({
         id_user: userData.id_user,
-        cardNumber,
-        expiryDate,
+        cardNumber: cardNumber.replace(/\s+/g, ''), // Enviar sin espacios
+        expiryDate: expiryDate ? expiryDate.toISOString().split('T')[0] : '',
         cvv,
         name,
       }),
@@ -31,7 +35,6 @@ export const CreditCardForm = ({ onCreditCardSaved }) => {
 
     if (response.status === 201) {
       const data = await response.json();
-
       onCreditCardSaved(data.data);
     } else {
       console.log("Error saving credit card");
@@ -40,59 +43,50 @@ export const CreditCardForm = ({ onCreditCardSaved }) => {
 
   const handleCardNumberChange = (event) => {
     let { value } = event.target;
+    value = value.replace(/\D/g, ""); // Remove non-digits
 
-    value = value.replace(/\D/g, "");
+    const formattedValue = value.replace(/(.{4})/g, "$1 ").trim(); // Format in groups of 4
 
-    const formattedValue = value.replace(/(.{4})/g, "$1 ").trim();
-
-    if (formattedValue.replace(/\s/g, "").length > 16) {
-      return;
+    const validation = cardValidator.number(value);
+    if (!validation.isValid) {
+      setCardError("Invalid card number");
     } else {
       setCardError("");
-      setCardNumber(formattedValue);
     }
+
+    setCardNumber(formattedValue.slice(0, 19));
   };
 
-  const handleExpiryDateChange = (event) => {
-    let { value } = event.target;
+  const handleCvvChange = (event) => {
+    const { value } = event.target;
+    const cvvValidation = cardValidator.cvv(value);
 
-    value = value.replace(/\D/g, "");
-
-    if (value.length > 2) {
-      value = value.slice(0, 2) + "/" + value.slice(2, 4);
+    if (!cvvValidation.isValid) {
+      setCvvError("Invalid CVV");
+    } else {
+      setCvvError("");
     }
 
-    if (value.length === 5) {
-      const month = parseInt(value.slice(0, 2), 10);
-      const year = parseInt(value.slice(3, 5), 10) + 2000;
+    setCvv(value.slice(0, 4)); // CVV typically has 3 or 4 digits
+  };
 
-      const currentDate = new Date();
-      const currentMonth = currentDate.getMonth() + 1;
-      const currentYear = currentDate.getFullYear();
+  const handleExpiryDateChange = (date) => {
+    setExpiryDate(date);
 
-      if (month < 1 || month > 12) {
-        setExpiryError("Invalid date");
-      } else if (
-        year < currentYear ||
-        (year === currentYear && month < currentMonth)
-      ) {
-        setExpiryError(
-          "Invalid date"
-        );
-      } else {
-        setExpiryError("");
-      }
+    const currentDate = new Date();
+    if (date < currentDate) {
+      setExpiryError("Expiry date is in the past");
     } else {
       setExpiryError("");
     }
-
-    setExpiryDate(value);
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    await saveCreditCard();
+    if (!cardError && !cvvError && !expiryError) {
+      await saveCreditCard();
+    }
   };
 
   return (
@@ -112,12 +106,13 @@ export const CreditCardForm = ({ onCreditCardSaved }) => {
         <div className="col-md-6">
           <div className="form-group mb-3">
             <label className="text-white">Expiry Date</label>
-            <input
-              type="text"
-              className="form-control"
-              value={expiryDate}
-              placeholder="MM/YY"
+            <DatePicker
+              selected={expiryDate}
               onChange={handleExpiryDateChange}
+              dateFormat="MM/yyyy"
+              showMonthYearPicker
+              placeholderText="MM/YYYY"
+              className="form-control"
             />
             {expiryError && <div className="text-white">{expiryError}</div>}
           </div>
@@ -130,8 +125,9 @@ export const CreditCardForm = ({ onCreditCardSaved }) => {
               className="form-control"
               value={cvv}
               placeholder="123"
-              onChange={(event) => setCvv(event.target.value)}
+              onChange={handleCvvChange}
             />
+            {cvvError && <div className="text-danger">{cvvError}</div>}
           </div>
         </div>
       </div>

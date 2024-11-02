@@ -369,9 +369,15 @@ const ProductDetails = () => {
                         <h2 className="my-3">{product.Product}</h2>
                         <p className="h6">{product.Product_Description}</p>
                         <p className="h5">Price: Q{product.Price}</p>
-                        <button className="btn btn-primary mt-3" onClick={handleAddToCart}>
-                            <FaBagShopping className="me-2" /> Add to cart
-                        </button>
+                        {product.Stock > 0 ? (
+                            <button className="btn btn-primary mt-3" onClick={handleAddToCart}>
+                                <FaBagShopping className="me-2" /> Add to cart
+                            </button>
+                        ) : (
+                            <button className="btn btn-secondary mt-3" disabled>
+                                Sold Out
+                            </button>
+                        )}
                     </div>
                 </div>
 
