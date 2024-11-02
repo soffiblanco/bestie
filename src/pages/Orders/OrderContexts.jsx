@@ -11,19 +11,31 @@ export const OrderProvider = ({ children }) => {
     // Memoiza fetchOrders para evitar que cambie en cada renderizado
     const fetchOrders = useCallback(async () => {
         try {
-            const response = await axiosInstance.get('/orders'); // Asegúrate de que esta ruta sea correcta
-            console.log("Backend response:", response.data); // Verificar la respuesta del backend
+            const response = await axiosInstance.get('/orders.php'); 
+            console.log("Backend response:", response.data); 
             setOrders(response.data);
         } catch (error) {
             console.error("Error fetching orders:", error);
         }
     }, []);
 
-   
+    // Obtener una orden específica por ID
+    const fetchOrderById = useCallback(async (orderId) => {
+        try {
+            const response = await axiosInstance.get(`/orders.php?id=${orderId}`);
+            console.log("Fetched order data:", response.data);
+            return response.data; // Datos de la orden completa con items incluidos
+        } catch (error) {
+            console.error(`Error fetching order with ID ${orderId}:`, error);
+            throw error;
+        }
+    }, []);
+
+
     // Crear una nueva orden
     const createOrder = async (orderData) => {
         try {
-            const response = await axiosInstance.post('', orderData);
+            const response = await axiosInstance.post('/orders.php', orderData);
             console.log(response.data);
             fetchOrders(); // Actualiza la lista de órdenes
             return response.data;
@@ -36,7 +48,7 @@ export const OrderProvider = ({ children }) => {
     // Actualizar una orden existente
     const updateOrder = async (orderData) => {
         try {
-            const response = await axiosInstance.put('', orderData);
+            const response = await axiosInstance.put('orders.php', orderData);
             console.log(response.data);
             fetchOrders();
             return response.data;
@@ -96,7 +108,8 @@ export const OrderProvider = ({ children }) => {
         <OrderContext.Provider value={{
             orderItems,
             orders,
-            fetchOrders, // Asegúrate de exponer fetchOrders
+            fetchOrders, 
+            fetchOrderById,
             addProductToOrder,
             decreaseProductQuantity,
             removeProductFromOrder,

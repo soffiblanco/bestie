@@ -22,27 +22,27 @@
 /* Estilo de cada estado de la orden */
 .order-status li {
     text-align: center;
-    font-size: 18px; /* Incrementa el tamaño de fuente */
+    font-size: 16px;
     color: #ccc;
 }
 
 .order-status li.active {
     font-weight: bold;
-    color: #49dd50;
+    color: #49dd50; /* Dorado para el estado activo */
 }
 
 /* Contenedor del ícono de estado */
 .status-icon-container {
-    font-size: 3rem; /* Aumenta el tamaño del ícono */
+    font-size: 2.5rem;
     color: #ccc;
 }
 
 .status-icon-container.active {
-    color: #30d85a;
+    color: #30d85a; /* Dorado para el ícono activo */
 }
 
 .status-message {
-    font-size: 1.5rem; 
+    font-size: 1.4rem; 
     font-weight: bold; 
     color: #333; 
     margin-top: 30px;
@@ -53,18 +53,15 @@
 .order-summary-card {
     background-color: #58caff;
     color: #333;
-    padding: 25px; /* Aumenta el padding */
-    border-radius: 10px;
+    padding: 20px;
+    border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    width: 100%; /* Hace que ocupe todo el ancho disponible */
-    max-width: 450px; /* Ajusta el ancho máximo para que sea más amplio */
-    margin: 0 auto; /* Centra el contenido */
 }
 
 .order-summary-title {
-    font-size: 26px;
+    font-size: 24px;
     font-weight: bold;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
 }
 
 /* Elementos de la lista de productos */
@@ -79,24 +76,73 @@
     align-items: center;
     background-color: white;
     border-radius: 8px;
-    padding: 15px; /* Aumenta el padding */
-    margin-bottom: 15px;
+    padding: 10px;
+    margin-bottom: 10px;
 }
 
 .order-item-image {
-    width: 60px; /* Aumenta el tamaño de la imagen */
-    height: 60px;
-    margin-right: 15px;
+    width: 50px;
+    height: 50px;
+    margin-right: 10px;
     border-radius: 50%;
 }
 
 /* Total de la orden */
 .order-summary h4 {
-    font-size: 22px; /* Aumenta el tamaño de fuente */
+    font-size: 20px;
     font-weight: bold;
 }
 
-/* Ajustes para contenedor */
-.container.my-4 {
-    max-width: 960px; /* Limita el ancho máximo del contenedor principal */
+
+.order-comments-card {
+    margin: 0 auto;
+    max-width: 600px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+    border-radius: 8px;
+}
+
+.order-comments-list .list-group-item {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 16px;
+    background-color: #f9f9f9;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.order-comments-title {
+    color: #333;
+    font-weight: bold;
+    margin-bottom: 16px;
+}
+
+.order-comments-list p {
+    color: #555;
+    font-weight: normal;
+}
+
+.order-comments-list p strong {
+    font-weight: bold;
+    color: #333;
+}
+
+.edit-comment-button {
+    color: #007bff;
+    cursor: pointer;
+    text-align: center;
+    display: inline-block;
+    margin-top: 8px;
+    text-decoration: underline;
+}
+
+.edit-comment-button:hover {
+    color: #0056b3;
+}
+
+.modal-title-custom {
+    font-weight: bold;
+    font-size: 1.5rem;
+    color: #333; /* Cambia este color a lo que necesites */
+    text-align: center;
 }

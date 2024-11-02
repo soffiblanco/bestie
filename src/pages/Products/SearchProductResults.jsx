@@ -38,16 +38,22 @@ const SearchProductResults = () => {
       }
     };
 
-    const fetchSubcategories = async () => {
-      try {
-        const response = await fetch(`${baseUrl}/subcategory.php`);
-        const data = await response.json();
-        setSubcategories(data.data);
-      } catch (error) {
-        console.error("Error fetching subcategories:", error);
-      }
-    };
-
+   const fetchSubcategories = async () => {
+    try {
+      const response = await fetch(`${baseUrl}/subcategory.php`);
+      const data = await response.json();
+  
+      // Remove duplicates based on subcategory name
+      const uniqueSubcategories = data.data.filter(
+        (subcat, index, self) =>
+          index === self.findIndex((t) => t.subcategory === subcat.subcategory)
+      );
+  
+      setSubcategories(uniqueSubcategories);
+    } catch (error) {
+      console.error("Error fetching subcategories:", error);
+    }
+  };
     fetchCategories();
     fetchSubcategories();
   }, []);
