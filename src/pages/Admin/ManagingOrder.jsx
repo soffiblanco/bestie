@@ -168,8 +168,14 @@ const ManagingOrder = () => {
             if (data.message === "History order created") {
                 toast.success("The change is completed");
                 setShowModal(false);
-                setComment(""); 
-                fetchOrderComments(); 
+                setComment("");
+                fetchOrderComments(); // Actualiza los comentarios de la orden
+    
+                // Actualiza el estado de la orden y el índice de estado actual
+                setOrder(prevOrder => ({
+                    ...prevOrder,
+                    Order_State: nextState,
+                }));
             } else {
                 throw new Error("Failed to advance order state.");
             }
