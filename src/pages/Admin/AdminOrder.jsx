@@ -13,6 +13,7 @@ const AdminOrder = () => {
     const [minPurchase, setMinPurchase] = useState('');
     const [surcharge, setSurcharge] = useState('');
     const [shippingPrice, setShippingPrice] = useState('');
+    const [searchId, setSearchId] = useState(''); // Estado para el valor de búsqueda
     const { orders, fetchOrders } = useContext(OrderContext);
     const navigate = useNavigate();
 
@@ -91,6 +92,11 @@ const AdminOrder = () => {
     if (loading) return <div>Loading orders...</div>;
     if (error) return <div>Error: {error}</div>;
 
+    // Filtrar las órdenes para que coincidan solo si el ID comienza con el valor de búsqueda
+    const filteredOrders = searchId
+        ? orders.filter(order => order.ID_Order.toString().startsWith(searchId))
+        : orders;
+
     return (
         <>
             <ToastContainer position="top-right" />
@@ -133,12 +139,24 @@ const AdminOrder = () => {
                 </div>
 
                 <h1 className="mt-5">Order List</h1>
+
+                {/* Campo de búsqueda */}
+                <div className="mb-3">
+                    <input
+                        type="text"
+                        className="form-control"
+                        placeholder="Search by Order ID"
+                        value={searchId}
+                        onChange={(e) => setSearchId(e.target.value)}
+                    />
+                </div>
+
                 <div className="order-list">
-                    {orders && orders.length === 0 ? (
+                    {filteredOrders && filteredOrders.length === 0 ? (
                         <p>No orders found.</p>
                     ) : (
                         <ul className="list-group">
-                            {orders.map(order => (
+                            {filteredOrders.map(order => (
                                 <li key={order.ID_Order} className="list-group-item d-flex justify-content-between align-items-center">
                                     <div>
                                         <h5>Order #{order.ID_Order}</h5>

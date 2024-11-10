@@ -27,6 +27,7 @@
     color: #ffffff; /* Color de texto del encabezado blanco para mayor contraste */
     text-align: left;
     font-weight: bold;
+    margin-top: 20px;
 }
 
 .styled-table th, .styled-table td {

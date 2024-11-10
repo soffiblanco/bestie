@@ -12,6 +12,7 @@ const OrderPage = () => {
     const navigate = useNavigate();
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [searchId, setSearchId] = useState(""); // Estado para el valor de búsqueda
 
     useEffect(() => {
         fetchOrders()
@@ -27,7 +28,13 @@ const OrderPage = () => {
     if (loading) return <div>Loading orders...</div>;
     if (error) return <div>Error: {error}</div>;
 
+    // Filtra las órdenes del usuario
     const userOrders = orders.filter(order => order.ID_User == userData.id_user);
+    
+    // Filtra las órdenes para que coincidan con el comienzo del ID ingresado
+    const filteredOrders = searchId
+        ? userOrders.filter(order => order.ID_Order.toString().startsWith(searchId))
+        : userOrders;
 
     const handleViewDetails = (orderId) => {
         navigate(`/orderStatus/${orderId}`);
@@ -40,11 +47,24 @@ const OrderPage = () => {
                     <div className="card_order mb-4">
                         <div className="card-body">
                             <h3 className="card-title">My Orders</h3>
-                            {userOrders && userOrders.length === 0 ? (
+
+                            {/* Campo de búsqueda */}
+                            <div className="mb-3">
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    placeholder="Search by Order ID"
+                                    value={searchId}
+                                    onChange={(e) => setSearchId(e.target.value)}
+                                />
+                            </div>
+
+                            {/* Lista de órdenes */}
+                            {filteredOrders && filteredOrders.length === 0 ? (
                                 <p className="text-center">You have no orders.</p>
                             ) : (
                                 <ul className="list-group">
-                                    {userOrders.map(order => (
+                                    {filteredOrders.map(order => (
                                         <li key={order.ID_Order} className="list-group-item d-flex justify-content-between align-items-center">
                                             <div>
                                                 <h5>Order #{order.ID_Order}</h5>

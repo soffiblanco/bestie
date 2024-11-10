@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { OrderContext } from '../../pages/Orders/OrderContexts';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { FaCheckCircle, FaDollarSign, FaBoxOpen, FaTruck, FaCheck } from 'react-icons/fa';
@@ -8,6 +8,7 @@ import { baseUrl } from '../../config';
 
 const OrderStatus = () => {
     const { orderId } = useParams();
+    const navigate = useNavigate();
     const { fetchOrderById } = useContext(OrderContext);
     const [order, setOrder] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -24,30 +25,36 @@ const OrderStatus = () => {
     useEffect(() => {
         const loadOrder = async () => {
             try {
+                // Obtener los datos básicos del pedido
                 const orderData = await fetchOrderById(orderId);
                 if (orderData) {
                     setOrder(orderData);
-                    console.log("Order data loaded:", orderData);
                 } else {
                     setError("Order not found");
-                    console.error("Order not found with ID:", orderId);
                 }
 
+                // Obtener los detalles de los productos en el pedido
                 const response = await fetch(`${baseUrl}/getOrderSummary.php?ID_Order=${orderId}`);
                 if (!response.ok) throw new Error("Error fetching order details");
-                
+
                 const data = await response.json();
                 if (data && data.data) {
-                    setOrderDetails(data.data);
-                    console.log("Order details loaded:", data.data);
+                    // Si `ID_Product`, `Category`, y `Subcategory` ya están presentes, úsalo directamente
+                    const updatedDetails = data.data.map(item => {
+                        console.log("Product details loaded:", item); // Log para verificar cada producto
+                        return {
+                            ...item,
+                            Category: item.Category || 'Unknown',
+                            Subcategory: item.Subcategory || 'Unknown',
+                            ID_Product: item.ID_Product
+                        };
+                    });
+                    setOrderDetails(updatedDetails);
                 } else {
                     setError("Order details not found");
-                    console.error("Order details not found for ID:", orderId);
                 }
                 
-          
             } catch (err) {
-                console.error("Error fetching order:", err);
                 setError("Error fetching order");
             } finally {
                 setLoading(false);
@@ -56,7 +63,6 @@ const OrderStatus = () => {
 
         loadOrder();
     }, [orderId, fetchOrderById]);
-
 
     if (loading) return <div>Loading order details...</div>;
     if (error) return <div>{error}</div>;
@@ -67,6 +73,16 @@ const OrderStatus = () => {
 
     const currentStatusIndex = orderStatusList.findIndex(status => status.name === order.Order_State);
     const currentStatusMessage = currentStatusIndex !== -1 ? orderStatusList[currentStatusIndex].message : "Order state not recognized.";
+
+    // Manejador para redirigir a la página de detalles del producto
+    const handleProductClick = (category, subcategory, productId) => {
+        if (category && subcategory && productId) {
+            console.log("Navigating to product:", { category, subcategory, productId }); // Log para verificar la navegación correcta
+            navigate(`/CatalogProducts/${category}/${subcategory}/product/${productId}`);
+        } else {
+            console.warn("Product details are incomplete:", { category, subcategory, productId });
+        }
+    };
 
     return (
         <div className="container my-4">
@@ -106,11 +122,23 @@ const OrderStatus = () => {
                     <h3 className="text-center order-summary-title">Products in Order</h3>
                     <ul className="list-group mb-4 order-list">
                         {orderDetails.map((item, index) => (
-                            <li key={index} className="list-group-item d-flex justify-content-between align-items-center order-item">
+                            <li
+                                key={index}
+                                className="list-group-item d-flex justify-content-between align-items-center order-item"
+                                onClick={() => handleProductClick(item.Category, item.Subcategory, item.ID_Product)}
+                                style={{ cursor: 'pointer' }}
+                            >
                                 <div className="d-flex align-items-center">
-                                    <img src={item.Product_Image || 'https://via.placeholder.com/50'} alt={item.Product_Name || 'Product'} className="img-thumbnail order-item-image" style={{ width: '50px', height: '50px', marginRight: '10px' }} />
+                                    <img
+                                        src={item.Product_Image || 'https://via.placeholder.com/50'}
+                                        alt={item.Product_Name || 'Product'}
+                                        className="img-thumbnail order-item-image"
+                                        style={{ width: '50px', height: '50px', marginRight: '10px' }}
+                                    />
                                     <div className="order-item-info">
                                         <h6>{item.Product_Name || 'Product Title'}</h6>
+                                        <p>Category: {item.Category || 'Unknown'}</p>
+                                        <p>Subcategory: {item.Subcategory || 'Unknown'}</p>
                                         <p>Q{item.Unit_Price || 0} x {item.Product_Amount || 0}</p>
                                     </div>
                                 </div>
