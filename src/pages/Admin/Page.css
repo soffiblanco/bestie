@@ -1,9 +1,8 @@
 .user-page-container {
     padding: 20px;
-    max-width: 1000px;
+    max-width: 100%; /* Ocupa todo el ancho */
     margin: 0 auto;
     font-family: 'Arial', sans-serif;
-    overflow-x: auto; /* Permite desplazamiento horizontal si es necesario */
 }
 
 .table-title {
@@ -14,12 +13,13 @@
 }
 
 .styled-table {
+    width: 100%; /* Ajusta el ancho al 100% */
     border-collapse: collapse;
     font-size: 1rem;
-    background-color: #ffffff; /* Fondo blanco para la tabla */
-    border-radius: 10px; /* Esquinas redondeadas */
-    overflow: hidden; /* Oculta bordes redondeados */
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1); /* Sombra suave */
+    background-color: #ffffff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
 }
 
 .styled-table thead tr {
@@ -32,11 +32,14 @@
 
 .styled-table th, .styled-table td {
     padding: 12px 15px;
-    border: 1px solid #ddd; /* Borde claro para las celdas */
-    word-wrap: break-word; /* Permite que el texto largo se ajuste */
-    max-width: 150px; /* Ancho máximo para las celdas para evitar desbordamiento */
-    white-space: normal; /* Permite que el texto se divida en múltiples líneas */
-    overflow: hidden; /* Oculta el contenido desbordado */
+    border: 1px solid #ddd;
+    word-wrap: break-word;
+    max-width: 150px;
+    white-space: normal;
+}
+
+.styled-table td, .styled-table th {
+    max-width: 200px; /* Ancho máximo ajustado */
 }
 
 .styled-table tbody tr {
@@ -172,11 +175,9 @@
 
 @media (max-width: 768px) {
     .styled-table th, .styled-table td {
-        padding: 10px;
+        padding: 8px;
         font-size: 0.9rem;
-        white-space: normal; /* Permite que el texto se divida en múltiples líneas en móviles */
     }
-
     .table-title {
         font-size: 1.5rem;
     }

@@ -5,7 +5,7 @@ import { baseUrl } from '../../config.js'
 import ecommerce_fetch from '../../services/ecommerce_fetch.js';
 import { FaEdit } from "react-icons/fa";
 import {useAuth} from '../../Auth/AuthContext.js';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation, useParams } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import cardValidator from 'card-validator';
@@ -14,6 +14,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 
 const EditUser = () => {
   // State to store profile data
+  const { userId } = useParams();
   const [profileData, setProfileData] = useState({
     name: '',
     ID_Role: '',
@@ -84,7 +85,6 @@ const toggleConfirmPasswordVisibility = () => {
   // API call to fetch profile data
   useEffect(() => {
 
-  const id_user = userData.id_user; // Specific user ID
 
   const params = new URLSearchParams(location.search);
   const status = params.get('status');
@@ -94,7 +94,7 @@ const toggleConfirmPasswordVisibility = () => {
     toast.success('User data updated successfully');
   }
  
-    ecommerce_fetch(`${baseUrl}/users.php?id_user=${id_user}`, {
+    ecommerce_fetch(`${baseUrl}/users.php?id_user=${userId}`, {
       method: 'GET',
     })
       .then((response) => {
@@ -266,82 +266,69 @@ const handleEmailConfirm = () => {
     });
 };
 
-
   // Function to update user data (without email change)
-  const handleUpdateGeneralData = () => {
-
-    setLoading(true);
-
-    const id_user = userData.id_user;
+    const handleUpdateGeneralData = () => {
+      setLoading(true);
     
-    if (editedData.card_number) {
-      const cardValidation = cardValidator.number(editedData.card_number);
-      if (!cardValidation.isValid) {
-        toast.error('Invalid card number. Please enter a valid card number.');
-        setLoading(false);
-        return;
+      // Validación de número de tarjeta solo si se ha editado
+      if (editedData.card_number) {
+        const cardValidation = cardValidator.number(editedData.card_number);
+        if (!cardValidation.isValid) {
+          toast.error('Invalid card number. Please enter a valid card number.');
+          setLoading(false);
+          return;
+        }
       }
-    }
-
-    const {
-      password,
-      registration_date,
-      user_state,
-      last_login,
-      ...otherProfileData
-    } = profileData;
-
     
-  // Combinar datos actuales con los editados
-  const updatedData = {
-    id_user: id_user,
-    ...otherProfileData,
-    ...editedData,
-  };
-
-
-  if (isEditingGeneral && selectedExpirationDate) {
-    const month = ('0' + (selectedExpirationDate.getMonth() + 1)).slice(-2);
-    const year = selectedExpirationDate.getFullYear();
-    updatedData.expiration_date = `${month}-${year}`;
-  }
-
-  
-    console.log('Sending updatedData:', updatedData); 
-   
-      fetch(`${baseUrl}/users.php`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(updatedData),
-    })
-    .then((response) => {
-      // Check if the response is not OK (status code outside 200-299)
-      if (!response.ok) {
-        return response.json().then((errorData) => {
-          throw new Error(errorData.message || 'Error updating user data');
-        });
-      }
-      // Parse the response as JSON
-      return response.json();
-    })
-    .then(data => {
-      setProfileData((prevProfileData) => ({
-        ...prevProfileData,
+      const { password, registration_date, user_state, last_login, ...otherProfileData } = profileData;
+    
+      // Combinar datos actuales con los editados
+      const updatedData = {
+        id_user: userId,
+        ...otherProfileData,
         ...editedData,
-        expiration_date: updatedData.expiration_date,
-      }));
-      toast.success(data.message || 'Data updated successfully');
-      setIsEditingGeneral(false);
-    })
-      .catch(err => {
-        toast.error(err.message); // Display error messag
-      }).finally(() => {
-        setLoading(false);
-      });
-  };
-
+      };
+    
+      if (isEditingGeneral && selectedExpirationDate) {
+        const month = ('0' + (selectedExpirationDate.getMonth() + 1)).slice(-2);
+        const year = selectedExpirationDate.getFullYear();
+        updatedData.expiration_date = `${month}-${year}`;
+      }
+    
+      console.log('Sending updatedData:', updatedData); 
+    
+      fetch(`${baseUrl}/users.php`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(updatedData),
+      })
+        .then((response) => {
+          if (!response.ok) {
+            return response.json().then((errorData) => {
+              throw new Error(errorData.message || 'Error updating user data');
+            });
+          }
+          return response.json();
+        })
+        .then(data => {
+          setProfileData((prevProfileData) => ({
+            ...prevProfileData,
+            ...editedData,
+            expiration_date: updatedData.expiration_date,
+          }));
+          toast.success(data.message || 'Data updated successfully');
+          setIsEditingGeneral(false);
+        })
+        .catch(err => {
+          toast.error(err.message); // Mostrar mensaje de error
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+    };
+    
   // Function to handle password change
   const handlePasswordChange = () => {
 

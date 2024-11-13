@@ -240,12 +240,20 @@ const handleEmailConfirm = () => {
 
   // Function to update user data (without email change)
   const handleUpdateGeneralData = () => {
-
     setLoading(true);
-
     const id_user = userData.id_user;
-    
-    if (editedData.card_number) {
+  
+    // Validar solo si el CVV está en editedData y no es una máscara
+    if (editedData.cvv !== undefined && editedData.cvv !== '' && editedData.cvv !== '***') {
+      if (!/^[0-9]{3}$/.test(editedData.cvv)) {
+        toast.error('CVV must be exactly 3 digits.');
+        setLoading(false);
+        return;
+      }
+    }
+  
+    // Validación de número de tarjeta solo si se ha editado y no es una máscara
+    if (editedData.card_number !== undefined && editedData.card_number !== '' && !editedData.card_number.startsWith('****')) {
       const cardValidation = cardValidator.number(editedData.card_number);
       if (!cardValidation.isValid) {
         toast.error('Invalid card number. Please enter a valid card number.');
@@ -253,65 +261,62 @@ const handleEmailConfirm = () => {
         return;
       }
     }
-
-    const {
-      password,
-      registration_date,
-      user_state,
-      last_login,
-      ...otherProfileData
-    } = profileData;
-
-    
-  // Combinar datos actuales con los editados
-  const updatedData = {
-    id_user: id_user,
-    ...otherProfileData,
-    ...editedData,
-  };
-
-
-  if (isEditingGeneral && selectedExpirationDate) {
-    const month = ('0' + (selectedExpirationDate.getMonth() + 1)).slice(-2);
-    const year = selectedExpirationDate.getFullYear();
-    updatedData.expiration_date = `${month}-${year}`;
-  }
-
   
-    console.log('Sending updatedData:', updatedData); 
-   
-      fetch(`${baseUrl}/users.php`, {
+    const { password, registration_date, user_state, last_login, ...otherProfileData } = profileData;
+  
+    // Filtrar solo los campos que realmente han sido editados y no están enmascarados
+    const updatedData = {
+      id_user: id_user,
+      ...otherProfileData,
+      ...Object.fromEntries(
+        Object.entries(editedData).filter(([key, value]) => {
+          if (key === 'cvv' && value === '***') return false;
+          if (key === 'card_number' && value.startsWith('****')) return false;
+          return value !== undefined && value !== '';
+        })
+      ),
+    };
+  
+    if (isEditingGeneral && selectedExpirationDate) {
+      const month = ('0' + (selectedExpirationDate.getMonth() + 1)).slice(-2);
+      const year = selectedExpirationDate.getFullYear();
+      updatedData.expiration_date = `${month}-${year}`;
+    }
+  
+    // Mostrar `updatedData` antes de la solicitud
+    console.log("Data to be sent in PUT request:", updatedData);
+  
+    fetch(`${baseUrl}/users.php`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(updatedData),
     })
-    .then((response) => {
-      // Check if the response is not OK (status code outside 200-299)
-      if (!response.ok) {
-        return response.json().then((errorData) => {
-          throw new Error(errorData.message || 'Error updating user data');
-        });
-      }
-      // Parse the response as JSON
-      return response.json();
-    })
-    .then(data => {
-      setProfileData((prevProfileData) => ({
-        ...prevProfileData,
-        ...editedData,
-        expiration_date: updatedData.expiration_date,
-      }));
-      toast.success(data.message || 'Data updated successfully');
-      setIsEditingGeneral(false);
-    })
-      .catch(err => {
-        toast.error(err.message); // Display error messag
-      }).finally(() => {
+      .then((response) => {
+        if (!response.ok) {
+          return response.json().then((errorData) => {
+            throw new Error(errorData.message || 'Error updating user data');
+          });
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setProfileData((prevProfileData) => ({
+          ...prevProfileData,
+          ...updatedData,
+        }));
+        toast.success(data.message || 'Data updated successfully');
+        setIsEditingGeneral(false);
+      })
+      .catch((err) => {
+        toast.error(err.message);
+      })
+      .finally(() => {
         setLoading(false);
       });
   };
+  
 
   // Function to handle password change
   const handlePasswordChange = () => {

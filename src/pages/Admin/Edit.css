@@ -69,6 +69,16 @@
   background-color: #0056b3;
 }
 
+/* Estilos para la imagen de categoría */
+.img-edit {
+  width: 100px; /* Ajusta el ancho deseado */
+  height: 100px; /* Ajusta la altura deseada */
+  object-fit: cover; /* Recorta la imagen para que encaje en las dimensiones sin deformarse */
+  border-radius: 5px;
+  margin-top: 10px;
+  margin-right: 20px;
+}
+
 /* Responsive adjustments */
 @media (max-width: 480px) {
   .edit-user-container {
@@ -86,5 +96,10 @@
 
   .submit-button {
     padding: 8px;
+  }
+
+  .img-category {
+    width: 80px; /* Ajuste de tamaño en pantallas pequeñas */
+    height: 80px;
   }
 }

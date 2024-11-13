@@ -34,6 +34,7 @@ const UserPage = () => {
   }, []);
 
   const handleEdit = (userId) => {
+    console.log("Editing user with ID:", userId);
     navigate(`/EditUser/${userId}`);
   };
 

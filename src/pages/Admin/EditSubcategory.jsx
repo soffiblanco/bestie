@@ -4,80 +4,59 @@ import { baseUrl } from '../../config.js';
 import ecommerce_fetch from '../../services/ecommerce_fetch';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import './Edit.css';
 
 const EditSubcategory = () => {
   const { subcategoryId } = useParams();
   const navigate = useNavigate();
 
-  const [formData, setFormData] = useState({});
-  const [fieldsToUpdate, setFieldsToUpdate] = useState({});
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [formData, setFormData] = useState({ id_category: "", subcategory: "", subcategory_description: "" });
+  const [initialData, setInitialData] = useState({ id_category: "", subcategory: "", subcategory_description: "", subcategory_image: "" });
   const [imageBase64, setImageBase64] = useState('');
-  const [categories, setCategories] = useState([]); // State to store available categories
- 
+  const [categories, setCategories] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     // Fetch subcategory data
     ecommerce_fetch(`${baseUrl}/subcategory.php?id_subcategory=${subcategoryId}`, {
       method: 'GET',
     })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error('Error fetching subcategory');
-        }
-        return response.json();
-      })
+      .then((response) => response.json())
       .then((data) => {
         const subcategoryData = data.data[0];
+        setInitialData(subcategoryData);
         setFormData({
-          ...subcategoryData,
-          id_category: subcategoryData.id_category, // Set current category ID
+          id_category: subcategoryData.id_category || "",
+          subcategory: subcategoryData.subcategory || "",
+          subcategory_description: subcategoryData.subcategory_description || "",
         });
-
-        const initialFieldsToUpdate = {};
-        ['id_category', 'subcategory', 'subcategory_description', 'subcategory_image'].forEach((field) => {
-          initialFieldsToUpdate[field] = false;
-        });
-        setFieldsToUpdate(initialFieldsToUpdate);
-
-        setLoading(false);
+        setImageBase64(subcategoryData.subcategory_image || "");
       })
       .catch((err) => {
         setError(err.message);
-        setLoading(false);
+        toast.error('Error loading subcategory data');
       });
 
     // Fetch categories data
     ecommerce_fetch(`${baseUrl}/category.php`, {
       method: 'GET',
     })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error('Error fetching categories');
-        }
-        return response.json();
-      })
+      .then((response) => response.json())
       .then((data) => {
         setCategories(data.data);
       })
-      .catch((err) => {
-        toast.error('Error fetching categories:', err);
+      .catch(() => {
+        toast.error('Error loading categories');
       });
   }, [subcategoryId]);
 
   const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  };
-
-  const handleCheckboxChange = (e) => {
-    setFieldsToUpdate({
-      ...fieldsToUpdate,
-      [e.target.name]: e.target.checked,
-    });
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
   };
 
   const handleImageChange = (e) => {
@@ -94,128 +73,129 @@ const EditSubcategory = () => {
     }
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
 
-    const dataToSend = { id_subcategory: subcategoryId };
+    // Verificar si los campos están vacíos
+    if (!formData.id_category || !formData.subcategory.trim() || !formData.subcategory_description.trim()) {
+      toast.error("Fields cannot be left empty");
+      return;
+    }
 
-    Object.keys(fieldsToUpdate).forEach((field) => {
-      if (fieldsToUpdate[field]) {
-        if (field === 'subcategory_image') {
-          dataToSend[field] = imageBase64;
-        } else {
-          dataToSend[field] = formData[field];
-        }
-      }
-    });
+    // Verificar si se realizaron cambios
+    if (
+      formData.id_category === initialData.id_category &&
+      formData.subcategory === initialData.subcategory &&
+      formData.subcategory_description === initialData.subcategory_description &&
+      imageBase64 === initialData.subcategory_image
+    ) {
+      toast.info("No changes have been made.");
+      setTimeout(() => {
+        navigate('/subcategories');
+      }, 2000);
+      return;
+    }
+
+    setLoading(true);
+
+    const dataToUpdate = {
+      id_subcategory: subcategoryId,
+      id_category: formData.id_category,
+      subcategory: formData.subcategory,
+      subcategory_description: formData.subcategory_description,
+      subcategory_image: imageBase64,
+    };
 
     ecommerce_fetch(`${baseUrl}/subcategory.php`, {
       method: 'PUT',
-      body: JSON.stringify(dataToSend),
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(dataToUpdate),
     })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error('Error updating subcategory');
-        }
-        return response.json();
-      })
+      .then((response) => response.json())
       .then((data) => {
-        toast.success(data.message|| 'Subctegory edited successfully');
+        toast.success(data.message || "Subcategory updated successfully");
         setTimeout(() => {
           navigate('/subcategories');
         }, 2000);
       })
       .catch((err) => {
         console.error('Error during update:', err);
-        alert('Error: ' + err.message);
+        toast.error('Error updating subcategory');
+      })
+      .finally(() => {
+        setLoading(false);
       });
   };
 
-  if (loading) {
-    return <p>Loading...</p>;
-  }
-
-  if (error) {
-    return <p>Error: {error}</p>;
-  }
-
   return (
     <>
-      <ToastContainer position="top-right" />
-    <div className="edit-subcategory-container">
-      <h1 className="form-title">Edit Subcategory</h1>
-      <form onSubmit={handleSubmit} className="edit-subcategory-form">
-        <div className="form-field">
-          <input
-            type="checkbox"
-            name="id_category"
-            onChange={handleCheckboxChange}
-            id="checkbox-id_category"
-          />
-          <label htmlFor="checkbox-id_category" className="field-label">
-            Category:
-          </label>
-          <select
-            name="id_category"
-            value={formData.id_category || ''} // Set the selected category
-            onChange={handleChange}
-            disabled={!fieldsToUpdate['id_category']}
-            className="field-input"
-            required
-          >
-            <option value="">Select a category</option>
-            {categories.map((category) => (
-              <option key={category.id_category} value={category.id_category}>
-                {category.category}
-              </option>
-            ))}
-          </select>
-        </div>
+      <ToastContainer position="top-right" autoClose={3000} />
+      <div className="edit-user-container">
+        <h1 className="form-title">Edit Subcategory</h1>
+        <form onSubmit={handleSubmit} className="edit-user-form">
 
-        {['subcategory', 'subcategory_description'].map((field) => (
-          <div key={field} className="form-field">
-            <input
-              type="checkbox"
-              name={field}
-              onChange={handleCheckboxChange}
-              id={`checkbox-${field}`}
-            />
-            <label htmlFor={`checkbox-${field}`} className="field-label">
-              {field.replace('_', ' ')}:
-            </label>
+          <div className="form-field">
+            <label htmlFor="id_category" className="field-label">Category:</label>
+            <select
+              name="id_category"
+              value={formData.id_category}
+              onChange={handleChange}
+              className="field-input"
+              required
+            >
+              <option value="">Select a category</option>
+              {categories.map((category) => (
+                <option key={category.id_category} value={category.id_category}>
+                  {category.category}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div className="form-field">
+            <label htmlFor="subcategory" className="field-label">Subcategory:</label>
             <input
               type="text"
-              name={field}
-              value={formData[field] || ''}
+              name="subcategory"
+              value={formData.subcategory}
               onChange={handleChange}
-              disabled={!fieldsToUpdate[field]}
+              className="field-input"
+              required
+            />
+          </div>
+
+          <div className="form-field">
+            <label htmlFor="subcategory_description" className="field-label">Description:</label>
+            <textarea
+              name="subcategory_description"
+              value={formData.subcategory_description}
+              onChange={handleChange}
+              className="field-input"
+              required
+            ></textarea>
+          </div>
+
+          <div className="form-field">
+            <label htmlFor="subcategory_image" className="field-label">Image:</label>
+            {imageBase64 && (
+              <div className="image-preview">
+                <img src={imageBase64} alt="Current Subcategory" className="img-edit" />
+              </div>
+            )}
+            <input
+              type="file"
+              name="subcategory_image"
+              accept="image/*"
+              onChange={handleImageChange}
               className="field-input"
             />
           </div>
-        ))}
 
-        <div className="form-field">
-          <input
-            type="checkbox"
-            name="subcategory_image"
-            onChange={handleCheckboxChange}
-            id="checkbox-subcategory_image"
-          />
-          <label htmlFor="checkbox-subcategory_image" className="field-label">
-            Subcategory Image
-          </label>
-          <input
-            type="file"
-            name="subcategory_image"
-            onChange={handleImageChange}
-            disabled={!fieldsToUpdate['subcategory_image']}
-            className="field-input"
-          />
-        </div>
-
-        <button type="submit" className="submit-button">Update Subcategory</button>
-      </form>
-    </div>
+          <button type="submit" className="submit-button" disabled={loading}>
+            {loading ? "Saving..." : "Save Changes"}
+          </button>
+        </form>
+      </div>
     </>
   );
 };
