@@ -166,7 +166,7 @@ const LoginForm = () => {
             if (response.status === 200) {
                 toast.success(response.data.message);
                 setTimeout(() => {
-                    navigate('/Profile');
+                    navigate('/login');
                 }, 2000);
             if (isLoginActive && response.data.token) {
                 login( response.data.token);

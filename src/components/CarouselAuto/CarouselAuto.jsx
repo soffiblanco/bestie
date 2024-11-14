@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './CarouselAuto.css';
+import { baseUrl } from '../../config.js';
+import ecommerce_fetch from '../../services/ecommerce_fetch';
 import { useNavigate } from 'react-router-dom';
 
 const CarouselAuto = () => {
@@ -10,7 +12,7 @@ const CarouselAuto = () => {
 
     // Llamada a la API para obtener los productos destacados
     useEffect(() => {
-        fetch('http://localhost/apis/CarouselAuto.php') // Asegúrate de que la URL sea correcta
+         ecommerce_fetch(`${baseUrl}/CarouselAuto.php`, { method: 'GET' }) // Asegúrate de que la URL sea correcta
             .then(response => response.json())
             .then(data => {
                 if (Array.isArray(data.data)) {

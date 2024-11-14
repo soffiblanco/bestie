@@ -1,6 +1,6 @@
 // OrderContext.js
-import React, { createContext, useState, useEffect, useCallback } from 'react';
-import axiosInstance from '../../services/axiosConfig'; 
+import React, { createContext, useState, useCallback } from 'react';
+import axiosInstance from '../../services/axiosConfig';
 
 export const OrderContext = createContext();
 
@@ -8,76 +8,88 @@ export const OrderProvider = ({ children }) => {
     const [orderItems, setOrderItems] = useState([]);
     const [orders, setOrders] = useState([]);
 
-    // Memoiza fetchOrders para evitar que cambie en cada renderizado
-    const fetchOrders = useCallback(async () => {
-        try {
-            const response = await axiosInstance.get('/orders.php'); 
-            console.log("Backend response:", response.data); 
-            setOrders(response.data);
-        } catch (error) {
-            console.error("Error fetching orders:", error);
-        }
+    // Fetch all orders
+    const fetchOrders = useCallback(() => {
+        return axiosInstance.get('/orders.php')
+            .then((response) => {
+                console.log("Backend response:", response.data);
+                setOrders(response.data);
+                return response.data; // Devolver los datos para .then en el componente
+            })
+            .catch((error) => {
+                console.error("Error fetching orders:", error);
+                throw error; // Lanzar error para manejar en el componente que llama
+            });
     }, []);
 
-    // Obtener una orden específica por ID
-    const fetchOrderById = useCallback(async (orderId) => {
-        try {
-            const response = await axiosInstance.get(`/orders.php?id=${orderId}`);
-            console.log("Fetched order data:", response.data);
-            return response.data; // Datos de la orden completa con items incluidos
-        } catch (error) {
-            console.error(`Error fetching order with ID ${orderId}:`, error);
-            throw error;
-        }
+    // Fetch a specific order by ID
+    const fetchOrderById = useCallback((orderId) => {
+        return axiosInstance.get(`/orders.php?id=${orderId}`)
+            .then((response) => {
+                console.log("Fetched order data:", response.data);
+                return response.data; // Devolver los datos para .then en el componente
+            })
+            .catch((error) => {
+                console.error(`Error fetching order with ID ${orderId}:`, error);
+                throw error;
+            });
     }, []);
 
-
-    // Crear una nueva orden
-    const createOrder = async (orderData) => {
-        try {
-            const response = await axiosInstance.post('/orders.php', orderData);
-            console.log(response.data);
-            fetchOrders(); // Actualiza la lista de órdenes
-            return response.data;
-        } catch (error) {
-            console.error("Error creating order:", error);
-            throw error;
-        }
+    // Create a new order
+    const createOrder = (orderData) => {
+        return axiosInstance.post('/orders.php', orderData)
+            .then((response) => {
+                console.log("Order created:", response.data);
+                return fetchOrders() // Actualiza las órdenes y devuelve la nueva lista
+                    .then(() => response.data); // Devolver los datos de la orden creada
+            })
+            .catch((error) => {
+                console.error("Error creating order:", error);
+                throw error;
+            });
     };
 
-    // Actualizar una orden existente
-    const updateOrder = async (orderData) => {
-        try {
-            const response = await axiosInstance.put('orders.php', orderData);
-            console.log(response.data);
-            fetchOrders();
-            return response.data;
-        } catch (error) {
-            console.error("Error updating order:", error);
-            throw error;
-        }
+    // Update an existing order
+    const updateOrder = (orderData) => {
+        return axiosInstance.put('/orders.php', orderData)
+            .then((response) => {
+                console.log("Order updated:", response.data);
+                return fetchOrders() // Actualiza las órdenes y devuelve la nueva lista
+                    .then(() => response.data);
+            })
+            .catch((error) => {
+                console.error("Error updating order:", error);
+                throw error;
+            });
     };
 
-    // Eliminar una orden
-    const deleteOrder = async (orderId) => {
-        try {
-            const response = await axiosInstance.delete(`?id=${orderId}`);
-            console.log(response.data);
-            fetchOrders();
-            return response.data;
-        } catch (error) {
-            console.error("Error deleting order:", error);
-            throw error;
-        }
+    // Delete an order
+    const deleteOrder = (orderId) => {
+        return axiosInstance.delete(`/orders.php?id=${orderId}`)
+            .then((response) => {
+                console.log("Order deleted:", response.data);
+                return fetchOrders() // Actualiza las órdenes y devuelve la nueva lista
+                    .then(() => response.data);
+            })
+            .catch((error) => {
+                console.error("Error deleting order:", error);
+                throw error;
+            });
     };
 
-    // Métodos para manejar el carrito localmente
+    // Local cart management methods
     const addProductToOrder = (product) => {
-        const existingProduct = orderItems.find(item => item.title === product.title);
+        const existingProduct = orderItems.find(item => item.id === product.id);
+        const currentQuantity = existingProduct ? existingProduct.quantity : 0;
+
+        if (currentQuantity + 1 > product.Stock) {
+            alert('Insufficient stock available for this product.');
+            return;
+        }
 
         if (existingProduct) {
             setOrderItems(orderItems.map(item =>
-                item.title === product.title
+                item.id === product.id
                     ? { ...item, quantity: item.quantity + 1 }
                     : item
             ));
@@ -108,7 +120,7 @@ export const OrderProvider = ({ children }) => {
         <OrderContext.Provider value={{
             orderItems,
             orders,
-            fetchOrders, 
+            fetchOrders,
             fetchOrderById,
             addProductToOrder,
             decreaseProductQuantity,
@@ -116,7 +128,7 @@ export const OrderProvider = ({ children }) => {
             createOrder,
             updateOrder,
             deleteOrder,
-            setOrderItems 
+            setOrderItems
         }}>
             {children}
         </OrderContext.Provider>

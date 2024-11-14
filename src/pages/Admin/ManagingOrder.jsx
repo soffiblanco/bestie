@@ -9,6 +9,8 @@ import { Modal, Button, Form } from 'react-bootstrap';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {useAuth} from '../../Auth/AuthContext.js';
+import ecommerce_fetch from '../../services/ecommerce_fetch';
+
 
 const ManagingOrder = () => {
     const [users, setUsers] = useState([]);
@@ -34,29 +36,30 @@ const ManagingOrder = () => {
 
     useEffect(() => {
         fetchUsers();
-        const loadOrder = async () => {
-            try {
-                const orderData = await fetchOrderById(orderId);
-                if (orderData) {
-                    setOrder(orderData);
-                    fetchOrderDetails();
-                } else {
-                    setError("Order not found");
-                }
-            } catch (err) {
-                console.error("Error fetching order:", err);
-                setError("Error fetching order");
-            } finally {
-                setLoading(false);
-                fetchOrderComments();
-            }
+        const loadOrder = () => {
+            fetchOrderById(orderId)
+                .then((orderData) => {
+                    if (orderData) {
+                        setOrder(orderData);
+                        return fetchOrderDetails();
+                    } else {
+                        setError("Order not found");
+                    }
+                })
+                .catch((err) => {
+                    console.error("Error fetching order:", err);
+                    setError("Error fetching order");
+                })
+                .finally(() => {
+                    setLoading(false);
+                    fetchOrderComments();
+                });
         };
-
+    
         loadOrder();
     }, [orderId, fetchOrderById]);
-
     const fetchUsers = () => {
-        fetch(`${baseUrl}/users.php`)
+        ecommerce_fetch(`${baseUrl}/users.php`)
             .then(response => response.json())
             .then(data => {
                 setUsers(Array.isArray(data.data) ? data.data : []);
@@ -68,7 +71,7 @@ const ManagingOrder = () => {
     };
 
     const fetchOrderDetails = () => {
-        fetch(`${baseUrl}/getOrderSummary.php?ID_Order=${orderId}`)
+        ecommerce_fetch(`${baseUrl}/getOrderSummary.php?ID_Order=${orderId}`)
             .then(response => response.json())
             .then(data => {
                 setOrderDetails(data.data || []);
@@ -80,7 +83,7 @@ const ManagingOrder = () => {
     };
 
     const fetchOrderComments = () => {
-        fetch(`${baseUrl}/order_history.php?ID_Order=${orderId}`)
+        ecommerce_fetch(`${baseUrl}/order_history.php?ID_Order=${orderId}`)
             .then(response => response.json())
             .then(data => {
                 setOrderComments(Array.isArray(data) ? data : []);
@@ -112,7 +115,7 @@ const ManagingOrder = () => {
     };
 
     const saveEditedComment = () => {
-        fetch(`${baseUrl}/order_history.php`, {
+        ecommerce_fetch(`${baseUrl}/order_history.php`, {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json',
@@ -156,7 +159,7 @@ const ManagingOrder = () => {
             Is_Editable: 1
         };
     
-        fetch(`${baseUrl}/order_history.php`, {
+        ecommerce_fetch(`${baseUrl}/order_history.php`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

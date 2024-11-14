@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './PhotoCard.css';
 import { useNavigate } from 'react-router-dom';
+import { baseUrl } from '../../config.js';
+import ecommerce_fetch from '../../services/ecommerce_fetch';
 
 const PhotoCard = () => {
     const [categoryImages, setCategoryImages] = useState({});
@@ -10,7 +12,7 @@ const PhotoCard = () => {
 
     // Obtener las subcategorías agrupadas por categoría desde la API
     useEffect(() => {
-        fetch(`http://localhost/apis/category_subcategory_unique_view.php`)
+        ecommerce_fetch(`${baseUrl}/category_subcategory_unique_view.php`, { method: 'GET' })
             .then((response) => response.json())
             .then((data) => {
                 if (Array.isArray(data.data)) {

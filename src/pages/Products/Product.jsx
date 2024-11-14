@@ -2,6 +2,8 @@ import React, { useContext, useEffect, useState } from 'react';
 import { OrderContext } from '../../pages/Orders/OrderContexts'; // Importa el contexto
 import { useNavigate } from 'react-router-dom';
 import './Product.css';
+import { baseUrl } from '../../config.js';
+import ecommerce_fetch from '../../services/ecommerce_fetch';
 
 function Product({ productId, title: initialTitle, description: initialDescription, price: initialPrice, image: initialImage }) {
     const { addProductToOrder } = useContext(OrderContext);
@@ -18,7 +20,7 @@ function Product({ productId, title: initialTitle, description: initialDescripti
 
     useEffect(() => {
         if (!initialTitle) { // Solo hacemos la llamada a la API si no hay props iniciales
-            fetch(`http://localhost/apis/products.php?id=${productId}`)
+             ecommerce_fetch(`${baseUrl}/products.php?id=${productId}`)
                 .then(response => response.json())
                 .then(data => {
                     const productData = data.data[0]; 

@@ -1,8 +1,14 @@
 <?php 
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: GET");
-header("Access-Control-Allow-Headers: Content-Type, Authorization");
+header("Access-Control-Allow-Headers: Content-Type, Authorization,ngrok-skip-browser-warning");
 header('Content-Type: application/json');
+header("ngrok-skip-browser-warning: true");
+
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    header("HTTP/1.1 204 No Content");
+    exit(0);
+}
 
 // Configuración de la base de datos
 $host = "localhost";

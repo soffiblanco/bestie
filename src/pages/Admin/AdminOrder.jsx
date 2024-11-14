@@ -5,6 +5,7 @@ import { baseUrl } from '../../config';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { OrderContext } from '../../pages/Orders/OrderContexts';
+import ecommerce_fetch from '../../services/ecommerce_fetch';
 
 const AdminOrder = () => {
     const [users, setUsers] = useState([]);
@@ -29,7 +30,7 @@ const AdminOrder = () => {
     }, []);
 
     const fetchConfig = () => {
-        fetch(`${baseUrl}/config.php`)
+         ecommerce_fetch(`${baseUrl}}/config.php`)
             .then(response => response.json())
             .then(config => {
                 setMinPurchase(config.min_purchase_amount);
@@ -42,7 +43,7 @@ const AdminOrder = () => {
     };
 
     const fetchUsers = () => {
-        fetch(`${baseUrl}/users.php`)
+         ecommerce_fetch(`${baseUrl}/users.php`)
             .then(response => response.json())
             .then(data => {
                 if (Array.isArray(data.data)) {
@@ -67,7 +68,7 @@ const AdminOrder = () => {
     };
 
     const handleSaveConfig = () => {
-        fetch(`${baseUrl}/config.php`, {
+         ecommerce_fetch(`${baseUrl}/config.php`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({

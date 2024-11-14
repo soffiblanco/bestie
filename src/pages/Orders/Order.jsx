@@ -5,6 +5,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './Order.css';
 import { useNavigate } from 'react-router-dom';
 import { baseUrl } from '../../config';
+import ecommerce_fetch from '../../services/ecommerce_fetch';
 
 function Order() {
     const { orderItems, addProductToOrder, removeProductFromOrder, decreaseProductQuantity } = useContext(OrderContext);
@@ -16,7 +17,7 @@ function Order() {
 
     useEffect(() => {
         // Fetch configuration data for shippingPrice and minPurchaseAmount
-        fetch(`${baseUrl}/config.php`)
+         ecommerce_fetch(`${baseUrl}/config.php`)
             .then(response => response.json())
             .then(data => {
                 setShippingPrice(parseFloat(data.shipping_price || 0));  

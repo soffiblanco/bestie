@@ -11,34 +11,39 @@ export const CreditCardForm = ({ onCreditCardSaved }) => {
   const [cvv, setCvv] = useState("");
   const [name, setName] = useState("");
   const { userData } = useAuth();
-  const [expiryDate, setExpiryDate] = useState(null); // Usando DatePicker
+  const [expiryDate, setExpiryDate] = useState(null);
   const [expiryError, setExpiryError] = useState("");
   const [cardError, setCardError] = useState("");
   const [cvvError, setCvvError] = useState("");
 
-  const saveCreditCard = async () => {
+  const saveCreditCard = () => {
     const url = `${baseUrl}/creditcard.php`;
 
-    const response = await ecommerce_fetch(url, {
+    ecommerce_fetch(url, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
         id_user: userData.id_user,
-        cardNumber: cardNumber.replace(/\s+/g, ''), // Enviar sin espacios
+        cardNumber: cardNumber.replace(/\s+/g, ''),
         expiryDate: expiryDate ? expiryDate.toISOString().split('T')[0] : '',
         cvv,
         name,
       }),
-    });
-
-    if (response.status === 201) {
-      const data = await response.json();
-      onCreditCardSaved(data.data);
-    } else {
-      console.log("Error saving credit card");
-    }
+    })
+      .then((response) => {
+        if (response.status === 201) {
+          return response.json();
+        } else {
+          console.log("Error saving credit card");
+          throw new Error("Error saving credit card");
+        }
+      })
+      .then((data) => {
+        onCreditCardSaved(data.data);
+      })
+      .catch((error) => console.error(error));
   };
 
   const handleCardNumberChange = (event) => {
@@ -81,11 +86,11 @@ export const CreditCardForm = ({ onCreditCardSaved }) => {
     }
   };
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = (event) => {
     event.preventDefault();
 
     if (!cardError && !cvvError && !expiryError) {
-      await saveCreditCard();
+      saveCreditCard();
     }
   };
 

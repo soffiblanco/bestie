@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import { baseUrl } from '../../config.js';
 import { GoChevronLeft, GoChevronRight } from "react-icons/go";
 import 'bootstrap/dist/css/bootstrap.min.css'; 
 import './Carousel.css';
 import { useNavigate } from 'react-router-dom';
+import ecommerce_fetch from '../../services/ecommerce_fetch';
 
 const CarouselCategories = () => {
     const [currentProductIndex, setCurrentProductIndex] = useState(0);
@@ -11,7 +13,7 @@ const CarouselCategories = () => {
 
     // Llamada a la API para obtener los 5 productos más recientes con categoría y subcategoría
     useEffect(() => {
-        fetch('http://localhost/apis/CarouselCategories.php')  // URL de la API actualizada
+        ecommerce_fetch(`${baseUrl}/CarouselCategories.php`, { method: 'GET' })  // URL de la API actualizada
             .then(response => response.json())
             .then(data => {
                 if (Array.isArray(data.data)) {

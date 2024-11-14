@@ -1,4 +1,3 @@
-// PaymentPage.jsx
 import React, { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -10,6 +9,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { CreditCardForm } from "../../components/CreditCardForm/CreditCardForm.jsx";
 import { Button, Modal } from "react-bootstrap";
+import ecommerce_fetch from '../../services/ecommerce_fetch';
 
 function PaymentPage() {
   const [cardNumber, setCardNumber] = useState("");
@@ -17,6 +17,7 @@ function PaymentPage() {
   const [cvv, setCvv] = useState("");
   const [name, setName] = useState("");
   const [address, setAddress] = useState("");
+  const [addressFromAPI, setAddressFromAPI] = useState(false); // Estado adicional para verificar si viene de la API
   const [nit, setNit] = useState("");
   const [cardReferencer, setCardReferencer] = useState("");
   const navigate = useNavigate();
@@ -38,7 +39,7 @@ function PaymentPage() {
   const total = subtotal + surcharge;
 
   useEffect(() => {
-    fetch(`${baseUrl}/config.php`)
+    ecommerce_fetch(`${baseUrl}/config.php`)
       .then((response) => response.json())
       .then((data) => {
         setShippingPrice(parseFloat(data.shipping_price || 0));
@@ -48,9 +49,8 @@ function PaymentPage() {
         console.error("Error fetching configuration:", error);
       });
 
-    // User Data
     const id_user = userData.id_user;
-    fetch(`${baseUrl}/users.php?id_user=${id_user}`)
+    ecommerce_fetch(`${baseUrl}/users.php?id_user=${id_user}`)
       .then((response) => response.json())
       .then((data) => {
         const user = data.data[0];
@@ -64,8 +64,10 @@ function PaymentPage() {
           setExpiryDate(user.Expiration_Date ? `**/**` : "");
           setCardReferencer(user.Card_Number ? user.Card_Number.slice(-4) : "");
           setCvv(user.CVV ? "***" : "");
-          setAddress(user.Direction || "");
-
+          if (user.Direction) {
+            setAddress(user.Direction);
+            setAddressFromAPI(true); // Marcar que la dirección fue obtenida de la API
+          }
           setHasCreditCard(
             user.Card_Number !== null && user.Card_Number !== ""
           );
@@ -82,7 +84,7 @@ function PaymentPage() {
     handleClose();
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
 
     if (orderItems.length === 0) {
@@ -117,16 +119,17 @@ function PaymentPage() {
 
     console.log("Order Data:", JSON.stringify(orderData, null, 2));
 
-    try {
-      const response = await createOrder(orderData);
-      toast.success("Order created:", response);
-      navigate("/payment-success");
-    } catch (error) {
-      console.error("Error creating order:", error);
-      toast.error(
-        "There was a problem processing your order. Please try again."
-      );
-    }
+    createOrder(orderData)
+      .then((response) => {
+        toast.success("Order created:", response);
+        navigate("/payment-success");
+      })
+      .catch((error) => {
+        console.error("Error creating order:", error);
+        toast.error(
+          "There was a problem processing your order. Please try again."
+        );
+      });
   };
 
   return (
@@ -211,34 +214,35 @@ function PaymentPage() {
                     </div>
                   </div>
                 )}
-                  <form onSubmit={handleSubmit}>
-                <div className="form-group mb-3">
-                  <label className="text-white">Address</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    value={address}
-                    placeholder="Full address"
-                    readOnly
-                  />
-                </div>
-                <div className="form-group mb-3">
-                  <label className="text-white">Nit</label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    value={nit}
-                    onChange={(e) => setNit(e.target.value)}
-                    placeholder="Nit (e.g., 1234567-8)"
-                  />
-                </div>
-                <button
-                  type="submit"
-                  className="btn btn-success btn-block mt-4"
-                >
-                  Complete Purchase
-                </button>
-              </form>
+                <form onSubmit={handleSubmit}>
+                  <div className="form-group mb-3">
+                    <label className="text-white">Address</label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      value={address}
+                      onChange={(e) => setAddress(e.target.value)}
+                      placeholder="Full address"
+                      readOnly={addressFromAPI} // Solo en modo solo lectura si viene de la API
+                    />
+                  </div>
+                  <div className="form-group mb-3">
+                    <label className="text-white">Nit</label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      value={nit}
+                      onChange={(e) => setNit(e.target.value)}
+                      placeholder="Nit (e.g., 1234567-8)"
+                    />
+                  </div>
+                  <button
+                    type="submit"
+                    className="btn btn-success btn-block mt-4"
+                  >
+                    Complete Purchase
+                  </button>
+                </form>
             </div>
           </div>
 

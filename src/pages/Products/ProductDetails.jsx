@@ -186,17 +186,22 @@ const ProductDetails = () => {
 
     const handleAddToCart = () => {
         if (product) {
-            addProductToOrder({
-                id: product.ID_Product,
-                title: product.Product,
-                price: product.Price,
-                image: product.Product_Image,
-                quantity: 1,
-            });
-            toast.success('Your product has been added to your order');
+            // Check if there's enough stock to add at least one more unit
+            if (product.Stock > 0) {
+                addProductToOrder({
+                    id: product.ID_Product,
+                    title: product.Product,
+                    price: product.Price,
+                    image: product.Product_Image,
+                    quantity: 1,
+                });
+                toast.success('Your product has been added to your order');
+            } else {
+                toast.error('Insufficient stock available for this product.');
+            }
         }
     };
-
+    
     const toggleShowChildren = (indexPath) => {
         setShowChildren(prevState => ({
             ...prevState,
@@ -369,6 +374,7 @@ const ProductDetails = () => {
                         <h2 className="my-3">{product.Product}</h2>
                         <p className="h6">{product.Product_Description}</p>
                         <p className="h5">Price: Q{product.Price}</p>
+                        <p className="h6">Stock Available: {product.Stock}</p>
                         {product.Stock > 0 ? (
                             <button className="btn btn-primary mt-3" onClick={handleAddToCart}>
                                 <FaBagShopping className="me-2" /> Add to cart

@@ -7,6 +7,9 @@ import './ProductCarousel.css';
 import { OrderContext } from '../../pages/Orders/OrderContexts'; // Asegúrate de que la ruta sea correcta
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { baseUrl } from '../../config.js';
+import ecommerce_fetch from '../../services/ecommerce_fetch';
+
 
 const ProductCarousel = ({ numVisibleProducts = 4 }) => {
     const [currentIndex, setCurrentIndex] = useState(0);
@@ -16,7 +19,7 @@ const ProductCarousel = ({ numVisibleProducts = 4 }) => {
     const { addProductToOrder } = useContext(OrderContext); // Importa la función de agregar al carrito
 
     useEffect(() => {
-        fetch('http://localhost/apis/ProductCard.php')
+        ecommerce_fetch(`${baseUrl}/ProductCard.php`, { method: 'GET' })
             .then(response => response.json())
             .then(data => setProducts(data.data || []))
             .catch(error => {

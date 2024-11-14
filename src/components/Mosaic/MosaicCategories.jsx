@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Mosaic.css';
+import { baseUrl } from '../../config.js';
+import ecommerce_fetch from '../../services/ecommerce_fetch';
 
 const MosaicCategories = () => {
     const [subcategories, setSubcategories] = useState([]);
     const navigate = useNavigate();
 
     useEffect(() => {
-        fetch('http://localhost/apis/MosaicCategories.php')
+         ecommerce_fetch(`${baseUrl}/MosaicCategories.php`, { method: 'GET' })
             .then(response => response.json())
             .then(data => {
                 if (data && data.data) {

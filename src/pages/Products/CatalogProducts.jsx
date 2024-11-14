@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './CatalogProducts.css';
 import { useNavigate, useParams } from 'react-router-dom';
+import { baseUrl } from '../../config.js';
+import ecommerce_fetch from '../../services/ecommerce_fetch';
 
 const CatalogProducts = () => {
     const [subcategories, setSubcategories] = useState([]);
@@ -12,7 +14,7 @@ const CatalogProducts = () => {
 
     useEffect(() => {
         setLoading(true);
-        fetch(`http://localhost/apis/category_subcategory_unique_view.php?category=${category}`) 
+        ecommerce_fetch(`${baseUrl}/category_subcategory_unique_view.php?category=${category}`) 
             .then((response) => response.json())
             .then((data) => {
                 if (Array.isArray(data.data)) {

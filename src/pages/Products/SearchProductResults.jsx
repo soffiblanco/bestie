@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { baseUrl } from "../../config.js";
 import "./SearchProductResults.css";
 import Select from "react-dropdown-select";
+import ecommerce_fetch from '../../services/ecommerce_fetch';
 
 const SearchProductResults = () => {
   const [results, setResults] = useState([]);
@@ -21,41 +21,28 @@ const SearchProductResults = () => {
   const searchParams = new URLSearchParams(location.search);
   const searchValue = searchParams.get("value") || "";
 
-
   const handleProductClick = (productId) => {
     navigate(`/CatalogProducts/:category/:subcategory/product/${productId}`);
   };
 
-
   useEffect(() => {
-    const fetchCategories = async () => {
-      try {
-        const response = await fetch(`${baseUrl}/category.php`);
-        const data = await response.json();
-        setCategories(data.data);
-      } catch (error) {
-        console.error("Error fetching categories:", error);
-      }
-    };
+    // Fetch categories
+    ecommerce_fetch(`${baseUrl}/category.php`)
+      .then(response => response.json())
+      .then(data => setCategories(data.data || []))
+      .catch(error => console.error("Error fetching categories:", error));
 
-   const fetchSubcategories = async () => {
-    try {
-      const response = await fetch(`${baseUrl}/subcategory.php`);
-      const data = await response.json();
-  
-      // Remove duplicates based on subcategory name
-      const uniqueSubcategories = data.data.filter(
-        (subcat, index, self) =>
-          index === self.findIndex((t) => t.subcategory === subcat.subcategory)
-      );
-  
-      setSubcategories(uniqueSubcategories);
-    } catch (error) {
-      console.error("Error fetching subcategories:", error);
-    }
-  };
-    fetchCategories();
-    fetchSubcategories();
+    // Fetch subcategories and remove duplicates
+    ecommerce_fetch(`${baseUrl}/subcategory.php`)
+      .then(response => response.json())
+      .then(data => {
+        const uniqueSubcategories = data.data.filter(
+          (subcat, index, self) =>
+            index === self.findIndex((t) => t.subcategory === subcat.subcategory)
+        );
+        setSubcategories(uniqueSubcategories);
+      })
+      .catch(error => console.error("Error fetching subcategories:", error));
   }, []);
 
   useEffect(() => {
@@ -66,19 +53,15 @@ const SearchProductResults = () => {
 
       const params = new URLSearchParams({
         searchValue,
-        category:
-          selectedCategories.length > 0 ? selectedCategories.join(",") : "",
-        subcategory:
-          selectedSubcategories.length > 0
-            ? selectedSubcategories.join(",")
-            : "",
+        category: selectedCategories.length > 0 ? selectedCategories.join(",") : "",
+        subcategory: selectedSubcategories.length > 0 ? selectedSubcategories.join(",") : "",
         minPrice: minPrice !== "" ? minPrice : null,
         maxPrice: maxPrice !== "" ? maxPrice : null,
       });
 
-      fetch(`${baseUrl}/search.php?${params}`)
-        .then((response) => response.json())
-        .then((data) => {
+     ecommerce_fetch(`${baseUrl}/search.php?${params}`)
+        .then(response => response.json())
+        .then(data => {
           if (data.data && data.data.length > 0) {
             setResults(data.data);
           } else {
@@ -92,36 +75,27 @@ const SearchProductResults = () => {
           setLoading(false);
         });
     }
-  }, [
-    searchValue,
-    selectedCategories,
-    selectedSubcategories,
-    minPrice,
-    maxPrice,
-  ]);
+  }, [searchValue, selectedCategories, selectedSubcategories, minPrice, maxPrice]);
 
   const handleCategoryChange = (selectedCats) => {
-    setSelectedCategories(selectedCats.map((cat) => cat.category));
+    setSelectedCategories(selectedCats.map(cat => cat.category));
   };
 
   const handleSubcategoryChange = (selectedSubcats) => {
-    setSelectedSubcategories(
-      selectedSubcats.map((subcat) => subcat.subcategory)
-    );
+    setSelectedSubcategories(selectedSubcats.map(subcat => subcat.subcategory));
   };
 
   return (
     <div className="search-results">
       <div style={{ color: "black" }}>
         {error && <p style={{ color: "red" }}>{error}</p>}
-
         {loading && <p>Loading...</p>}
 
         <div className="filters">
           <h3>Filter by Categories</h3>
           {categories.length > 0 && (
             <Select
-              multi={true}
+              multi
               options={categories}
               labelField="category"
               valueField="id_category"
@@ -133,7 +107,7 @@ const SearchProductResults = () => {
           <h3>Filter by Subcategories</h3>
           {subcategories.length > 0 && (
             <Select
-              multi={true}
+              multi
               options={subcategories}
               labelField="subcategory"
               valueField="id_subcategory"
@@ -161,9 +135,6 @@ const SearchProductResults = () => {
               />
             </label>
           </div>
-          <buton>
-
-          </buton>
         </div>
 
         {results.length > 0 ? (
@@ -178,15 +149,8 @@ const SearchProductResults = () => {
                 <div className="card-content">
                   <h2>{product.Product}</h2>
                   <p>{product.Product_Description}</p>
-                  <p>
-                    <strong>Price:</strong> ${product.Price}
-                  </p>
-
-                  <p>
-
-                  <button onClick={()=>handleProductClick(product.ID_Product)}>View Details </button>
-                  </p>
-
+                  <p><strong>Price:</strong> ${product.Price}</p>
+                  <button onClick={() => handleProductClick(product.ID_Product)}>View Details</button>
                 </div>
               </div>
             ))}

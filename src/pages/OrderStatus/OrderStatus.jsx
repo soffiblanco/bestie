@@ -5,6 +5,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { FaCheckCircle, FaDollarSign, FaBoxOpen, FaTruck, FaCheck } from 'react-icons/fa';
 import './OrderStatus.css';
 import { baseUrl } from '../../config';
+import ecommerce_fetch from '../../services/ecommerce_fetch';
 
 const OrderStatus = () => {
     const { orderId } = useParams();
@@ -23,42 +24,41 @@ const OrderStatus = () => {
     ];
 
     useEffect(() => {
-        const loadOrder = async () => {
-            try {
-                // Obtener los datos básicos del pedido
-                const orderData = await fetchOrderById(orderId);
-                if (orderData) {
-                    setOrder(orderData);
-                } else {
-                    setError("Order not found");
-                }
+        const loadOrder = () => {
+            fetchOrderById(orderId)
+                .then((orderData) => {
+                    if (orderData) {
+                        setOrder(orderData);
+                    } else {
+                        setError("Order not found");
+                    }
 
-                // Obtener los detalles de los productos en el pedido
-                const response = await fetch(`${baseUrl}/getOrderSummary.php?ID_Order=${orderId}`);
-                if (!response.ok) throw new Error("Error fetching order details");
+                    return ecommerce_fetch(`${baseUrl}/getOrderSummary.php?ID_Order=${orderId}`);
+                })
+                .then((response) => {
+                    if (!response.ok) throw new Error("Error fetching order details");
 
-                const data = await response.json();
-                if (data && data.data) {
-                    // Si `ID_Product`, `Category`, y `Subcategory` ya están presentes, úsalo directamente
-                    const updatedDetails = data.data.map(item => {
-                        console.log("Product details loaded:", item); // Log para verificar cada producto
-                        return {
+                    return response.json();
+                })
+                .then((data) => {
+                    if (data && data.data) {
+                        const updatedDetails = data.data.map(item => ({
                             ...item,
                             Category: item.Category || 'Unknown',
                             Subcategory: item.Subcategory || 'Unknown',
                             ID_Product: item.ID_Product
-                        };
-                    });
-                    setOrderDetails(updatedDetails);
-                } else {
-                    setError("Order details not found");
-                }
-                
-            } catch (err) {
-                setError("Error fetching order");
-            } finally {
-                setLoading(false);
-            }
+                        }));
+                        setOrderDetails(updatedDetails);
+                    } else {
+                        setError("Order details not found");
+                    }
+                })
+                .catch(() => {
+                    setError("Error fetching order");
+                })
+                .finally(() => {
+                    setLoading(false);
+                });
         };
 
         loadOrder();
@@ -74,13 +74,9 @@ const OrderStatus = () => {
     const currentStatusIndex = orderStatusList.findIndex(status => status.name === order.Order_State);
     const currentStatusMessage = currentStatusIndex !== -1 ? orderStatusList[currentStatusIndex].message : "Order state not recognized.";
 
-    // Manejador para redirigir a la página de detalles del producto
     const handleProductClick = (category, subcategory, productId) => {
         if (category && subcategory && productId) {
-            console.log("Navigating to product:", { category, subcategory, productId }); // Log para verificar la navegación correcta
             navigate(`/CatalogProducts/${category}/${subcategory}/product/${productId}`);
-        } else {
-            console.warn("Product details are incomplete:", { category, subcategory, productId });
         }
     };
 

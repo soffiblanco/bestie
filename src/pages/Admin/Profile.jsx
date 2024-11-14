@@ -245,8 +245,8 @@ const handleEmailConfirm = () => {
   
     // Validar solo si el CVV está en editedData y no es una máscara
     if (editedData.cvv !== undefined && editedData.cvv !== '' && editedData.cvv !== '***') {
-      if (!/^[0-9]{3}$/.test(editedData.cvv)) {
-        toast.error('CVV must be exactly 3 digits.');
+      if (!/^[0-9]{3,4}$/.test(editedData.cvv)) {
+        toast.error('CVV must be exactly 3 or 4 digits.');
         setLoading(false);
         return;
       }

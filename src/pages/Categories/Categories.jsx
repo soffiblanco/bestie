@@ -5,6 +5,8 @@ import Carousel from '../../components/Carousel/Carousel';
 import PhotoCard from '../../components/PhotoCard/PhotoCard';
 import './Categories.css';
 import MosaicCategories from '../../components/Mosaic/MosaicCategories';
+import { baseUrl } from '../../config.js';
+import ecommerce_fetch from '../../services/ecommerce_fetch';
 
 const CategoriesPage = () => {
     const [categories, setCategories] = useState([]);  // Estado para las categorías
@@ -13,7 +15,7 @@ const CategoriesPage = () => {
 
     useEffect(() => {
         
-        fetch('http://localhost/apis/recentProducts.php')  
+       ecommerce_fetch(`${baseUrl}/recentProducts.php`, { method: 'GET' })  
             .then(response => response.json())
             .then(data => {
                 if (data.data) {
