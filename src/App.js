@@ -35,8 +35,10 @@ import CatalogProductsSub from './pages/Products/CatalogProductsSub';
 import { AuthProvider } from './Auth/AuthContext';
 import SearchProductResults from './pages/Products/SearchProductResults';
 import AdminOrder from './pages/Admin/AdminOrder';
-import OrderStatus from './pages/OrderStatus/OrderStatus'
-import ManagingOrder from './pages/Admin/ManagingOrder'
+import OrderStatus from './pages/OrderStatus/OrderStatus';
+import ManagingOrder from './pages/Admin/ManagingOrder';
+import EditFooter from './layouts/footer/EditFooter';
+import EditNavbar from './layouts/header/EditNavbar';
 
 
 
@@ -67,6 +69,8 @@ function App() {
             <Route path="/AddSubcategory" element={<AddSubcategory />} />
             <Route path="/AddProduct" element={<AddProduct />} />
             <Route path="/AdminOrder" element={<AdminOrder />} />
+            <Route path="/EditFooter" element={<EditFooter/>} />
+            <Route path="/EditNavbar" element={<EditNavbar/>}/>
             <Route path="/EditUser/:userId" element={<EditUser />} />
             <Route path="/EditCategory/:categoryId" element={<EditCategory />} />
             <Route path="/EditSubcategory/:subcategoryId" element={<EditSubcategory />} />

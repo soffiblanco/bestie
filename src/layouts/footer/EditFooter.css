@@ -1,0 +1,145 @@
+.edit-footer-container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.footer-section-edit {
+  margin-bottom: 20px;
+}
+
+.link-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 15px; /* Espaciado entre filas */
+}
+
+.link-item label {
+  width: 80px; /* Ancho consistente para las etiquetas */
+  font-weight: bold;
+}
+
+.link-input {
+  flex: 1; /* Permite que el campo de texto se ajuste al espacio disponible */
+  margin-right: 10px;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: auto; /* Ajusta automáticamente el ancho del campo */
+}
+
+input[type="checkbox"] {
+  margin-left: 10px;
+}
+
+.customer-service-edit .link-item,
+.social-links-edit .link-item {
+  margin-bottom: 15px; /* Uniformiza el margen */
+}
+
+.all-rights-reserved {
+  margin-top: 20px;
+  text-align: center;
+}
+
+button {
+  display: block;
+  width: 100%;
+  margin-top: 20px;
+  padding: 10px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.link-item,
+.customer-service-item,
+.social-link-item,
+.image-item,
+.all-rights-reserved {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  gap: 10px;
+}
+
+.link-checkbox,
+.section-checkbox {
+  margin-left: 10px;
+}
+
+.delete-btn {
+  background-color: orange;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px; /* Tamaño fijo del botón */
+  height: 40px; /* Tamaño fijo del botón */
+  font-size: 14px;
+  margin-left: 10px; /* Espacio entre el campo y el botón */
+}
+
+.delete-btn:hover {
+  background-color: darkorange;
+}
+
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.add-buttons-container {
+  display: flex; /* Flexbox para alinear botones horizontalmente */
+  justify-content: flex-start; /* Alinea los botones al inicio */
+  align-items: center; /* Asegura que estén verticalmente alineados */
+  gap: 10px; /* Espaciado horizontal entre los botones */
+  margin-top: 10px; /* Espaciado superior para separar los botones de otros elementos */
+}
+
+.btn-save {
+ background-color: rgb(101, 209, 0);
+}
+
+.add-field-btn{
+background-color: blueviolet;
+}
+
+.image-item input[type="file"] {
+  margin: 10px 0;
+}
+
+.image-item img {
+  display: block;
+  margin-top: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}

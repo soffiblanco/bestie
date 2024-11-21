@@ -238,6 +238,8 @@ const Navbar = () => {
                 <li><Link to="/subcategories" className="dropdown-item">Subcategories</Link></li>
                 <li><Link to="/products" className="dropdown-item">Products</Link></li>
                 <li><Link to="/AdminOrder" className="dropdown-item">Admin Order</Link></li>
+                <li><Link to="/EditFooter" className="dropdown-item">Footer</Link></li>
+                <li><Link to="/EditNavbar" className="dropdown-item">Navbar</Link></li>
               </ul>
             </div>
 
